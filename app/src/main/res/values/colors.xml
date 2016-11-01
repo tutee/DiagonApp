@@ -11,4 +11,6 @@
     <color name="colorAccent">#009688</color>
     <color name="textoBotones">#FFFFFF</color>
 
+    <color name="white">#FFFFFF</color>
+
 </resources>

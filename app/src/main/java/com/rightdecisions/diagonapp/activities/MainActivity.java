@@ -1,11 +1,14 @@
 package com.rightdecisions.diagonapp.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 
 import com.rightdecisions.diagonapp.R;
@@ -22,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         /*if (savedInstanceState == null) {
             LoginFragment fragment = new LoginFragment();
             getSupportFragmentManager()
@@ -32,15 +36,20 @@ public class MainActivity extends AppCompatActivity {
 
         Button b2 = (Button) findViewById(R.id.register_button);
 
-        final Fragment fg = new RegisterFragment();
 
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                startActivity(intent);
+                finish();
+
+                /*android.app.FragmentManager fm = getFragmentManager();
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.loginlayout, fg);
-                ft.addToBackStack(null);
-                ft.commit();
+                //ft.addToBackStack(null);
+                ft.commit();*/
             }
         });
 
