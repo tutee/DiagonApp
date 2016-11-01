@@ -8,7 +8,7 @@
 
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#808080</color>
-    <color name="colorAccent">#FE654F</color>
+    <color name="colorAccent">#009688</color>
     <color name="textoBotones">#FFFFFF</color>
 
 </resources>

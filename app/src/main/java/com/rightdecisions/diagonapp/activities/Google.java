@@ -1,4 +1,4 @@
-package com.rightdecisions.diagonapp;
+package com.rightdecisions.diagonapp.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -13,17 +13,17 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.rightdecisions.diagonapp.R;
 
 /**
  * Activity to demonstrate basic retrieval of the Google user's ID, email address, and basic
  * profile.
  */
-public class MainActivity extends AppCompatActivity implements
+public class Google extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener {
 
@@ -43,8 +43,20 @@ public class MainActivity extends AppCompatActivity implements
        // mStatusTextView = (TextView) findViewById(R.id.status);
 
         // Button listeners
-        findViewById(R.id.sign_in_button).setOnClickListener(this);
-        findViewById(R.id.sign_out_button).setOnClickListener(this);
+        //findViewById(R.id.sign_in_button).setOnClickListener(this);
+        //findViewById(R.id.sign_out_button).setOnClickListener(this);
+        /*findViewById(R.id.register_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                MainFragment fragment = new MainFragment();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(android.R.id.content, fragment, "LoginDialog")
+                        .commit();
+
+            }
+        });*/
         //findViewById(R.id.disconnect_button).setOnClickListener(this);
 
         // [START configure_signin]
@@ -72,9 +84,9 @@ public class MainActivity extends AppCompatActivity implements
         // may be displayed when only basic profile is requested. Try adding the
         // Scopes.PLUS_LOGIN scope to the GoogleSignInOptions to see the
         // difference.
-        SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
-        signInButton.setSize(SignInButton.SIZE_STANDARD);
-        signInButton.setScopes(gso.getScopeArray());
+        //SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
+        //signInButton.setSize(SignInButton.SIZE_STANDARD);
+        //signInButton.setScopes(gso.getScopeArray());
         // [END customize_button]
     }
 
@@ -197,28 +209,28 @@ public class MainActivity extends AppCompatActivity implements
 
     private void updateUI(boolean signedIn) {
         if (signedIn) {
-            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-            findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
+            //findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+            //findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
         } else {
             //mStatusTextView.setText(R.string.signed_out);
 
-            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-            findViewById(R.id.sign_out_button).setVisibility(View.GONE);
+            //findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
+            //findViewById(R.id.sign_out_button).setVisibility(View.GONE);
         }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.sign_in_button:
-                signIn();
-                break;
-            case R.id.sign_out_button:
-                signOut();
-                break;
-            case R.id.disconnect_button:
-                revokeAccess();
-                break;
+            //case R.id.sign_in_button:
+                //signIn();
+                //break;
+            //case R.id.sign_out_button:
+                //signOut();
+                //break;
+            //case R.id.disconnect_button:
+                //revokeAccess();
+                //break;
         }
     }
 }
