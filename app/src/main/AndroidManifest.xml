@@ -21,11 +21,13 @@
         <activity
             android:name=".activities.RegisterActivity"
             android:label="Registrarse"
+            android:parentActivityName="com.rightdecisions.diagonapp.activities.MainActivity"
             android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name=".activities.LoginActivity"
             android:label="Ingreso"
+            android:parentActivityName="com.rightdecisions.diagonapp.activities.MainActivity"
             android:theme="@style/AppTheme">
         </activity>
 
