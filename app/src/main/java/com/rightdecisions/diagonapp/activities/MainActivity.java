@@ -34,8 +34,17 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         }*/
 
+        Button b1 = (Button) findViewById(R.id.signin_button);
         Button b2 = (Button) findViewById(R.id.register_button);
 
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+
+            }
+        });
 
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,13 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
                 startActivity(intent);
-                finish();
 
-                /*android.app.FragmentManager fm = getFragmentManager();
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.loginlayout, fg);
-                //ft.addToBackStack(null);
-                ft.commit();*/
             }
         });
 
