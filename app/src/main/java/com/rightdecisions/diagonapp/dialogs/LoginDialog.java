@@ -37,7 +37,7 @@ public class LoginDialog extends DialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        View v = inflater.inflate(R.layout.dialog_signin, null);
+        View v = inflater.inflate(R.layout.activity_register, null);
 
         builder.setView(v);
 
