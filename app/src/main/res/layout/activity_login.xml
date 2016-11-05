@@ -57,47 +57,7 @@
                 android:padding="@dimen/edit_text_padding"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <EditText
-                android:id="@+id/apellido_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/nombre_input"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/normal_padding"
-                android:background="@drawable/edit_text_border"
-                android:ems="10"
-                android:hint="Apellido"
-                android:inputType="textPersonName"
-                android:padding="@dimen/edit_text_padding"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <EditText
-                android:id="@+id/password_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/apellido_input"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/normal_padding"
-                android:background="@drawable/edit_text_border"
-                android:ems="10"
-                android:hint="Crear una contraseña"
-                android:inputType="textPassword"
-                android:padding="@dimen/edit_text_padding"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-
-            <EditText
-                android:id="@+id/passwordconfirm_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/password_input"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/normal_padding"
-                android:background="@drawable/edit_text_border"
-                android:ems="10"
-                android:hint="Confirmar tu contraseña "
-                android:inputType="textPassword"
-                android:padding="@dimen/edit_text_padding"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <View
                 android:id="@+id/divider2"
@@ -117,11 +77,24 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/divider2"
                 android:layout_centerHorizontal="true"
-                android:paddingBottom="@dimen/button_padding"
-                android:paddingTop="@dimen/button_padding"
-                android:text="Registrarse"
+                android:text="Ingresar"
+                android:background="@color/colorAccent"
+                android:textColor="@color/textoBotones"
+                android:drawableLeft="@drawable/ic_call_made_black_24dp"/>
+
+            <Button
+                android:id="@+id/logingoogle_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/divider2"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/normal_padding"
+                android:drawableLeft="@mipmap/googlecolor"
+                android:text="Ingresar con Gmail"
                 android:background="@color/colorAccent"
                 android:textColor="@color/textoBotones"/>
+
+
 
         </LinearLayout>
 
