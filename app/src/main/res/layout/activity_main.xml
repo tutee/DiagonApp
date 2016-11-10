@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:descendantFocusability="beforeDescendants"
-    android:focusableInTouchMode="true"
-    android:background="@drawable/background_login">
+    android:focusableInTouchMode="true">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -20,11 +19,11 @@
 
             <ImageView
                 android:id="@+id/logo_utn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@mipmap/ic_launcher"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/diagoicon"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="130dp"/>
+                android:layout_marginTop="60dp"/>
 
 
             <LinearLayout
@@ -44,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
-                android:layout_marginTop="200dp"
+                android:layout_marginTop="100dp"
                 android:background="@color/colorAccent"
                 android:text="@string/singinapp"
                 android:textColor="@color/textoBotones"

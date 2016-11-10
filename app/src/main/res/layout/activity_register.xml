@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="4dp"
                 android:layout_marginBottom="@dimen/padding_between"
-                android:layout_marginTop="@dimen/padding_between"
+                android:layout_marginTop="4dp"
                 android:background="#C8C9CB" />
 
             <EditText
@@ -99,6 +99,19 @@
                 android:padding="@dimen/edit_text_padding"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
+
+            <Button
+                android:id="@+id/register_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/divider2"
+                android:layout_marginTop="@dimen/padding_between"
+                android:layout_centerHorizontal="true"
+                android:drawableLeft="@drawable/ic_call_made_black_24dp"
+                android:text="Registrarse"
+                android:background="@color/colorAccent"
+                android:textColor="@color/textoBotones"/>
+
             <View
                 android:id="@+id/divider2"
                 android:layout_width="match_parent"
@@ -108,20 +121,17 @@
                 android:layout_marginTop="@dimen/padding_between"
                 android:background="#C8C9CB" />
 
-
-
-
             <Button
-                android:id="@+id/register_button"
+                android:id="@+id/logingoogle_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/divider2"
                 android:layout_centerHorizontal="true"
-                android:paddingBottom="@dimen/button_padding"
-                android:paddingTop="@dimen/button_padding"
-                android:text="Registrarse"
-                android:background="@color/colorAccent"
-                android:textColor="@color/textoBotones"/>
+                android:drawableLeft="@mipmap/googlecolor"
+                android:text="Registrarse con Gmail"
+                android:background="@drawable/border"
+                android:textColor="@color/colorAccent"/>
+
 
         </LinearLayout>
 
