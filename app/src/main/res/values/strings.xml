@@ -72,6 +72,10 @@
     <string name="notas_label">Notas</string>
     <string name="notas_hint">Notas</string>
 
+    <!-- Navigation Drawer -->
+    <string name="open">open</string>
+    <string name="close">close</string>
+
 
     <string-array name="clientes">
         <item>Fernando Jimenez</item>
