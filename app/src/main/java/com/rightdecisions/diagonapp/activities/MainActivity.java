@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         }*/
 
-        Button b1 = (Button) findViewById(R.id.signin_button);
+        Button b1 = (Button) findViewById(R.id.logingoogle_button);
         Button b2 = (Button) findViewById(R.id.register_button);
 
         b1.setOnClickListener(new View.OnClickListener() {

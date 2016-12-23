@@ -10,6 +10,8 @@
     <color name="colorPrimaryDark">#808080</color>
     <color name="colorAccent">#009688</color>
     <color name="textoBotones">#FFFFFF</color>
+    <color name="background">#EEEEEE</color>
+    <color name="grisletras">#424242</color>
 
     <color name="white">#FFFFFF</color>
 

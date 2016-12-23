@@ -48,12 +48,17 @@
 
     <!-- ******************* Login layout labels ***************** -->
     <!--      Text     -->
-    <string name="noaccount">¿No posee cuenta?</string>
+    <string name="poseeaccount">¿Ya posee una cuenta?</string>
+    <string name="noaccount">Otra opción</string>
     <string name="loadingsingingmail">Ingresando..</string>
+    <string name="ingresar">Ingrese aquí!</string>
+    <string name="forgotpass">Olvide mi contraseña</string>
 
     <!-- Button labels -->
     <string name="singinapp">Ingresar</string>
     <string name="singuptapp">Registrarse</string>
+    <string name="diagon">Diagon</string>
+    <string name="app">App</string>
 
 
 

@@ -104,7 +104,7 @@ public class RegisterActivity extends AppCompatActivity implements
 
 
         // Button listeners
-        findViewById(R.id.logingoogle_button).setOnClickListener(this);
+//        findViewById(R.id.logingoogle_button).setOnClickListener(this);
         //findViewById(R.id.sign_out_button).setOnClickListener(this);
         /*findViewById(R.id.register_button).setOnClickListener(new View.OnClickListener() {
             @Override

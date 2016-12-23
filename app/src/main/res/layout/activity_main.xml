@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:descendantFocusability="beforeDescendants"
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+    android:background="@color/background">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,54 +20,99 @@
 
             <ImageView
                 android:id="@+id/logo_utn"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:src="@drawable/diagoicon"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="60dp"/>
-
+                android:layout_marginTop="40dp"/>
 
             <LinearLayout
-                android:id="@+id/fields_container"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/diagon"
+                    android:textColor="@color/colorAccent"
+                    android:layout_weight="1"
+                    android:textSize="30dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/app"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:layout_weight="1"
+                    android:textSize="30dp"/>
 
             </LinearLayout>
 
             <Button
-                android:id="@+id/signin_button"
+                android:id="@+id/logingoogle_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/divider2"
+                android:layout_centerHorizontal="true"
+                android:drawableLeft="@mipmap/googlecolor"
+                android:text="Ingresar con Gmail"
+                android:paddingLeft="10dp"
+                android:paddingRight="60dp"
+                android:background="@drawable/border"
+                android:textColor="@color/colorAccent"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
-                android:layout_marginTop="100dp"
-                android:background="@color/colorAccent"
-                android:text="@string/singinapp"
-                android:textColor="@color/textoBotones"
-                android:textAllCaps="false"
-                android:textSize="18sp" />
+                android:layout_marginTop="50dp"/>
 
-
-            <TextView
-                android:id="@+id/tv_2"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="15dp"
-                android:text="@string/noaccount"
-                android:textColor="@color/colorAccent"
-                android:textStyle="bold" />
+                android:layout_centerVertical="true"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:id="@+id/tv_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/noaccount"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:textColor="@color/grisletras"
+                    android:layout_centerInParent="true"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="25dp"
+                    android:layout_toLeftOf="@id/tv_2"
+                    android:background="@color/colorPrimaryDark"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="25dp"
+                    android:layout_toRightOf="@id/tv_2"
+                    android:background="@color/colorPrimaryDark"
+                    />
+
+            </RelativeLayout>
+
 
             <Button
                 android:id="@+id/register_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
                 android:layout_marginTop="15dp"
                 android:background="@color/colorAccent"
                 android:text="@string/singuptapp"
@@ -74,7 +120,31 @@
                 android:textAllCaps="false"
                 android:textSize="18sp" />
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp">
 
+                <TextView
+                    android:id="@+id/tv_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/poseeaccount"
+                    android:textColor="@color/grisletras" />
+
+                <TextView
+                    android:id="@+id/tv_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/ingresar"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
