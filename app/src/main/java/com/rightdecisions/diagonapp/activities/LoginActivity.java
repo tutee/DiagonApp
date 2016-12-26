@@ -25,6 +25,8 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.rightdecisions.diagonapp.R;
+import android.content.SharedPreferences;
+import android.content.Context;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,6 +42,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private ProgressDialog pDialog;
     private EditText editmail, editpassword;
+    private static final int PREFERENCE_MODE_PRIVATE = 0;
+    private static final String MY_UNIQUE_PREFERENCE_FILE = "MyUniquePreferenceFile";
+    private SharedPreferences preferenceSettingsUnique;
+    private SharedPreferences.Editor preferenceEditorUnique;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +61,8 @@ public class LoginActivity extends AppCompatActivity {
 
         // Views
         // mStatusTextView = (TextView) findViewById(R.id.status);
+
+
 
         findViewById(R.id.signin_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
 
     }
 
@@ -171,6 +182,15 @@ public class LoginActivity extends AppCompatActivity {
                         Globales.GlobalPassword = jObjU.getString("apellido");
                         Globales.Globalnombre = jObjU.getString("nombres");
                         Globales.Globalimage = jObjU.getString("imagen");
+                        preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
+                        preferenceEditorUnique = preferenceSettingsUnique.edit();
+                        preferenceEditorUnique.putString("ID", Globales.Globalid);
+                        boolean successfullSaved = preferenceEditorUnique.commit();
+                        if (successfullSaved){
+                            preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
+                            String prueba = preferenceSettingsUnique.getString("ID","");
+                            Log.e("Shared", prueba);
+                        }
 
                         Intent intent = new Intent(
                                 LoginActivity.this,

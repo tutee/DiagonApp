@@ -2,6 +2,7 @@ package com.rightdecisions.diagonapp.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -36,10 +37,27 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private ProgressDialog pDialog;
     Button b1;
 
+    private static final int PREFERENCE_MODE_PRIVATE = 0;
+    private static final String MY_UNIQUE_PREFERENCE_FILE = "MyUniquePreferenceFile";
+    private SharedPreferences preferenceSettingsUnique;
+    private SharedPreferences.Editor preferenceEditorUnique;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
+        preferenceEditorUnique = preferenceSettingsUnique.edit();
+        String prueba = preferenceSettingsUnique.getString("ID","");
+        Log.e("Sharedreg", prueba);
+        if (prueba!= ""){
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    SitiosActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -81,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
+                finish();
 
             }
         });
