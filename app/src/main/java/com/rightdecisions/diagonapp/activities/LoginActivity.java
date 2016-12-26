@@ -36,16 +36,8 @@ import java.util.Map;
  * Activity to demonstrate basic retrieval of the LoginActivity user's ID, email address, and basic
  * profile.
  */
-public class LoginActivity extends AppCompatActivity implements
-        GoogleApiClient.OnConnectionFailedListener,
-        View.OnClickListener {
+public class LoginActivity extends AppCompatActivity {
 
-    private static final String TAG = "SignInActivity";
-    private static final int RC_SIGN_IN = 9001;
-
-    private GoogleApiClient mGoogleApiClient;
-    private TextView mStatusTextView;
-    private ProgressDialog mProgressDialog;
     private ProgressDialog pDialog;
     private EditText editmail, editpassword;
 
@@ -57,10 +49,10 @@ public class LoginActivity extends AppCompatActivity implements
         pDialog.setCancelable(false);
 
         editmail = (EditText) findViewById(R.id.email_input);
-        editpassword = (EditText) findViewById(R.id.password_input);
+        editpassword = (EditText) findViewById(R.id.contraseña_input);
 
         // Views
-       // mStatusTextView = (TextView) findViewById(R.id.status);
+        // mStatusTextView = (TextView) findViewById(R.id.status);
 
         findViewById(R.id.signin_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,206 +71,9 @@ public class LoginActivity extends AppCompatActivity implements
             }
         });
 
-        // Button listeners
-        findViewById(R.id.logingoogle_button).setOnClickListener(this);
-        //findViewById(R.id.sign_out_button).setOnClickListener(this);
-        /*findViewById(R.id.register_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                MainFragment fragment = new MainFragment();
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .add(android.R.id.content, fragment, "LoginDialog")
-                        .commit();
-
-            }
-        });*/
-        //findViewById(R.id.disconnect_button).setOnClickListener(this);
-
-        // [START configure_signin]
-        // Configure sign-in to request the user's ID, email address, and basic
-        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        // [END configure_signin]
-
-        // [START build_client]
-        // Build a GoogleApiClient with access to the LoginActivity Sign-In API and the
-        // options specified by gso.
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-        // [END build_client]
-
-        // [START customize_button]
-        // Customize sign-in button. The sign-in button can be displayed in
-        // multiple sizes and color schemes. It can also be contextually
-        // rendered based on the requested scopes. For example. a red button may
-        // be displayed when LoginActivity+ scopes are requested, but a white button
-        // may be displayed when only basic profile is requested. Try adding the
-        // Scopes.PLUS_LOGIN scope to the GoogleSignInOptions to see the
-        // difference.
-        //SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
-        //signInButton.setSize(SignInButton.SIZE_STANDARD);
-        //signInButton.setScopes(gso.getScopeArray());
-        // [END customize_button]
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
 
-        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-        if (opr.isDone()) {
-            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
-            // and the GoogleSignInResult will be available instantly.
-            Log.d(TAG, "Got cached sign-in");
-            GoogleSignInResult result = opr.get();
-            handleSignInResult(result);
-        } else {
-            // If the user has not previously signed in on this device or the sign-in has expired,
-            // this asynchronous branch will attempt to sign in the user silently.  Cross-device
-            // single sign-on will occur in this branch.
-            //showProgressDialog();
-            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                @Override
-                public void onResult(GoogleSignInResult googleSignInResult) {
-                    //hideProgressDialog();
-                    handleSignInResult(googleSignInResult);
-                }
-            });
-        }
-    }
-
-    // [START onActivityResult]
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
-        }
-    }
-    // [END onActivityResult]
-
-    // [START handleSignInResult]
-    private void handleSignInResult(GoogleSignInResult result) {
-        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
-        if (result.isSuccess()) {
-            // Signed in successfully, show authenticated UI.
-            GoogleSignInAccount acct = result.getSignInAccount();
-            //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getId()));
-            String emailg = acct.getEmail();
-            String idgoogle = acct.getId();
-            String imagen = acct.getPhotoUrl().toString();
-            String nombre = acct.getGivenName();
-            String apellido = acct.getFamilyName();
-
-            Log.d("DATA", "EMAIL:" + emailg);
-            Log.d("DATA", "ID GOOGLE:" + idgoogle);
-            Log.d("DATA", "IMAGEN:" + imagen);
-            Log.d("DATA", "NOMBRE:" + nombre);
-            Log.d("DATA", "APELLIDO:" + apellido);
-
-            //registerUserGoogle(emailg,idgoogle,imagen,nombre,apellido);
-
-            updateUI(true);
-        } else {
-            // Signed out, show unauthenticated UI.
-            updateUI(false);
-        }
-    }
-    // [END handleSignInResult]
-
-    // [START signIn]
-    private void signIn() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-    // [END signIn]
-
-    // [START signOut]
-    private void signOut() {
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        // [START_EXCLUDE]
-                        updateUI(false);
-                        // [END_EXCLUDE]
-                    }
-                });
-    }
-    // [END signOut]
-
-    // [START revokeAccess]
-    private void revokeAccess() {
-        Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        // [START_EXCLUDE]
-                        updateUI(false);
-                        // [END_EXCLUDE]
-                    }
-                });
-    }
-    // [END revokeAccess]
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        // An unresolvable error has occurred and LoginActivity APIs (including Sign-In) will not
-        // be available.
-        Log.d(TAG, "onConnectionFailed:" + connectionResult);
-    }
-
-    private void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage(getString(R.string.loading));
-            mProgressDialog.setIndeterminate(true);
-        }
-
-        mProgressDialog.show();
-    }
-
-    private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.hide();
-        }
-    }
-
-    private void updateUI(boolean signedIn) {
-        if (signedIn) {
-            //findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-            //findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
-        } else {
-            //mStatusTextView.setText(R.string.signed_out);
-
-            //findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-            //findViewById(R.id.sign_out_button).setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.logingoogle_button:
-                signIn();
-                break;
-            //case R.id.sign_out_button:
-                //signOut();
-                //break;
-            //case R.id.disconnect_button:
-                //revokeAccess();
-                //break;
-        }
-    }
 
 
     private void registerUserGoogle (final String usugemail, final String usugid,
@@ -288,14 +83,14 @@ public class LoginActivity extends AppCompatActivity implements
 
         Log.e("ERROR","ERROR1");
        //mProgressDialog.setMessage("Registrando ...");
-        showProgressDialog();
+        showDialog();
         Log.e("ERROR","ERROR6");
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 Globales.URL, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
-                hideProgressDialog();
+                hideDialog();
                 Log.e("ERROR","ERROR7");
                 try {
                     Log.e("ERROR","ERROR2");
@@ -329,7 +124,7 @@ public class LoginActivity extends AppCompatActivity implements
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_LONG).show();
-                hideProgressDialog();
+                hideDialog();
                 Log.e("ERROR","ERROR4");
             }
         }) {

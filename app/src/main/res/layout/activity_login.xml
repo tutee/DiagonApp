@@ -42,7 +42,7 @@
                     android:layout_below="@+id/divider"
                     android:layout_centerHorizontal="true"
                     android:ems="10"
-                    android:hint="Contraseña"
+                    android:hint="Email"
                     android:inputType="textPassword"
                     android:padding="@dimen/edit_text_padding"
                     android:textAppearance="?android:attr/textAppearanceSmall" />

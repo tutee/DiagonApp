@@ -135,7 +135,7 @@
                     android:textColor="@color/grisletras" />
 
                 <TextView
-                    android:id="@+id/tv_4"
+                    android:id="@+id/tvlogin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
