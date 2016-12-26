@@ -9,7 +9,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -20,6 +25,12 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.rightdecisions.diagonapp.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Tute on 1/11/2016.
@@ -175,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             Log.d("DATA", "NOMBRE:" + nombre);
             Log.d("DATA", "APELLIDO:" + apellido);
 
-            //registerUserGoogle(emailg,idgoogle,imagen,nombre,apellido);
+            registerUserGoogle(emailg,idgoogle,imagen,nombre,apellido);
 
             updateUI(true);
         } else {
@@ -252,6 +263,79 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             b1.setVisibility(View.VISIBLE);
             //findViewById(R.id.sign_out_button).setVisibility(View.GONE);
         }
+    }
+
+    private void registerUserGoogle (final String usugemail, final String usugid, final String imagen, final String usugnombre, final String usugapellido) {
+        // Tag used to cancel the request
+        String tag_string_req = "req_register";
+
+        Log.e("ERROR","ERROR1");
+        //mProgressDialog.setMessage("Registrando ...");
+        showDialog();
+        Log.e("ERROR","ERROR6");
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                Globales.URL, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                hideDialog();
+                Log.e("ERROR","ERROR7");
+                try {
+                    Log.e("ERROR","ERROR2");
+                    JSONObject jObj = new JSONObject(response);
+                    boolean error = jObj.getBoolean("error");
+                    Log.e("ERROR","ERROR2.2");
+                    if (error) {
+                        Log.e("ERROR","ERROR10");
+                        String errorMsg = jObj.getString("error_msg");
+                        Toast.makeText(getApplicationContext(),
+                                errorMsg, Toast.LENGTH_LONG).show();
+                        Log.e("ERROR","ERROR8");
+                    }
+                } catch (JSONException e) {
+                    Log.e("ERROR","ERROR11");
+                    e.printStackTrace();
+                }
+                Log.e("ERROR","ERROR9");
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+                hideDialog();
+                Log.e("ERROR","ERROR4");
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to register url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("tag", "registergmail");
+                params.put("usu_email", usugemail);
+                params.put("usug_gid", usugid);
+                params.put("usu_imagen", imagen);
+                params.put("usu_nombres", usugnombre);
+                params.put("usu_apellido", usugapellido);
+                Log.e("ERROR","ERROR5");
+                return params;
+            }
+
+        };
+
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+
+    private void hideDialog() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
+    }
+
+    private void showDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
     }
 
 }
