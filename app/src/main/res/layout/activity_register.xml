@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/loginlayout"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -98,7 +99,8 @@
                 android:id="@+id/contraseña_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                app:passwordToggleEnabled="true">
 
                 <EditText
                     android:id="@+id/contraseña_input"
