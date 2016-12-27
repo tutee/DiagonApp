@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
 
-    private GoogleApiClient mGoogleApiClient;
+    //private GoogleApiClient mGoogleApiClient;
     private TextView mStatusTextView;
     private ProgressDialog mProgressDialog;
     private ProgressDialog pDialog;
@@ -73,14 +73,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
 
-        /*if (savedInstanceState == null) {
-            LoginFragment fragment = new LoginFragment();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(android.R.id.content, fragment, "LoginFragment")
-                    .commit();
-        }*/
-
         b1 = (Button) findViewById(R.id.logingoogle_button);
         Button b2 = (Button) findViewById(R.id.register_button);
         TextView tv = (TextView) findViewById(R.id.tvlogin);
@@ -110,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
-                finish();
 
             }
         });
@@ -127,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         // [START build_client]
         // Build a GoogleApiClient with access to the LoginActivity Sign-In API and the
         // options specified by gso.
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
+        Globales.mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
@@ -151,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public void onStart() {
         super.onStart();
 
-        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(Globales.mGoogleApiClient);
         if (opr.isDone()) {
             // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
             // and the GoogleSignInResult will be available instantly.
@@ -193,43 +184,50 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getId()));
-            String emailg = acct.getEmail();
-            String idgoogle = acct.getId();
-            String imagen = acct.getPhotoUrl().toString();
-            String nombre = acct.getGivenName();
-            String apellido = acct.getFamilyName();
+            Globales.Globalemail = acct.getEmail();
+            Globales.Globalidgoogle = acct.getId();
+            Globales.Globalimage = acct.getPhotoUrl().toString();
+            Globales.Globalnombre = acct.getGivenName();
+            Globales.Globalapellido = acct.getFamilyName();
 
-            Log.d("DATA", "EMAIL:" + emailg);
-            Log.d("DATA", "ID GOOGLE:" + idgoogle);
-            Log.d("DATA", "IMAGEN:" + imagen);
-            Log.d("DATA", "NOMBRE:" + nombre);
-            Log.d("DATA", "APELLIDO:" + apellido);
+            Log.d("DATA", "EMAIL:" + Globales.Globalemail);
+            Log.d("DATA", "ID GOOGLE:" + Globales.Globalidgoogle);
+            Log.d("DATA", "IMAGEN:" + Globales.Globalimage);
+            Log.d("DATA", "NOMBRE:" + Globales.Globalnombre);
+            Log.d("DATA", "APELLIDO:" + Globales.Globalapellido);
 
-            registerUserGoogle(emailg,idgoogle,imagen,nombre,apellido);
+            registerUserGoogle(Globales.Globalemail,Globales.Globalidgoogle,Globales.Globalimage,Globales.Globalnombre,Globales.Globalapellido);
 
-            updateUI(true);
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    SitiosActivity.class);
+            startActivity(intent);
+            finish();
+
+            //updateUI(true);
         } else {
             // Signed out, show unauthenticated UI.
-            updateUI(false);
+            //updateUI(false);
         }
     }
     // [END handleSignInResult]
 
     // [START signIn]
     private void signIn() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(Globales.mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
     // [END signIn]
 
     // [START signOut]
+
     private void signOut() {
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+        Auth.GoogleSignInApi.signOut(Globales.mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
                     @Override
                     public void onResult(Status status) {
                         // [START_EXCLUDE]
-                        updateUI(false);
+                        //updateUI(false);
                         // [END_EXCLUDE]
                     }
                 });
@@ -238,12 +236,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     // [START revokeAccess]
     private void revokeAccess() {
-        Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
+        Auth.GoogleSignInApi.revokeAccess(Globales.mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
                     @Override
                     public void onResult(Status status) {
                         // [START_EXCLUDE]
-                        updateUI(false);
+                        //updateUI(false);
                         // [END_EXCLUDE]
                     }
                 });
@@ -273,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
     }
 
-    private void updateUI(boolean signedIn) {
+    /*private void updateUI(boolean signedIn) {
         if (signedIn) {
             b1.setVisibility(View.GONE);
             //findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
@@ -282,40 +280,31 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             b1.setVisibility(View.VISIBLE);
             //findViewById(R.id.sign_out_button).setVisibility(View.GONE);
         }
-    }
+    }*/
 
+    //Funcion que registra el usuario de gmail en la base de datos.
     private void registerUserGoogle (final String usugemail, final String usugid, final String imagen, final String usugnombre, final String usugapellido) {
         // Tag used to cancel the request
         String tag_string_req = "req_register";
 
-        Log.e("ERROR","ERROR1");
-        //mProgressDialog.setMessage("Registrando ...");
-        showDialog();
-        Log.e("ERROR","ERROR6");
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 Globales.URL, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
-                hideDialog();
-                Log.e("ERROR","ERROR7");
+
                 try {
-                    Log.e("ERROR","ERROR2");
+
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
-                    Log.e("ERROR","ERROR2.2");
+
                     if (error) {
-                        Log.e("ERROR","ERROR10");
                         String errorMsg = jObj.getString("error_msg");
-                        Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_LONG).show();
-                        Log.e("ERROR","ERROR8");
+                        Log.e("ERROR", errorMsg);
                     }
                 } catch (JSONException e) {
-                    Log.e("ERROR","ERROR11");
                     e.printStackTrace();
                 }
-                Log.e("ERROR","ERROR9");
             }
         }, new Response.ErrorListener() {
 
@@ -324,7 +313,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_LONG).show();
                 hideDialog();
-                Log.e("ERROR","ERROR4");
             }
         }) {
 

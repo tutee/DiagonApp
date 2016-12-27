@@ -1,4 +1,6 @@
 <resources>
+
+
     <string name="app_name">DiagonApp</string>
     <string name="title_text">Google Sign-In\nQuickstart</string>
 
@@ -46,20 +48,41 @@
     <string name="server_client_id">YOUR_SERVER_CLIENT_ID</string>
 
 
-    <!-- ******************* Login layout labels ***************** -->
+    <!-- ******************* Main layout labels ***************** -->
     <!--      Text     -->
     <string name="poseeaccount">¿Ya posee una cuenta?</string>
     <string name="noaccount">Otra opción</string>
     <string name="loadingsingingmail">Ingresando..</string>
     <string name="ingresar">Ingrese aquí!</string>
-    <string name="forgotpass">Olvide mi contraseña</string>
 
     <!-- Button labels -->
+    <string name="singingoogle">Ingresar con Gmail</string>
     <string name="singinapp">Ingresar</string>
     <string name="singuptapp">Registrarse</string>
     <string name="diagon">Diagon</string>
     <string name="app">App</string>
+    <!-- ************************************************************ -->
 
+
+    <!-- ******************* Register layout labels ***************** -->
+    <!--      Inputs Text     -->
+    <string name="emailinput">Email</string>
+    <string name="nameinput">Nombre</string>
+    <string name="familynameinput">Apellido</string>
+    <string name="passwordinput">Contraseña</string>
+
+    <!-- Button labels -->
+    <string name="registerbutton">Registrarme</string>
+    <!-- ************************************************************ -->
+
+
+    <!-- ******************* Login layout labels ***************** -->
+    <!--      Text     -->
+    <string name="forgotpass">Olvide mi contraseña</string>
+
+    <!-- Button labels -->
+    <string name="loginbutton">Ingresar</string>
+    <!-- ************************************************************ -->
 
 
 

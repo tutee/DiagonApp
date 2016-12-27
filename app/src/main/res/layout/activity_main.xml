@@ -60,7 +60,7 @@
                 android:layout_below="@+id/divider2"
                 android:layout_centerHorizontal="true"
                 android:drawableLeft="@mipmap/googlecolor"
-                android:text="Ingresar con Gmail"
+                android:text="@string/singingoogle"
                 android:paddingLeft="10dp"
                 android:paddingRight="60dp"
                 android:background="@drawable/border"
@@ -145,6 +145,7 @@
                     android:textStyle="bold" />
 
             </LinearLayout>
+
 
         </LinearLayout>
 

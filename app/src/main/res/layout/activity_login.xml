@@ -42,8 +42,9 @@
                     android:layout_below="@+id/divider"
                     android:layout_centerHorizontal="true"
                     android:ems="10"
-                    android:hint="Email"
-                    android:inputType="textPassword"
+                    android:hint="@string/emailinput"
+                    android:inputType="textEmailAddress"
+                    android:fontFamily="sans-serif"
                     android:padding="@dimen/edit_text_padding"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -61,8 +62,9 @@
                     android:layout_below="@+id/divider"
                     android:layout_centerHorizontal="true"
                     android:ems="10"
-                    android:hint="Contraseña"
+                    android:hint="@string/passwordinput"
                     android:inputType="textPassword"
+                    android:fontFamily="sans-serif"
                     android:padding="@dimen/edit_text_padding"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -88,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/divider2"
                 android:layout_centerHorizontal="true"
-                android:text="Ingresar"
+                android:text="@string/loginbutton"
                 android:background="@color/colorAccent"
                 android:textColor="@color/textoBotones"
                 />

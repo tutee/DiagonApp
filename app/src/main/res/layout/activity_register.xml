@@ -43,7 +43,7 @@
                     android:layout_below="@+id/divider"
                     android:layout_centerHorizontal="true"
                     android:ems="10"
-                    android:hint="Correo electronico"
+                    android:hint="@string/emailinput"
                     android:inputType="textEmailAddress"
                     android:fontFamily="sans-serif"/>
 
@@ -68,7 +68,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ems="7"
-                        android:hint="Nombre"
+                        android:hint="@string/nameinput"
                         android:fontFamily="sans-serif"
                         />
 
@@ -87,7 +87,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ems="7"
-                        android:hint="Apellido"
+                        android:hint="@string/familynameinput"
                         android:fontFamily="sans-serif"
                         />
 
@@ -109,7 +109,7 @@
                     android:layout_below="@+id/divider"
                     android:layout_centerHorizontal="true"
                     android:ems="7"
-                    android:hint="Contraseña"
+                    android:hint="@string/passwordinput"
                     android:inputType="textPassword"
                     android:fontFamily="sans-serif" />
 
@@ -130,7 +130,7 @@
                 android:layout_below="@+id/divider2"
                 android:layout_marginTop="@dimen/padding_between"
                 android:layout_centerHorizontal="true"
-                android:text="Registrarme"
+                android:text="@string/registerbutton"
                 android:background="@color/colorAccent"
                 android:textColor="@color/textoBotones"/>
 

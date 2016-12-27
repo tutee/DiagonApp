@@ -59,11 +59,6 @@ public class LoginActivity extends AppCompatActivity {
         editmail = (EditText) findViewById(R.id.email_input);
         editpassword = (EditText) findViewById(R.id.contraseña_input);
 
-        // Views
-        // mStatusTextView = (TextView) findViewById(R.id.status);
-
-
-
         findViewById(R.id.signin_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,80 +77,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-    }
-
-
-
-
-    private void registerUserGoogle (final String usugemail, final String usugid,
-                              final String usugimage, final String usugnombre, final String usugapellido) {
-        // Tag used to cancel the request
-        String tag_string_req = "req_register";
-
-        Log.e("ERROR","ERROR1");
-       //mProgressDialog.setMessage("Registrando ...");
-        showDialog();
-        Log.e("ERROR","ERROR6");
-        StringRequest strReq = new StringRequest(Request.Method.POST,
-                Globales.URL, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-                hideDialog();
-                Log.e("ERROR","ERROR7");
-                try {
-                    Log.e("ERROR","ERROR2");
-                    JSONObject jObj = new JSONObject(response);
-                    boolean error = jObj.getBoolean("error");
-                    Log.e("ERROR","ERROR2.2");
-                    if (!error) {
-                        Log.e("ERROR","ERROR11");
-                        Intent intent = new Intent(
-                                LoginActivity.this,
-                                LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                        Log.e("ERROR","ERROR3");
-                    } else {
-                        Log.e("ERROR","ERROR10");
-                        String errorMsg = jObj.getString("error_msg");
-                        Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_LONG).show();
-                        Log.e("ERROR","ERROR8");
-                    }
-                } catch (JSONException e) {
-                    Log.e("ERROR","ERROR11");
-                    e.printStackTrace();
-                }
-                Log.e("ERROR","ERROR9");
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
-                hideDialog();
-                Log.e("ERROR","ERROR4");
-            }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                // Posting params to register url
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("tag", "register");
-                params.put("usu_email", usugemail);
-                params.put("usug_gid", usugid);
-                params.put("usu_nombres", usugnombre);
-                params.put("usu_apellido", usugapellido);
-                Log.e("ERROR","ERROR5");
-                return params;
-            }
-
-        };
-
-        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 
 
@@ -179,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                         JSONObject jObjU = jObj.getJSONObject("user");
                         Globales.Globalemail = jObjU.getString("email");
                         Globales.Globalid = jObjU.getString("id");
-                        Globales.GlobalPassword = jObjU.getString("apellido");
+                        Globales.Globalapellido = jObjU.getString("apellido");
                         Globales.Globalnombre = jObjU.getString("nombres");
                         Globales.Globalimage = jObjU.getString("imagen");
                         preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
