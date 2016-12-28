@@ -33,47 +33,26 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
 
     private static final String TAG = "SignInActivity";
     ActionBarDrawerToggle toggle;
-    Button bu=null;
-    Button bu2=null;
     private static final int PREFERENCE_MODE_PRIVATE = 0;
     private static final String MY_UNIQUE_PREFERENCE_FILE = "MyUniquePreferenceFile";
     private SharedPreferences preferenceSettingsUnique;
-    private SharedPreferences.Editor preferenceEditorUnique;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sitios);
 
-        bu=(Button)findViewById(R.id.button2);
-        bu2=(Button)findViewById(R.id.button3);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);   //VER ESTO PARA SOLUCIONAR EL HAMBURGER
-
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav);
         navigationView.setNavigationItemSelectedListener(this);
 
         preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
-
-        bu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                    Log.e("ERROR", String.valueOf(preferenceSettingsUnique));
-
-                    if (!preferenceSettingsUnique.contains("ID")) {
-                        signOut();
-                    } else {
-                        logout();
-                    }
-            }
-        });
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -99,10 +78,14 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
                 break;
 
             case R.id.menu_navu_2:
-                Intent intent = new Intent(SitiosActivity.this,
-                        SitiosActivity.class);
-                startActivity(intent);
-                finish();
+                break;
+
+            case R.id.menu_navu_5:
+                if (!preferenceSettingsUnique.contains("ID")) {
+                    signOut();
+                } else {
+                    logout();
+                }
                 break;
         }
 
@@ -111,6 +94,25 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
             dl.closeDrawer(GravityCompat.START);
 
         return false;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //int id = item.getItemId();
+
+        if (toggle.onOptionsItemSelected(item)){
+            return true;
+        }
+
+        /*switch (id) {
+            case R.id.action_settings:
+                logoutUser();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }*/
+
+        return super.onOptionsItemSelected(item);
     }
 
     public  void logout(){
@@ -154,13 +156,13 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
                 });
     }
 
-    public void close(View view){
+    /*public void close(View view){
         preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
         preferenceEditorUnique = preferenceSettingsUnique.edit();
         String prueba = preferenceSettingsUnique.getString("ID","");
         Log.e("Shared", prueba);
         finish();
-    }
+    }*/
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {

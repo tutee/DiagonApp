@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/menu_navu_1"
-        android:title="Comprar días"
-        android:icon="@drawable/comprarticket"/>
+        android:title="Sitios"
+        android:icon="@mipmap/ic_places"/>
 
     <item android:id="@+id/menu_navu_2"
-        android:title="Deshacer compras"
+        android:title="Mis paseos"
         android:icon="@drawable/deshacercompra"/>
 
     <item android:id="@+id/menu_navu_3"
-        android:title="Historiales"
+        android:title="Paseos recomendados"
         android:icon="@drawable/historial"/>
 
 
@@ -25,11 +25,9 @@
                 android:icon="@drawable/gestionarpatentes"/>
             -->
             <item android:id="@+id/menu_navu_5"
-                android:title="Cambiar contraseña"
+                android:title="Cerrar sesion"
                 android:icon="@drawable/gestionarcuenta"/>
-            <item android:id="@+id/menu_navu_6"
-                android:title="Cambiar email"
-                android:icon="@drawable/gestionarcuenta"/>
+
         </menu>
     </item>
 
