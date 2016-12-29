@@ -168,4 +168,12 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
     }
+
+
+
+
+
+
+
+
 }

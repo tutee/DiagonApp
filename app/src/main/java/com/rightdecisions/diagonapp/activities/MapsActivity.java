@@ -68,6 +68,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+    //SNACKBAR
     private void showLocationSettings() {
         Snackbar snackbar = Snackbar
                 .make(mainCoordinatorLayout, "Location Error: GPS Disabled!",
@@ -127,6 +128,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void loadNearByPlaces(double latitude, double longitude) {
 //YOU Can change this type at your own will, e.g hospital, cafe, restaurant.... and see how it all works
         //String type = "university";
+        //tipes
         StringBuilder googlePlacesUrl =
                 new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         googlePlacesUrl.append("location=").append(latitude).append(",").append(longitude);

@@ -32,8 +32,10 @@ public class AppConfig {
         public static final String PLACE_NAME = "place_name";
 
         // remember to change the browser api key
-        public static final String GOOGLE_BROWSER_API_KEY = "AIzaSyCHxrxOHkZAKQ1cSWP26bkrwnjP2lf_2Pc";
+        public static final String GOOGLE_BROWSER_API_KEY = "AIzaSyBdDzM01Fqp8UYpHSlpYAkpfN0-tuNfScw";
         public static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+        public static final double LATITUD_MORENO = -34.916226;
+        public static final double LONGITUD_MORENO = -57.9262387;
         public static final int PROXIMITY_RADIUS = 5000;
         // The minimum distance to change Updates in meters
         public static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters

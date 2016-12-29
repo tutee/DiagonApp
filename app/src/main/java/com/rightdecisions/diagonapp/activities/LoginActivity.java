@@ -116,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
                         Intent intent = new Intent(
                                 LoginActivity.this,
                                 //Sitios.class);
-                                MapsActivity.class);
+                                Test.class);
 
                         startActivity(intent);
                         finish();
