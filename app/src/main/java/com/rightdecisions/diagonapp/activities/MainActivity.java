@@ -293,12 +293,22 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             @Override
             public void onResponse(String response) {
 
+                Log.e("ERROR", response);
+
                 try {
 
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
 
-                    if (error) {
+                    if (!error) {
+                        JSONObject jObjU = jObj.getJSONObject("user");
+                        Globales.Globalemail = jObjU.getString("email");
+                        Globales.Globalid = jObjU.getString("id");
+                        Globales.Globalapellido = jObjU.getString("apellido");
+                        Globales.Globalnombre = jObjU.getString("nombres");
+                        Globales.Globalimage = jObjU.getString("imagen");
+
+                    } else {
                         String errorMsg = jObj.getString("error_msg");
                         Log.e("ERROR", errorMsg);
                     }

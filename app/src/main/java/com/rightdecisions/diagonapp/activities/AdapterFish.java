@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.rightdecisions.diagonapp.R;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -93,6 +94,12 @@ public class AdapterFish extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    public void setFilter(List<DataSitio> countryModels) {
+        data = new ArrayList<>();
+        data.addAll(countryModels);
+        notifyDataSetChanged();
     }
 
 

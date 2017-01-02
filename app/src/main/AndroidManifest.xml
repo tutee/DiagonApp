@@ -13,8 +13,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
-    <meta-data android:name="com.rightdecisions.diagonapp.activities.GlideConfiguration"
-        android:value="GlideModule"/>
+
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -55,6 +54,10 @@
             android:name=".activities.SitiosActivity"
             android:label="Sitios"
             android:theme="@style/AppTheme">
+
+            <meta-data android:name="com.rightdecisions.diagonapp.activities.GlideConfiguration"
+                android:value="GlideModule"/>
+
         </activity>
 
         <activity

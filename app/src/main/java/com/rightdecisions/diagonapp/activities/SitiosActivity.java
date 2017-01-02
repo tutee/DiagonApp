@@ -6,13 +6,16 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.android.volley.Request;
@@ -26,10 +29,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.rightdecisions.diagonapp.R;
-import android.content.Context;
+
 import android.content.SharedPreferences;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -45,7 +46,7 @@ import java.util.Map;
  * Created by Tute on 9/11/2016.
  */
 
-public class SitiosActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
+public class SitiosActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener, SearchView.OnQueryTextListener {
 
     private static final String TAG = "SignInActivity";
     ActionBarDrawerToggle toggle;
@@ -62,6 +63,8 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sitios);
+
+
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -95,6 +98,8 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
         cargarSitios(id);
 
 
+
+
     }
 
     @Override
@@ -124,24 +129,7 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
         return false;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        //int id = item.getItemId();
 
-        if (toggle.onOptionsItemSelected(item)){
-            return true;
-        }
-
-        /*switch (id) {
-            case R.id.action_settings:
-                logoutUser();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }*/
-
-        return super.onOptionsItemSelected(item);
-    }
 
     public  void logout(){
         preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
@@ -275,6 +263,101 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //int id = item.getItemId();
+
+        if (toggle.onOptionsItemSelected(item)){
+            return true;
+        }
+
+        /*switch (id) {
+            case R.id.action_settings:
+                logoutUser();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }*/
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menusearch, menu);
+
+        final MenuItem item = menu.findItem(R.id.search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setOnQueryTextListener(this);
+
+        MenuItemCompat.setOnActionExpandListener(item,
+                new MenuItemCompat.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionCollapse(MenuItem item) {
+                        // Do something when collapsed
+                        mAdapter.setFilter(data);
+                        return true; // Return true to collapse action view
+                    }
+
+                    @Override
+                    public boolean onMenuItemActionExpand(MenuItem item) {
+                        // Do something when expanded
+                        return true; // Return true to expand action view
+                    }
+                });
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    /* public boolean onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menusearch, menu);
+
+        final MenuItem item = menu.findItem(R.id.search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setOnQueryTextListener(this);
+
+        MenuItemCompat.setOnActionExpandListener(item,
+                new MenuItemCompat.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionCollapse(MenuItem item) {
+                    // Do something when collapsed
+                        mAdapter.setFilter(data);
+                        return true; // Return true to collapse action view
+                    }
+
+                    @Override
+                    public boolean onMenuItemActionExpand(MenuItem item) {
+                    // Do something when expanded
+                        return true; // Return true to expand action view
+                    }
+                });
+
+        return true;
+
+    }*/
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        final List<DataSitio> filteredModelList = filter(data, newText);
+
+        mAdapter.setFilter(filteredModelList);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    private List<DataSitio> filter(List<DataSitio> models, String query) {
+        query = query.toLowerCase();final List<DataSitio> filteredModelList = new ArrayList<>();
+        for (DataSitio model : models) {
+            final String text = model.getName().toLowerCase();
+            if (text.contains(query)) {
+                filteredModelList.add(model);
+            }
+        }
+        return filteredModelList;
+    }
 
 
 

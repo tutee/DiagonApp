@@ -7,4 +7,9 @@ public class DataSitio {
     public String catName;
     public String sizeName;
     public int price;
+
+
+    public String getName() {
+        return sitioName;
+    }
 }
