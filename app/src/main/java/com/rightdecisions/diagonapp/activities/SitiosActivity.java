@@ -9,10 +9,16 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -24,6 +30,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Tute on 9/11/2016.
@@ -36,6 +52,11 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
     private static final int PREFERENCE_MODE_PRIVATE = 0;
     private static final String MY_UNIQUE_PREFERENCE_FILE = "MyUniquePreferenceFile";
     private SharedPreferences preferenceSettingsUnique;
+    public static final int CONNECTION_TIMEOUT = 10000;
+    public static final int READ_TIMEOUT = 15000;
+    private RecyclerView mRVFishPrice;
+    private AdapterFish mAdapter;
+    List<DataSitio> data = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,6 +87,13 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+
+        mRVFishPrice = (RecyclerView)findViewById(R.id.fishPriceList);
+
+        String id = "10";
+
+        cargarSitios(id);
+
 
     }
 
@@ -167,6 +195,84 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
+    }
+
+    public void cargarSitios(final String usuemailo ) {
+        // Tag used to cancel the request
+        String tag_string_req = "req_register";
+
+        Log.e("ERROR", "ERROR1");
+        //pDialog.setMessage("Registrando cuenta...");
+        //showDialog();
+        Log.e("ERROR", "ERROR6");
+
+
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                Globales.URL, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                //hideDialog();
+                //Log.e("ERROR envPass", response);
+                try {
+                    Log.e("ERROR", response);
+
+                    JSONObject obj = new JSONObject(response);
+
+                    JSONArray arrayP = obj.getJSONArray("sitios_dest");
+
+                    // Extract data from json and store into ArrayList as class objects
+                    for (int i = 0; i < arrayP.length(); i++) {
+                        JSONObject json_data = arrayP.getJSONObject(i);
+                        DataSitio fishData = new DataSitio();
+                        /*img = json_data.getString("sit_img");
+                        Log.e("ERROR", String.valueOf(img));
+                        //rearmo la imagen decodeandolo
+                        Bitmap myBitmapAgain = decodeBase64(img);
+                        Log.e("ERROR", String.valueOf(myBitmapAgain));*/
+
+                        fishData.sitioImage = json_data.getString("sit_img");
+                        fishData.sitioName= json_data.getString("sit_titulo");
+                        //fishData.catName = json_data.getString("sit_lat");
+                        //fishData.sizeName = json_data.getString("sit_lon");
+                        //fishData.price = json_data.getInt("sit_direccion");
+                        data.add(fishData);
+                    }
+
+                    // Setup and Handover data to recyclerview
+                    mRVFishPrice = (RecyclerView) findViewById(R.id.fishPriceList);
+                    mAdapter = new AdapterFish(SitiosActivity.this, data);
+                    mRVFishPrice.setAdapter(mAdapter);
+                    mRVFishPrice.setLayoutManager(new LinearLayoutManager(SitiosActivity.this));
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+                //hideDialog();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to register url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("tag", "listsitiosdestacados");
+                params.put("usu_id", usuemailo);
+                return params;
+            }
+
+        };
+
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 
 
