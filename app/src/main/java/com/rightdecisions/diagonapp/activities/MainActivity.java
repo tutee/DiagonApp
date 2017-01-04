@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
+        /*preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
         preferenceEditorUnique = preferenceSettingsUnique.edit();
         String prueba = preferenceSettingsUnique.getString("ID","");
         Log.e("Sharedreg", prueba);
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     SitiosActivity.class);
             startActivity(intent);
             finish();
-        }
+        }*/
 
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
