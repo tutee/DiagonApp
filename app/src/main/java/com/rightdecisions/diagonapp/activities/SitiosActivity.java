@@ -1,5 +1,6 @@
 package com.rightdecisions.diagonapp.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,13 +16,14 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -31,6 +33,8 @@ import com.google.android.gms.common.api.Status;
 import com.rightdecisions.diagonapp.R;
 
 import android.content.SharedPreferences;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -41,6 +45,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Tute on 9/11/2016.
@@ -56,8 +62,9 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
     public static final int CONNECTION_TIMEOUT = 10000;
     public static final int READ_TIMEOUT = 15000;
     private RecyclerView mRVFishPrice;
-    private AdapterFish mAdapter;
+    private AdapterSitio mAdapter;
     List<DataSitio> data = new ArrayList<>();
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,8 +80,21 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
+        //CircleImageView circleImageView = (CircleImageView) findViewById(R.id.profile_image);
+
+
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav);
         navigationView.setNavigationItemSelectedListener(this);
+        View headerView = navigationView.getHeaderView(0);
+        TextView emailText = (TextView) headerView.findViewById(R.id.email);
+        emailText.setText(Globales.Globalemail);
+        TextView nombreText = (TextView) headerView.findViewById(R.id.username);
+        nombreText.setText(Globales.Globalapellido+" "+Globales.Globalnombre);
+        CircleImageView circleImageView = (CircleImageView) headerView.findViewById(R.id.profile_image);
+        Glide.with(this).load(Globales.Globalimage).into(circleImageView);
+
+
 
         preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
 
@@ -99,7 +119,6 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
 
 
 
-
     }
 
     @Override
@@ -111,6 +130,11 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
                 break;
 
             case R.id.menu_navu_2:
+                Intent intent = new Intent(
+                        SitiosActivity.this,
+                        MisRecorridosActivity.class);
+                startActivity(intent);
+                finish();
                 break;
 
             case R.id.menu_navu_5:
@@ -230,7 +254,7 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
 
                     // Setup and Handover data to recyclerview
                     mRVFishPrice = (RecyclerView) findViewById(R.id.fishPriceList);
-                    mAdapter = new AdapterFish(SitiosActivity.this, data);
+                    mAdapter = new AdapterSitio(SitiosActivity.this, data);
                     mRVFishPrice.setAdapter(mAdapter);
                     mRVFishPrice.setLayoutManager(new LinearLayoutManager(SitiosActivity.this));
 

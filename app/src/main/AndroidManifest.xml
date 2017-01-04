@@ -59,12 +59,12 @@
                 android:value="GlideModule"/>
 
         </activity>
-
         <activity
-            android:name=".activities.Test"
-            android:label="Activity Maps"
+            android:name=".activities.MisRecorridosActivity"
+            android:label="Mis recorridos"
             android:theme="@style/AppTheme">
         </activity>
+
 
 
     </application>

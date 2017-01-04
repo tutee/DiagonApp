@@ -6,11 +6,11 @@
         android:icon="@mipmap/ic_places"/>
 
     <item android:id="@+id/menu_navu_2"
-        android:title="Mis paseos"
+        android:title="Mis recorridos"
         android:icon="@drawable/deshacercompra"/>
 
     <item android:id="@+id/menu_navu_3"
-        android:title="Paseos recomendados"
+        android:title="Recorridos recomendados"
         android:icon="@drawable/historial"/>
 
 

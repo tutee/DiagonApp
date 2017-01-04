@@ -16,16 +16,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class AdapterFish extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AdapterRecorrido extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
     private LayoutInflater inflater;
-    List<DataSitio> data= Collections.emptyList();
-    DataSitio current;
+    List<DataRecorrido> data= Collections.emptyList();
+    DataRecorrido current;
     int currentPos=0;
 
     // create constructor to innitilize context and data sent from MainActivity
-    public AdapterFish(Context context, List<DataSitio> data){
+    public AdapterRecorrido(Context context, List<DataRecorrido> data){
         this.context=context;
         inflater= LayoutInflater.from(context);
         this.data=data;
@@ -34,7 +34,8 @@ public class AdapterFish extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     // Inflate the layout when viewholder created
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view=inflater.inflate(R.layout.item_lista_alquiler, parent,false);
+        View view=inflater.inflate(R.layout.item_lista_recorridos, parent,false);
+
         MyHolder holder=new MyHolder(view);
         return holder;
     }
@@ -45,8 +46,10 @@ public class AdapterFish extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         // Get current position of item in recyclerview to bind data and assign values from list
         final MyHolder myHolder= (MyHolder) holder;
-        DataSitio current=data.get(position);
-        myHolder.textFishName.setText(current.sitioName);
+        DataRecorrido current = data.get(position);
+        myHolder.textFishName.setText(current.itiName);
+
+
         //myHolder.textSize.setText("Size: " + current.sizeName);
         //myHolder.textType.setText("Category: " + current.catName);
         //myHolder.textPrice.setText("Rs. " + current.price + "\\Kg");
@@ -56,11 +59,11 @@ public class AdapterFish extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         // load image into imageview using glide
 
-        Glide.with(context).load(current.sitioImage)
+        /*Glide.with(context).load(current.sitioImage)
                 //.placeholder(R.drawable.ic_img_error)
                 //.error(R.drawable.ic_img_error)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(myHolder.ivFish);
+                .into(myHolder.ivFish);*/
 
         /*Glide.with(context).load("http://192.168.1.7/test/images/" + current.fishImage)
                 .placeholder(R.drawable.ic_img_error)
@@ -96,7 +99,7 @@ public class AdapterFish extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return data.size();
     }
 
-    public void setFilter(List<DataSitio> countryModels) {
+    public void setFilter(List<DataRecorrido> countryModels) {
         data = new ArrayList<>();
         data.addAll(countryModels);
         notifyDataSetChanged();
@@ -120,6 +123,8 @@ public class AdapterFish extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             //textType = (TextView) itemView.findViewById(R.id.textType);
             //textPrice = (TextView) itemView.findViewById(R.id.button);
         }
+
+
 
     }
 
