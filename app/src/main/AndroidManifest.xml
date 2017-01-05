@@ -70,6 +70,12 @@
             android:label="Mis recorridos"
             android:theme="@style/AppTheme">
         </activity>
+        <activity
+            android:name=".activities.RecorridoExpandidoActivity"
+            android:label="Recorrido"
+            android:parentActivityName="com.rightdecisions.diagonapp.activities.MisRecorridosActivity"
+            android:theme="@style/AppTheme">
+        </activity>
 
 
 

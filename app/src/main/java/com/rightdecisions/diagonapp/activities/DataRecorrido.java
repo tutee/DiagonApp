@@ -11,12 +11,20 @@ public class DataRecorrido {
 
     public String itiName;
     public String itiId;
-    public String sizeName;
-    public int price;
     public ArrayList<String> arraySitInt;
 
+
+    public String getItiId() {
+        return itiId;
+    }
 
     public String getName() {
         return itiName;
     }
+
+    public ArrayList<String> getArraySitios() {
+
+        return arraySitInt;
+    }
+
 }
