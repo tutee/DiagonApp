@@ -71,10 +71,19 @@
             android:theme="@style/AppTheme">
         </activity>
         <activity
+<<<<<<< HEAD
             android:name=".activities.MapsActivity"
             android:label="Maps"
             android:theme="@style/AppTheme">
         </activity>
+=======
+            android:name=".activities.RecorridoExpandidoActivity"
+            android:label="Recorrido"
+            android:parentActivityName="com.rightdecisions.diagonapp.activities.MisRecorridosActivity"
+            android:theme="@style/AppTheme">
+        </activity>
+
+>>>>>>> origin/master
 
 
     </application>

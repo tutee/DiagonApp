@@ -49,6 +49,7 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
     private static final int PREFERENCE_MODE_PRIVATE = 0;
     private static final String MY_UNIQUE_PREFERENCE_FILE = "MyUniquePreferenceFile";
     List<DataRecorrido> data = new ArrayList<>();
+    List<DataRecorridoSitio> datasitio = new ArrayList<>();
     private RecyclerView mRVFishPrice;
     private AdapterRecorrido mAdapter;
 
@@ -93,8 +94,31 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
         mRVFishPrice.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, mRVFishPrice ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-                        Log.e("ERROR", String.valueOf(position));
-                        // do whatever
+
+                        //Globales.Globalidrecoexp = data.get(position).getItiId();
+                        Globales.Globalsitiosrecoexp = new ArrayList<>();
+                        Globales.Globalnombrecoexp = data.get(position).getName();
+
+                        Log.e("ERROR", String.valueOf(datasitio.size()));
+
+                        for (int i = 0; i < datasitio.size(); i++) {
+
+                            Log.e("ERROR", data.get(position).getItiId());
+                            Log.e("ERROR", datasitio.get(i).sitioRecoId);
+
+                            if(data.get(position).getItiId().equals(datasitio.get(i).sitioRecoId) ) {
+
+                                Log.e("ERROR", String.valueOf(datasitio.get(i)));
+                                Log.e("ERROR", String.valueOf(datasitio.get(i).getName()));
+                                Globales.Globalsitiosrecoexp.add(datasitio.get(i));
+
+                            }
+                        }
+
+                        Intent intent = new Intent(MisRecorridosActivity.this,
+                                RecorridoExpandidoActivity.class);
+                        startActivity(intent);
+
                     }
 
                     @Override public void onLongItemClick(View view, int position) {
@@ -188,6 +212,8 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
                     for (int i = 0; i < arrayP.length(); i++) {
                         JSONObject json_data = arrayP.getJSONObject(i);
                         DataRecorrido fishData = new DataRecorrido();
+
+
                         fishData.arraySitInt = new ArrayList<String>();
 
                         JSONArray sitios = json_data.optJSONArray("sitios_interes");
@@ -204,21 +230,30 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
                         //fishData.sitioImage = json_data.getString("sit_img");
 
 
+                            Log.e("ERROR", String.valueOf(sitios.length()));
 
                             for (int j = 0; j < sitios.length(); j++){
 
+                                DataRecorridoSitio sitioData = new DataRecorridoSitio();
                                 JSONObject json_sit = sitios.getJSONObject(j);
-                                Log.e("ERROR", String.valueOf(json_sit));
-                                String s = json_sit.getString("sit_titulo");
-                                Log.e("ERROR", String.valueOf(s));
-                                fishData.arraySitInt.add(s);
+                                Log.e("JSON OBJECT", String.valueOf(json_sit));
+                                sitioData.sitioId = json_sit.getString("sitint_sit_id");
+                                sitioData.sitioName = json_sit.getString("sit_titulo");
+                                Log.e("UN SITIO", sitioData.sitioName);
+                                sitioData.sitioRecoId = json_sit.getString("sitint_iti_id");
+                                sitioData.sitioLat = json_sit.getString("sit_lat");
+                                sitioData.sitioLon = json_sit.getString("sit_lon");
+                                datasitio.add(sitioData);
+                                Log.e("DATA SITIO ITEM", String.valueOf(datasitio));
 
                             }
 
                         }
 
 
-
+                        for (int x = 0; x < datasitio.size(); x++){
+                            Log.e("FOR JSON", datasitio.get(x).getName());
+                        }
 
                         fishData.itiId = json_data.getString("iti_id");
                         fishData.itiName= json_data.getString("iti_nombre");
