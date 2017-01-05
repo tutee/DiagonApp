@@ -41,7 +41,7 @@ import org.json.JSONObject;
 
 import static com.rightdecisions.diagonapp.activities.AppConfig.*;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback,
+/*public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback,
         LocationListener {
 
     private GoogleMap mMap;
@@ -249,4 +249,4 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         return true;
     }
-}
+}*/
