@@ -307,6 +307,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         Globales.Globalapellido = jObjU.getString("apellido");
                         Globales.Globalnombre = jObjU.getString("nombres");
                         Globales.Globalimage = jObjU.getString("imagen");
+                        preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
+                        preferenceEditorUnique = preferenceSettingsUnique.edit();
+                        preferenceEditorUnique.putString("ID", Globales.Globalid);
+                        boolean successfullSaved = preferenceEditorUnique.commit();
+                        if (successfullSaved){
+                            preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
+                            String prueba = preferenceSettingsUnique.getString("ID","");
+                            Log.e("Shared", prueba);
+                        }
+
 
                     } else {
                         String errorMsg = jObj.getString("error_msg");

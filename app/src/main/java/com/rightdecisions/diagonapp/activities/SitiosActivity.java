@@ -138,7 +138,7 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
                 break;
 
             case R.id.menu_navu_5:
-                if (!preferenceSettingsUnique.contains("ID")) {
+                if (preferenceSettingsUnique.contains("ID")&&(Globales.Globalidgoogle!= null)) {
                     signOut();
                 } else {
                     logout();
@@ -166,7 +166,7 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
         Globales.Globalapellido = null;
         Intent intent = new Intent(
                 SitiosActivity.this,
-                MainActivity.class);
+                SplashActivity.class);
         startActivity(intent);
         finish();
     }
@@ -183,10 +183,12 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
                         Globales.Globalimage = null;
                         Globales.Globalnombre = null;
                         Globales.Globalapellido = null;
+                        preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
+                        preferenceSettingsUnique.edit().clear().apply();
 
                         Intent intent = new Intent(
                                 SitiosActivity.this,
-                                MainActivity.class);
+                                SplashActivity.class);
                         startActivity(intent);
                         finish();
 
