@@ -32,6 +32,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 /**
  * Created by Tute on 1/11/2016.
@@ -52,13 +54,29 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private static final String MY_UNIQUE_PREFERENCE_FILE = "MyUniquePreferenceFile";
     private SharedPreferences preferenceSettingsUnique;
     private SharedPreferences.Editor preferenceEditorUnique;
+    boolean prueba;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        /*preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
+        preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
+        prueba = preferenceSettingsUnique.contains("ID");
+
+        if (prueba) {
+
+
+
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    SitiosActivity.class);
+            startActivity(intent);
+            finish();
+
+        } else {
+
+            setContentView(R.layout.activity_main);
+            /*preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
         preferenceEditorUnique = preferenceSettingsUnique.edit();
         String prueba = preferenceSettingsUnique.getString("ID","");
         Log.e("Sharedreg", prueba);
@@ -70,72 +88,76 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             finish();
         }*/
 
-        pDialog = new ProgressDialog(this);
-        pDialog.setCancelable(false);
+            pDialog = new ProgressDialog(this);
+            pDialog.setCancelable(false);
 
-        b1 = (Button) findViewById(R.id.logingoogle_button);
-        Button b2 = (Button) findViewById(R.id.register_button);
-        TextView tv = (TextView) findViewById(R.id.tvlogin);
+            b1 = (Button) findViewById(R.id.logingoogle_button);
+            Button b2 = (Button) findViewById(R.id.register_button);
+            TextView tv = (TextView) findViewById(R.id.tvlogin);
 
-        b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            b1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                signIn();
+                    signIn();
 
-            }
-        });
+                }
+            });
 
-        b2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            b2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-                startActivity(intent);
+                    Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                    startActivity(intent);
 
-            }
-        });
+                }
+            });
 
-        tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
 
-            }
-        });
+                }
+            });
 
 
-        // [START configure_signin]
-        // Configure sign-in to request the user's ID, email address, and basic
-        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        // [END configure_signin]
+            // [START configure_signin]
+            // Configure sign-in to request the user's ID, email address, and basic
+            // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .build();
+            // [END configure_signin]
 
-        // [START build_client]
-        // Build a GoogleApiClient with access to the LoginActivity Sign-In API and the
-        // options specified by gso.
-        Globales.mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-        // [END build_client]
+            // [START build_client]
+            // Build a GoogleApiClient with access to the LoginActivity Sign-In API and the
+            // options specified by gso.
+            Globales.mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                    .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                    .build();
+            // [END build_client]
 
-        // [START customize_button]
-        // Customize sign-in button. The sign-in button can be displayed in
-        // multiple sizes and color schemes. It can also be contextually
-        // rendered based on the requested scopes. For example. a red button may
-        // be displayed when LoginActivity+ scopes are requested, but a white button
-        // may be displayed when only basic profile is requested. Try adding the
-        // Scopes.PLUS_LOGIN scope to the GoogleSignInOptions to see the
-        // difference.
-        //SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
-        //signInButton.setSize(SignInButton.SIZE_STANDARD);
-        //signInButton.setScopes(gso.getScopeArray());
-        // [END customize_button]
+            // [START customize_button]
+            // Customize sign-in button. The sign-in button can be displayed in
+            // multiple sizes and color schemes. It can also be contextually
+            // rendered based on the requested scopes. For example. a red button may
+            // be displayed when LoginActivity+ scopes are requested, but a white button
+            // may be displayed when only basic profile is requested. Try adding the
+            // Scopes.PLUS_LOGIN scope to the GoogleSignInOptions to see the
+            // difference.
+            //SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
+            //signInButton.setSize(SignInButton.SIZE_STANDARD);
+            //signInButton.setScopes(gso.getScopeArray());
+            // [END customize_button]
+        }
+
+
+
     }
 
     @Override
@@ -184,19 +206,24 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getId()));
-            Globales.Globalemail = acct.getEmail();
-            Globales.Globalidgoogle = acct.getId();
-            Globales.Globalimage = acct.getPhotoUrl().toString();
-            Globales.Globalnombre = acct.getGivenName();
-            Globales.Globalapellido = acct.getFamilyName();
 
-            Log.d("DATA", "EMAIL:" + Globales.Globalemail);
-            Log.d("DATA", "ID GOOGLE:" + Globales.Globalidgoogle);
-            Log.d("DATA", "IMAGEN:" + Globales.Globalimage);
-            Log.d("DATA", "NOMBRE:" + Globales.Globalnombre);
-            Log.d("DATA", "APELLIDO:" + Globales.Globalapellido);
+            preferenceEditorUnique = preferenceSettingsUnique.edit();
 
-            registerUserGoogle(Globales.Globalemail,Globales.Globalidgoogle,Globales.Globalimage,Globales.Globalnombre,Globales.Globalapellido);
+            preferenceEditorUnique.putString("email", acct.getEmail());
+            preferenceEditorUnique.putString("IDG", acct.getId());
+            preferenceEditorUnique.putString("apellido", acct.getFamilyName());
+            preferenceEditorUnique.putString("nombre", acct.getGivenName());
+            preferenceEditorUnique.putString("imagen", acct.getPhotoUrl().toString());
+
+            preferenceEditorUnique.apply();
+
+            Log.d("DATA", "EMAIL:" + preferenceSettingsUnique.getString("email",""));
+            Log.d("DATA", "ID GOOGLE:" + preferenceSettingsUnique.getString("IDG",""));
+            Log.d("DATA", "IMAGEN:" + preferenceSettingsUnique.getString("imagen",""));
+            Log.d("DATA", "NOMBRE:" + preferenceSettingsUnique.getString("nombre",""));
+            Log.d("DATA", "APELLIDO:" + preferenceSettingsUnique.getString("apellido",""));
+
+            registerUserGoogle(acct.getEmail(),acct.getId(),acct.getPhotoUrl().toString(),acct.getGivenName(),acct.getFamilyName());
 
             Intent intent = new Intent(
                     MainActivity.this,
@@ -302,14 +329,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                     if (!error) {
                         JSONObject jObjU = jObj.getJSONObject("user");
-                        Globales.Globalemail = jObjU.getString("email");
-                        Globales.Globalid = jObjU.getString("id");
-                        Globales.Globalapellido = jObjU.getString("apellido");
-                        Globales.Globalnombre = jObjU.getString("nombres");
-                        Globales.Globalimage = jObjU.getString("imagen");
+
                         preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
                         preferenceEditorUnique = preferenceSettingsUnique.edit();
-                        preferenceEditorUnique.putString("ID", Globales.Globalid);
+                        preferenceEditorUnique.putString("ID", jObjU.getString("id"));
                         boolean successfullSaved = preferenceEditorUnique.commit();
                         if (successfullSaved){
                             preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);

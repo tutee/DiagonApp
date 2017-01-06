@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.IntentCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -98,14 +99,19 @@ public class LoginActivity extends AppCompatActivity {
                     boolean error = jObj.getBoolean("error");
                     if (!error){
                         JSONObject jObjU = jObj.getJSONObject("user");
-                        Globales.Globalemail = jObjU.getString("email");
+                        /*Globales.Globalemail = jObjU.getString("email");
                         Globales.Globalid = jObjU.getString("id");
                         Globales.Globalapellido = jObjU.getString("apellido");
                         Globales.Globalnombre = jObjU.getString("nombres");
-                        Globales.Globalimage = jObjU.getString("imagen");
+                        Globales.Globalimage = jObjU.getString("imagen");*/
                         preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
                         preferenceEditorUnique = preferenceSettingsUnique.edit();
-                        preferenceEditorUnique.putString("ID", Globales.Globalid);
+                        preferenceEditorUnique.putString("ID", jObjU.getString("id"));
+                        preferenceEditorUnique.putString("email", jObjU.getString("email"));
+                        preferenceEditorUnique.putString("apellido", jObjU.getString("apellido"));
+                        preferenceEditorUnique.putString("nombre", jObjU.getString("nombres"));
+                        preferenceEditorUnique.putString("imagen", jObjU.getString("imagen"));
+
                         boolean successfullSaved = preferenceEditorUnique.commit();
                         if (successfullSaved){
                             preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
@@ -117,9 +123,10 @@ public class LoginActivity extends AppCompatActivity {
                                 LoginActivity.this,
                                 //Sitios.class);
                                 SitiosActivity.class);
-
+                        intent.addFlags(IntentCompat.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK ) ;
                         startActivity(intent);
                         finish();
+
 
                     } else {
                         String errorMsg = jObj.getString("error_msg");

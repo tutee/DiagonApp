@@ -82,21 +82,21 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
 
         //CircleImageView circleImageView = (CircleImageView) findViewById(R.id.profile_image);
 
-
+        preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav);
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
         TextView emailText = (TextView) headerView.findViewById(R.id.email);
-        emailText.setText(Globales.Globalemail);
+        emailText.setText(preferenceSettingsUnique.getString("email",""));
         TextView nombreText = (TextView) headerView.findViewById(R.id.username);
-        nombreText.setText(Globales.Globalapellido+" "+Globales.Globalnombre);
+        nombreText.setText((preferenceSettingsUnique.getString("apellido","")+" "+(preferenceSettingsUnique.getString("nombre",""))));
         CircleImageView circleImageView = (CircleImageView) headerView.findViewById(R.id.profile_image);
-        Glide.with(this).load(Globales.Globalimage).into(circleImageView);
+        Glide.with(this).load(preferenceSettingsUnique.getString("imagen","")).into(circleImageView);
 
 
 
-        preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
+
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -138,7 +138,7 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
                 break;
 
             case R.id.menu_navu_5:
-                if (preferenceSettingsUnique.contains("ID")&&(Globales.Globalidgoogle!= null)) {
+                if (preferenceSettingsUnique.contains("IDG")) {
                     signOut();
                 } else {
                     logout();
@@ -158,15 +158,15 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
     public  void logout(){
         preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
         preferenceSettingsUnique.edit().clear().apply();
-        Globales.Globalemail = null;
+        /*Globales.Globalemail = null;
         Globales.Globalid = null;
         Globales.Globalidgoogle = null;
         Globales.Globalimage = null;
         Globales.Globalnombre = null;
-        Globales.Globalapellido = null;
+        Globales.Globalapellido = null;*/
         Intent intent = new Intent(
                 SitiosActivity.this,
-                SplashActivity.class);
+                MainActivity.class);
         startActivity(intent);
         finish();
     }
@@ -177,18 +177,18 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
                     @Override
                     public void onResult(Status status) {
 
-                        Globales.Globalemail = null;
+                        /*Globales.Globalemail = null;
                         Globales.Globalid = null;
                         Globales.Globalidgoogle = null;
                         Globales.Globalimage = null;
                         Globales.Globalnombre = null;
-                        Globales.Globalapellido = null;
+                        Globales.Globalapellido = null;*/
                         preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
                         preferenceSettingsUnique.edit().clear().apply();
 
                         Intent intent = new Intent(
                                 SitiosActivity.this,
-                                SplashActivity.class);
+                                MainActivity.class);
                         startActivity(intent);
                         finish();
 
