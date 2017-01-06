@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -32,6 +33,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
@@ -66,12 +69,39 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         if (prueba) {
 
 
-
             Intent intent = new Intent(
                     MainActivity.this,
                     SitiosActivity.class);
             startActivity(intent);
             finish();
+
+            /*new Timer().schedule(
+                    new TimerTask() {
+                        @Override
+                        public void run() {
+                        Intent intent = new Intent(
+                                    MainActivity.this,
+                                    SitiosActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    },
+                    5000
+            );*/
+
+
+            /*new Handler().postDelayed(new Runnable(){
+                @Override
+                public void run(){
+                    Intent intent = new Intent(
+                            MainActivity.this,
+                            SitiosActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }, 5);*/
+
+
 
         } else {
 

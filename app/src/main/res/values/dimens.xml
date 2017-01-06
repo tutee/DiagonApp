@@ -13,6 +13,8 @@
 
     <dimen name="margen_superior_lista">8dp</dimen>
     <dimen name="altura_imagen_item">192dp</dimen>
+    <dimen name="flexible_space_image_height">240dp</dimen>
+    <dimen name="margin_standard">16dp</dimen>
 
 
 </resources>
