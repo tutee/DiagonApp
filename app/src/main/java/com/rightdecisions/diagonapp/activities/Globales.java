@@ -17,6 +17,10 @@ public class Globales {
     public static String Globalnombre;
     public static String Globalapellido;
     public static String Globalidgoogle;
+
+    public static String SENombre;
+    public static String SEImagen;
+
     public static String Globalidrecoexp;
     public static List<DataRecorridoSitio> Globalsitiosrecoexp;
     public static String Globalnombrecoexp;

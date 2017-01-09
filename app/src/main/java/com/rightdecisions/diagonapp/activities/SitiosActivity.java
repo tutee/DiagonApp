@@ -117,6 +117,26 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
 
         cargarSitios(id);
 
+        mRVFishPrice.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, mRVFishPrice ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+
+
+                        Globales.SENombre = data.get(position).getName();
+                        Globales.SEImagen = data.get(position).getImage();
+
+                        Intent intent = new Intent(SitiosActivity.this,
+                                AnimateToolbar.class);
+                        startActivity(intent);
+
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+                        // do whatever
+                    }
+                })
+        );
+
 
 
     }
@@ -135,6 +155,9 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
                         MisRecorridosActivity.class);
                 startActivity(intent);
                 finish();
+                break;
+
+            case R.id.menu_navu_3:
                 break;
 
             case R.id.menu_navu_5:
@@ -270,7 +293,7 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
+                        "Error de conexion", Toast.LENGTH_LONG).show();
                 //hideDialog();
             }
         }) {

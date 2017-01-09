@@ -39,6 +39,12 @@
             android:value="AIzaSyArvrQcTNJopS8BbH1fkZ3Vk4ZVdxDN5fs"/>
 
         <activity
+            android:name=".activities.AnimateToolbar"
+            android:label="asd"
+            android:parentActivityName="com.rightdecisions.diagonapp.activities.SitiosActivity"/>
+
+
+        <activity
             android:name=".activities.MainActivity"
             android:label="Registrarse"
             android:theme="@style/AppThemeNoAB">

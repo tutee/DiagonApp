@@ -41,10 +41,11 @@
         android:layout_height="70dp"
         android:src="@mipmap/ic_account"
         app:border_color="#FF000000"
-        android:layout_marginLeft="23dp"
-        android:layout_marginStart="23dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginLeft="21dp"
+        android:layout_marginStart="21dp"
+        android:layout_above="@+id/username"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="15dp" />
 
 </RelativeLayout>

@@ -1,12 +1,16 @@
 package com.rightdecisions.diagonapp.activities;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.v4.media.MediaMetadataCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rightdecisions.diagonapp.R;
@@ -46,6 +50,13 @@ public class AdapterRecorridoExpandido extends RecyclerView.Adapter<RecyclerView
         // Get current position of item in recyclerview to bind data and assign values from list
         final MyHolder myHolder= (MyHolder) holder;
         DataRecorridoSitio current = data.get(position);
+
+        Log.e("ERROR", String.valueOf(data.indexOf(current)));
+        if (data.indexOf(current) == 0){
+            myHolder.textFishName.setText(current.getName());
+            myHolder.ivFish.setBackgroundResource(R.mipmap.ic_places);
+
+        }
         /*for (int j = 0; j < current.arraySitInt.size(); j++){
             String obj = String.valueOf(current.arraySitInt);
             myHolder.textFishName.setText(obj);
@@ -117,6 +128,7 @@ public class AdapterRecorridoExpandido extends RecyclerView.Adapter<RecyclerView
 
         TextView textFishName;
         ImageView ivFish;
+
         TextView textSize;
         TextView textType;
         TextView textPrice;
@@ -125,7 +137,8 @@ public class AdapterRecorridoExpandido extends RecyclerView.Adapter<RecyclerView
         public MyHolder(View itemView) {
             super(itemView);
             textFishName= (TextView) itemView.findViewById(R.id.nombre);
-            ivFish= (ImageView) itemView.findViewById(R.id.foto);
+
+            ivFish= (ImageView) itemView.findViewById(R.id.img);
             //textSize = (TextView) itemView.findViewById(R.id.descripcion);
             //textType = (TextView) itemView.findViewById(R.id.textType);
             //textPrice = (TextView) itemView.findViewById(R.id.button);

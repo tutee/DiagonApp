@@ -12,4 +12,6 @@ public class DataSitio {
     public String getName() {
         return sitioName;
     }
+
+    public String getImage() {return sitioImage;}
 }
