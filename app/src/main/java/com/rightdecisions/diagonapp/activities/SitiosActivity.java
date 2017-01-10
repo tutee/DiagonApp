@@ -124,6 +124,7 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
 
                         Globales.SENombre = data.get(position).getName();
                         Globales.SEImagen = data.get(position).getImage();
+                        Log.e("IMAGEN", Globales.SEImagen);
 
                         Intent intent = new Intent(SitiosActivity.this,
                                 AnimateToolbar.class);

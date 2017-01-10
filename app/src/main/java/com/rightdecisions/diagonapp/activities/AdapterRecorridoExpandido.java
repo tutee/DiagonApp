@@ -51,21 +51,23 @@ public class AdapterRecorridoExpandido extends RecyclerView.Adapter<RecyclerView
         final MyHolder myHolder= (MyHolder) holder;
         DataRecorridoSitio current = data.get(position);
 
-        Log.e("ERROR", String.valueOf(data.indexOf(current)));
-        if (data.indexOf(current) == 0){
-            myHolder.textFishName.setText(current.getName());
-            myHolder.ivFish.setBackgroundResource(R.mipmap.ic_places);
 
+
+        Log.e("ERROR", String.valueOf(data.indexOf(current)));
+        myHolder.textFishName.setText(current.getName());
+        if (current.getCC().equals("cabeza")){
+            myHolder.ivFish.setBackgroundResource(R.mipmap.ic_places_green);
+        } else if (current.getCC().equals("cola")){
+            myHolder.ivFish.setBackgroundResource(R.mipmap.ic_places_red);
         }
+        else {Log.e("ERROR", current.getName());
+            myHolder.ivFish.setBackgroundResource(R.mipmap.ic_places);}
         /*for (int j = 0; j < current.arraySitInt.size(); j++){
             String obj = String.valueOf(current.arraySitInt);
             myHolder.textFishName.setText(obj);
         }*/
 
-        Log.e("ERROR", current.getName());
 
-
-        myHolder.textFishName.setText(current.getName());
 
 
         //myHolder.textSize.setText("Size: " + current.sizeName);

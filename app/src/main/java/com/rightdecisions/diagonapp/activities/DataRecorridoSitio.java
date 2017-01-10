@@ -7,10 +7,18 @@ public class DataRecorridoSitio {
     public String sitioName;
     public String sitioLat;
     public String sitioLon;
-    public int price;
+    public String sitioCC;
+    public int sitioPos;
+
 
 
     public String getName() {
         return sitioName;
+    }
+
+    public int getPos() {return sitioPos;}
+
+    public String getCC(){
+        return sitioCC;
     }
 }

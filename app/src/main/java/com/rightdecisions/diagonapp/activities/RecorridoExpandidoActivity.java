@@ -1,5 +1,6 @@
 package com.rightdecisions.diagonapp.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.rightdecisions.diagonapp.R;
+import com.rightdecisions.diagonapp.dialogs.SimpleDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,7 +44,7 @@ import java.util.Map;
  * Created by Tute on 02/01/2017.
  */
 
-public class RecorridoExpandidoActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class RecorridoExpandidoActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, SimpleDialog.OnSimpleDialogListener {
 
     ActionBarDrawerToggle toggle;
     private SharedPreferences preferenceSettingsUnique;
@@ -51,6 +53,8 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Goo
     List<DataRecorridoSitio> data = new ArrayList<>();
     private RecyclerView mRVFishPrice;
     private AdapterRecorridoExpandido mAdapter;
+    private SimpleDialog pDialog;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,6 +82,37 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Goo
         cargarAdapter();
 
 
+
+        mRVFishPrice.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, mRVFishPrice ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+
+
+                        /*Globales.SENombre = data.get(position).getName();
+                        Globales.SEImagen = data.get(position).getImage();
+                        Log.e("IMAGEN", Globales.SEImagen);
+
+                        Intent intent = new Intent(SitiosActivity.this,
+                                AnimateToolbar.class);
+                        startActivity(intent);*/
+
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+
+
+                        new SimpleDialog().show(getSupportFragmentManager(), "SimpleDialog");
+
+
+
+
+                    }
+                })
+        );
+
+
+
+
     }
 
 
@@ -95,4 +130,17 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Goo
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
+    @Override
+    public void onPossitiveButtonClick(String c) {
+
+        Log.e("TIPO", String.valueOf(c));
+
+    }
+
+    @Override
+    public void onNegativeButtonClick() {
+        // Acciones
+    }
+
 }

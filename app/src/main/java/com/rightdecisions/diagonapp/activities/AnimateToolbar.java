@@ -50,21 +50,26 @@ public class AnimateToolbar extends AppCompatActivity {
 
         Glide.with(this).load(Globales.SEImagen).into(header);
 
+        //URL url = new URL(String.valueOf(Globales.SEImagen));
         //Bitmap bitmap = getBitmapFromURL(Globales.SEImagen);
         //header.setImageBitmap(bitmap);
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
                 R.drawable.header);
 
-        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+        collapsingToolbar.setStatusBarScrimColor(getResources().getColor(R.color.blue_grey_500));
+
+        //Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+
+        /*Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
             @SuppressWarnings("ResourceType")
             @Override
             public void onGenerated(Palette palette) {
 
-                mutedColor = palette.getMutedColor(R.color.colorAccent);
+                mutedColor = palette.getDarkMutedColor(R.color.white);
                 collapsingToolbar.setContentScrimColor(mutedColor);
                 collapsingToolbar.setStatusBarScrimColor(R.color.blue_grey_500);
             }
-        });
+        });*/
 
         recyclerView = (RecyclerView) findViewById(R.id.scrollableview);
 
