@@ -75,11 +75,6 @@
             android:label="Mis recorridos"
             android:theme="@style/AppTheme">
         </activity>
-        <activity
-            android:name=".activities.MapsActivity"
-            android:label="Maps"
-            android:theme="@style/AppTheme">
-        </activity>
 
         <activity
             android:name=".activities.RecorridoExpandidoActivity"

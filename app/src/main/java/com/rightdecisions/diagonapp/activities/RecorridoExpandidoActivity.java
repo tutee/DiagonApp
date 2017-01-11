@@ -36,6 +36,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +56,8 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Goo
     private RecyclerView mRVFishPrice;
     private AdapterRecorridoExpandido mAdapter;
     private SimpleDialog pDialog;
+    int posicion;
+    String estado;
 
 
     @Override
@@ -100,9 +104,8 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Goo
 
                     @Override public void onLongItemClick(View view, int position) {
 
-
+                        posicion = position;
                         new SimpleDialog().show(getSupportFragmentManager(), "SimpleDialog");
-
 
 
 
@@ -135,11 +138,59 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Goo
     public void onPossitiveButtonClick(String c) {
 
         Log.e("TIPO", String.valueOf(c));
+        estado = c;
+
+
+        for (int i = 0; i < Globales.Globalsitiosrecoexp.size(); i++) {
+
+            switch (Globales.Globalsitiosrecoexp.get(posicion).getCC()) {
+                case "cuerpo":
+
+                    if (estado.equals(Globales.Globalsitiosrecoexp.get(i).getCC())) {
+                        Globales.Globalsitiosrecoexp.get(i).sitioCC = "cuerpo";
+                        Globales.Globalsitiosrecoexp.get(i).sitioPos = Globales.Globalsitiosrecoexp.get(posicion).getPos();
+                    }
+                    break;
+                case "cabeza":
+
+                    if (estado.equals(Globales.Globalsitiosrecoexp.get(i).getCC())) {
+                        Globales.Globalsitiosrecoexp.get(i).sitioCC = "cabeza";
+                        Globales.Globalsitiosrecoexp.get(i).sitioPos = Globales.Globalsitiosrecoexp.get(posicion).getPos();
+                    }
+                    break;
+                case "cola":
+
+                    if (estado.equals(Globales.Globalsitiosrecoexp.get(i).getCC())) {
+                        Globales.Globalsitiosrecoexp.get(i).sitioCC = "cola";
+                        Globales.Globalsitiosrecoexp.get(i).sitioPos = Globales.Globalsitiosrecoexp.get(posicion).getPos();
+                    }
+                    break;
+                default:
+            }
+        }
+
+        Globales.Globalsitiosrecoexp.get(posicion).sitioCC = estado;
+        if (estado.equals("cabeza")){
+            Globales.Globalsitiosrecoexp.get(posicion).sitioPos = 0;
+        } else {
+            Globales.Globalsitiosrecoexp.get(posicion).sitioPos = Globales.Globalsitiosrecoexp.size()-1;
+        }
+
+        Collections.sort(Globales.Globalsitiosrecoexp, new Comparator<DataRecorridoSitio>() {
+            @Override
+            public int compare(DataRecorridoSitio s1, DataRecorridoSitio s2) {
+                return ((Integer)s1.getPos()).compareTo(s2.getPos());
+            }
+        });
+
+
+        cargarAdapter();
 
     }
 
     @Override
     public void onNegativeButtonClick() {
+
         // Acciones
     }
 

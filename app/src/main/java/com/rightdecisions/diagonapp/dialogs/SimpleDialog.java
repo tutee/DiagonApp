@@ -17,6 +17,7 @@ import android.widget.Toast;
 public class SimpleDialog extends DialogFragment {
 
     OnSimpleDialogListener listener;
+    String estado = "cabeza";
 
 
     @Override
@@ -45,12 +46,15 @@ public class SimpleDialog extends DialogFragment {
     public AlertDialog createSimpleDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        final String[] items = new String[2];
 
+
+        final CharSequence[] items = new CharSequence[2];
 
 
         items[0] = "Origen";
         items[1] = "Destino";
+
+
 
 
         builder.setTitle("Definir como:")
@@ -59,6 +63,12 @@ public class SimpleDialog extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
+                        if (items[which].equals("Origen") || items[which].equals("null")){
+                            estado = "cabeza";
+                        }
+                        else {
+                            estado = "cola";
+                        }
                     }
                 })
 
@@ -67,14 +77,7 @@ public class SimpleDialog extends DialogFragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-                                int whichposta = which + 1;
-
-                                Log.e("WHICH", String.valueOf(whichposta));
-
-                                if (items[whichposta].equals("Origen")) {
-                                    listener.onPossitiveButtonClick(items[whichposta]);
-                                } else {listener.onPossitiveButtonClick(items[whichposta]);}
-
+                                listener.onPossitiveButtonClick(estado);
                                 dismiss();
 
                             }
