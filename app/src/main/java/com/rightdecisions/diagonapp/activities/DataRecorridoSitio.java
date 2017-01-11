@@ -1,5 +1,7 @@
 package com.rightdecisions.diagonapp.activities;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class DataRecorridoSitio {
 
     public String sitioRecoId;
@@ -20,5 +22,13 @@ public class DataRecorridoSitio {
 
     public String getCC(){
         return sitioCC;
+    }
+
+    public String getLat() {
+        return sitioLat;
+    }
+
+    public String getLon() {
+        return sitioLon;
     }
 }

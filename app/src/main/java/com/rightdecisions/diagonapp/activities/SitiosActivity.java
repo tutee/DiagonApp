@@ -159,6 +159,11 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
                 break;
 
             case R.id.menu_navu_3:
+                intent = new Intent(
+                        SitiosActivity.this,
+                        MapsRecoActivity.class);
+                startActivity(intent);
+                finish();
                 break;
 
             case R.id.menu_navu_5:

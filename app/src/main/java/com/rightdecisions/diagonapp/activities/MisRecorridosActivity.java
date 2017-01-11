@@ -28,6 +28,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.rightdecisions.diagonapp.R;
+import com.rightdecisions.diagonapp.dialogs.NoSitiosDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,7 +43,7 @@ import java.util.Map;
  * Created by Tute on 02/01/2017.
  */
 
-public class MisRecorridosActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
+public class MisRecorridosActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,NoSitiosDialog.OnSimpleDialogListener, GoogleApiClient.OnConnectionFailedListener {
 
     ActionBarDrawerToggle toggle;
     private SharedPreferences preferenceSettingsUnique;
@@ -52,6 +53,7 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
     List<DataRecorridoSitio> datasitio = new ArrayList<>();
     private RecyclerView mRVFishPrice;
     private AdapterRecorrido mAdapter;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -115,9 +117,19 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
                             }
                         }
 
-                        Intent intent = new Intent(MisRecorridosActivity.this,
-                                RecorridoExpandidoActivity.class);
-                        startActivity(intent);
+
+
+                        if (Globales.Globalsitiosrecoexp.size() != 0){
+
+                            Intent intent = new Intent(MisRecorridosActivity.this,
+                                    RecorridoExpandidoActivity.class);
+                            startActivity(intent);
+
+                        } else {
+                            new NoSitiosDialog().show(getSupportFragmentManager(), "SimpleDialog");
+                        }
+
+
 
                     }
 
@@ -353,4 +365,10 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
+    @Override
+    public void onPossitiveButtonClick() {
+
+    }
+
 }

@@ -3,10 +3,12 @@ package com.rightdecisions.diagonapp.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,6 +18,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -28,8 +31,19 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.rightdecisions.diagonapp.DirectionCallback;
+import com.rightdecisions.diagonapp.GoogleDirection;
 import com.rightdecisions.diagonapp.R;
 import com.rightdecisions.diagonapp.dialogs.SimpleDialog;
+import com.rightdecisions.diagonapp.model.Direction;
+import com.rightdecisions.diagonapp.util.DirectionConverter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,7 +60,7 @@ import java.util.Map;
  * Created by Tute on 02/01/2017.
  */
 
-public class RecorridoExpandidoActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, SimpleDialog.OnSimpleDialogListener {
+public class RecorridoExpandidoActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, SimpleDialog.OnSimpleDialogListener, View.OnClickListener, OnMapReadyCallback, DirectionCallback {
 
     ActionBarDrawerToggle toggle;
     private SharedPreferences preferenceSettingsUnique;
@@ -58,6 +72,19 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Goo
     private SimpleDialog pDialog;
     int posicion;
     String estado;
+
+
+
+    private Button btnRequestDirection;
+    private GoogleMap googleMap;
+    private String serverKey = "AIzaSyBdDzM01Fqp8UYpHSlpYAkpfN0-tuNfScw";
+    private LatLng camera = new LatLng(-34.930723,-57.940932);
+    private LatLng origin;
+    private LatLng destination;
+    List<LatLng> asd = new ArrayList<>();
+
+
+
 
 
     @Override
@@ -113,6 +140,13 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Goo
                 })
         );
 
+        cargarPuntos(asd);
+
+        /*btnRequestDirection = (Button) findViewById(R.id.btn_request_direction);
+        btnRequestDirection.setOnClickListener(this);*/
+
+        ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMapAsync(this);
+        requestDirection();
 
 
 
@@ -125,6 +159,30 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Goo
         mAdapter = new AdapterRecorridoExpandido(RecorridoExpandidoActivity.this, Globales.Globalsitiosrecoexp);
         mRVFishPrice.setAdapter(mAdapter);
         mRVFishPrice.setLayoutManager(new LinearLayoutManager(RecorridoExpandidoActivity.this));
+    }
+
+
+
+
+    public void cargarPuntos(List<LatLng> l) {
+
+        for (int i = 0; i < Globales.Globalsitiosrecoexp.size(); i++) {
+            if (Globales.Globalsitiosrecoexp.get(i).getCC().equals("cuerpo")) {
+                double lat = Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLat());
+                double lon = Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLon());
+                LatLng u = new LatLng(lat, lon);
+                l.add(u);
+            } else if (Globales.Globalsitiosrecoexp.get(i).getCC().equals("cabeza")) {
+                double lat = Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLat());
+                double lon = Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLon());
+                origin = new LatLng(lat,lon);
+            } else  {
+                double lat = Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLat());
+                double lon = Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLon());
+                destination = new LatLng(lat,lon);
+            }
+        }
+
     }
 
 
@@ -194,4 +252,65 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Goo
         // Acciones
     }
 
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        this.googleMap = googleMap;
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(camera, 13));
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        if (id == R.id.btn_request_direction) {
+            requestDirection();
+        }
+    }
+
+    public void requestDirection() {
+        //Snackbar.make(btnRequestDirection, "Direction Requesting...", Snackbar.LENGTH_SHORT).show();
+        GoogleDirection.withServerKey(serverKey)
+                .from(origin)
+                .to(destination)
+                .waypoints(asd)
+                .transportMode(TransportMode.WALKING)
+                .optimizeWaypoints(true)
+                .execute(this);
+    }
+
+    @Override
+    public void onDirectionSuccess(Direction direction, String rawBody) {
+        //Snackbar.make(btnRequestDirection, "Success with status : " + direction.getStatus(), Snackbar.LENGTH_SHORT).show();
+        if (direction.isOK()) {
+            googleMap.addMarker(new MarkerOptions().position(origin)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+
+            for (int i = 0; i < asd.size(); i++) {
+                googleMap.addMarker(new MarkerOptions().position(asd.get(i))
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+            }
+
+            googleMap.addMarker(new MarkerOptions().position(destination)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+
+            ArrayList<LatLng> directionPositionList = null;
+
+            for (int i = 0; i < direction.getRouteList().size(); i++) {
+                for (int j = 0; j < direction.getRouteList().get(i).getLegList().size(); j++) {
+                    directionPositionList = direction.getRouteList().get(i).getLegList().get(j).getDirectionPoint();
+                    googleMap.addPolyline(DirectionConverter.createPolyline(this, directionPositionList, 5, Color.RED));
+                }
+
+                //ArrayList<LatLng> directionPositionList = direction.getRouteList().get(0).getLegList().get(0).getDirectionPoint();
+                //googleMap.addPolyline(DirectionConverter.createPolyline(this, directionPositionList, 5, Color.RED));
+            }
+
+           // btnRequestDirection.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onDirectionFailure(Throwable t) {
+        Snackbar.make(btnRequestDirection, t.getMessage(), Snackbar.LENGTH_SHORT).show();
+    }
 }

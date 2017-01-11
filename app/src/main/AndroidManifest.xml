@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
 
 
@@ -36,7 +37,11 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyArvrQcTNJopS8BbH1fkZ3Vk4ZVdxDN5fs"/>
+            android:value="AIzaSyBdDzM01Fqp8UYpHSlpYAkpfN0-tuNfScw"/>
+
+        <meta-data
+        android:name="com.google.android.gms.version"
+        android:value="@integer/google_play_services_version" />
 
         <activity
             android:name=".activities.AnimateToolbar"
@@ -70,6 +75,12 @@
                 android:value="GlideModule"/>
 
         </activity>
+        <activity
+            android:name=".activities.MapsRecoActivity"
+            android:label="Mis recorridos"
+            android:theme="@style/AppTheme">
+        </activity>
+
         <activity
             android:name=".activities.MisRecorridosActivity"
             android:label="Mis recorridos"
