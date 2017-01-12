@@ -1,36 +1,25 @@
 package com.rightdecisions.diagonapp.activities;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.NavigationView;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -45,22 +34,16 @@ import com.rightdecisions.diagonapp.dialogs.SimpleDialog;
 import com.rightdecisions.diagonapp.model.Direction;
 import com.rightdecisions.diagonapp.util.DirectionConverter;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Tute on 02/01/2017.
  */
 
-public class RecorridoExpandidoActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, SimpleDialog.OnSimpleDialogListener, View.OnClickListener, OnMapReadyCallback, DirectionCallback {
+public class RecorridoExpandidoActivityAnimate extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, SimpleDialog.OnSimpleDialogListener, View.OnClickListener, OnMapReadyCallback, DirectionCallback {
 
     ActionBarDrawerToggle toggle;
     private SharedPreferences preferenceSettingsUnique;
@@ -83,16 +66,24 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Goo
     private LatLng destination;
     List<LatLng> asd = new ArrayList<>();
 
-
+    CollapsingToolbarLayout collapsingToolbar;
 
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recorridoexpand);
+        setContentView(R.layout.activity_map_toolbar);
 
-        Globales.Globalsitioplaceid = new ArrayList<>();
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.anim_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbar.setTitle(Globales.SENombre);
+
+        collapsingToolbar.setStatusBarScrimColor(getResources().getColor(R.color.blue_grey_500));
+
 
         preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
 
@@ -109,10 +100,10 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Goo
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        mRVFishPrice = (RecyclerView)findViewById(R.id.fishPriceList);
+        mRVFishPrice = (RecyclerView)findViewById(R.id.scrollableview);
 
+        cargarAdapter();
 
-        //cargarAdapter();
 
 
         mRVFishPrice.addOnItemTouchListener(
@@ -150,26 +141,22 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Goo
         requestDirection();
 
 
-        cargarAdapter();
-
-
 
     }
 
 
     public void cargarAdapter () {
 
-        mRVFishPrice = (RecyclerView) findViewById(R.id.fishPriceList);
-        mAdapter = new AdapterRecorridoExpandido(RecorridoExpandidoActivity.this, Globales.Globalsitiosrecoexp);
+        mRVFishPrice = (RecyclerView) findViewById(R.id.scrollableview);
+        mAdapter = new AdapterRecorridoExpandido(RecorridoExpandidoActivityAnimate.this, Globales.Globalsitiosrecoexp);
         mRVFishPrice.setAdapter(mAdapter);
-        mRVFishPrice.setLayoutManager(new LinearLayoutManager(RecorridoExpandidoActivity.this));
+        mRVFishPrice.setLayoutManager(new LinearLayoutManager(RecorridoExpandidoActivityAnimate.this));
     }
 
 
 
 
     public void cargarPuntos(List<LatLng> l) {
-
 
         for (int i = 0; i < Globales.Globalsitiosrecoexp.size(); i++) {
             if (Globales.Globalsitiosrecoexp.get(i).getCC().equals("cuerpo")) {
@@ -188,34 +175,6 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Goo
             }
         }
 
-    }
-
-    public void ordenarWaypoints(){
-
-        for (int i = 0; i < Globales.Globalsitiosrecoexp.size(); i++) {
-
-            if (Globales.Globalsitiosrecoexp.get(i).getCC().equals("cuerpo")) {
-
-                for (int j = 0; j < Globales.Globalsitioplaceid.size(); j++) {
-
-                   if ((Globales.Globalsitioplaceid.get(j)).equals(Globales.Globalsitiosrecoexp.get(i).getSPID()))
-                    {
-                        Globales.Globalsitiosrecoexp.get(i).sitioPos = j + 1;
-                    }
-                }
-            }
-
-            Log.e("ORDEN: ", String.valueOf(Globales.Globalsitiosrecoexp));
-        }
-
-        Collections.sort(Globales.Globalsitiosrecoexp, new Comparator<DataRecorridoSitio>() {
-            @Override
-            public int compare(DataRecorridoSitio s1, DataRecorridoSitio s2) {
-                return ((Integer)s1.getPos()).compareTo(s2.getPos());
-            }
-        });
-
-        Log.e("ORDEN SIIIII: ", String.valueOf(Globales.Globalsitiosrecoexp));
     }
 
 
@@ -276,11 +235,6 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Goo
 
 
         cargarAdapter();
-        asd = new ArrayList<>();
-        Globales.Globalsitioplaceid = new ArrayList<>();
-        googleMap.clear();
-        cargarPuntos(asd);
-        requestDirection();
 
     }
 
@@ -311,7 +265,7 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Goo
                 .from(origin)
                 .to(destination)
                 .waypoints(asd)
-                .transportMode(TransportMode.DRIVING)
+                .transportMode(TransportMode.WALKING)
                 .optimizeWaypoints(true)
                 .execute(this);
     }
@@ -333,33 +287,18 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Goo
 
             ArrayList<LatLng> directionPositionList = null;
 
-
             for (int i = 0; i < direction.getRouteList().size(); i++) {
                 for (int j = 0; j < direction.getRouteList().get(i).getLegList().size(); j++) {
-
                     directionPositionList = direction.getRouteList().get(i).getLegList().get(j).getDirectionPoint();
                     googleMap.addPolyline(DirectionConverter.createPolyline(this, directionPositionList, 5, Color.RED));
-                    if (j != 0) {
-                        Globales.Globalsitioplaceid.add(String.valueOf(direction.getGeocodedWaypointList().get(j).getPlaceId()));
-                    }
-                    Log.e("WAYPOINTS GEOCODE!", String.valueOf(direction.getGeocodedWaypointList().get(j).getPlaceId()));
                 }
-                Log.e("WAYPOINTS!", String.valueOf(direction.getGeocodedWaypointList().get(direction.getRouteList().size()).getPlaceId()));
-
-                Log.e("LISTA!", String.valueOf(Globales.Globalsitioplaceid));
 
                 //ArrayList<LatLng> directionPositionList = direction.getRouteList().get(0).getLegList().get(0).getDirectionPoint();
                 //googleMap.addPolyline(DirectionConverter.createPolyline(this, directionPositionList, 5, Color.RED));
             }
 
-
-            //Log.e("WAYPOINTS!", String.valueOf(googleMap.);
-
-            ordenarWaypoints();
-
            // btnRequestDirection.setVisibility(View.GONE);
         }
-
     }
 
     @Override

@@ -11,6 +11,7 @@ public class DataRecorridoSitio {
     public String sitioLon;
     public String sitioCC;
     public int sitioPos;
+    public String sitioPID;
 
 
 
@@ -31,4 +32,9 @@ public class DataRecorridoSitio {
     public String getLon() {
         return sitioLon;
     }
+
+    public String getSPID() {
+        return sitioPID;
+    }
 }
+

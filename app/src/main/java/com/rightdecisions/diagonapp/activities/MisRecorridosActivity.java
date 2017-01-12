@@ -256,11 +256,13 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
                                 sitioData.sitioLat = json_sit.getString("sit_lat");
                                 sitioData.sitioLon = json_sit.getString("sit_lon");
                                 sitioData.sitioPos = j;
+                                sitioData.sitioPID = json_sit.getString("sit_place_id");
                                 if (j == 0) {
                                     sitioData.sitioCC = "cabeza";
                                 } else if (j == sitios.length()-1){
                                     sitioData.sitioCC = "cola";
                                 } else {sitioData.sitioCC = "cuerpo";}
+
 
                                 datasitio.add(sitioData);
                                 Log.e("DATA SITIO POSICION", String.valueOf(datasitio.get(j).getCC()));

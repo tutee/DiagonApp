@@ -25,6 +25,7 @@ public class Globales {
 
     public static String Globalidrecoexp;
     public static List<DataRecorridoSitio> Globalsitiosrecoexp;
+    public static List<String> Globalsitioplaceid;
     public static String Globalnombrecoexp;
 
 
