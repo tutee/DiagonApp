@@ -150,7 +150,7 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Goo
         requestDirection();
 
 
-        cargarAdapter();
+
 
 
 
@@ -356,6 +356,8 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Goo
             //Log.e("WAYPOINTS!", String.valueOf(googleMap.);
 
             ordenarWaypoints();
+
+            cargarAdapter();
 
            // btnRequestDirection.setVisibility(View.GONE);
         }

@@ -92,6 +92,8 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
         TextView nombreText = (TextView) headerView.findViewById(R.id.username);
         nombreText.setText((preferenceSettingsUnique.getString("apellido","")+" "+(preferenceSettingsUnique.getString("nombre",""))));
         CircleImageView circleImageView = (CircleImageView) headerView.findViewById(R.id.profile_image);
+
+
         Glide.with(this).load(preferenceSettingsUnique.getString("imagen","")).into(circleImageView);
 
 

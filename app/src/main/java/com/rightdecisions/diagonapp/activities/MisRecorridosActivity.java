@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,6 +16,9 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -28,6 +32,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.rightdecisions.diagonapp.R;
+import com.rightdecisions.diagonapp.dialogs.AgRecoDialog;
 import com.rightdecisions.diagonapp.dialogs.NoSitiosDialog;
 
 import org.json.JSONArray;
@@ -43,7 +48,7 @@ import java.util.Map;
  * Created by Tute on 02/01/2017.
  */
 
-public class MisRecorridosActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,NoSitiosDialog.OnSimpleDialogListener, GoogleApiClient.OnConnectionFailedListener {
+public class MisRecorridosActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,AgRecoDialog.OnSimpleDialogListener ,NoSitiosDialog.OnSimpleDialogListener, GoogleApiClient.OnConnectionFailedListener {
 
     ActionBarDrawerToggle toggle;
     private SharedPreferences preferenceSettingsUnique;
@@ -53,6 +58,10 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
     List<DataRecorridoSitio> datasitio = new ArrayList<>();
     private RecyclerView mRVFishPrice;
     private AdapterRecorrido mAdapter;
+    private ImageView imagen;
+    private TextView texto;
+    private FloatingActionButton addReco;
+    private LinearLayout l1;
 
 
     @Override
@@ -60,6 +69,15 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recorridos);
 
+        imagen = (ImageView) findViewById(R.id.imagen1);
+        texto = (TextView) findViewById(R.id.txt);
+        addReco = (FloatingActionButton)findViewById(R.id.agrecoButton);
+        l1 = (LinearLayout)findViewById(R.id.linear);
+
+        l1.setVisibility(View.GONE);
+        /*imagen.setVisibility(View.GONE);
+        texto.setVisibility(View.GONE);
+        addReco.setVisibility(View.GONE);*/
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -213,24 +231,28 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
                 //hideDialog();
                 //Log.e("ERROR envPass", response);
                 try {
+
                     Log.e("ERROR", response);
 
                     JSONObject obj = new JSONObject(response);
 
-                    JSONArray arrayP = obj.getJSONArray("itinerarios");
+
+                    if (!obj.getBoolean("error")) {
+
+                        JSONArray arrayP = obj.getJSONArray("itinerarios");
 
 
-                    // Extract data from json and store into ArrayList as class objects
-                    for (int i = 0; i < arrayP.length(); i++) {
-                        JSONObject json_data = arrayP.getJSONObject(i);
-                        DataRecorrido fishData = new DataRecorrido();
+                        // Extract data from json and store into ArrayList as class objects
+                        for (int i = 0; i < arrayP.length(); i++) {
+                            JSONObject json_data = arrayP.getJSONObject(i);
+                            DataRecorrido fishData = new DataRecorrido();
 
 
-                        fishData.arraySitInt = new ArrayList<String>();
+                            fishData.arraySitInt = new ArrayList<String>();
 
-                        JSONArray sitios = json_data.optJSONArray("sitios_interes");
-                        Log.e("ERROR", String.valueOf(sitios));
-                        if (sitios != null){
+                            JSONArray sitios = json_data.optJSONArray("sitios_interes");
+                            Log.e("ERROR", String.valueOf(sitios));
+                            if (sitios != null) {
 
 
                         /*img = json_data.getString("sit_img");
@@ -239,60 +261,72 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
                         Bitmap myBitmapAgain = decodeBase64(img);
                         Log.e("ERROR", String.valueOf(myBitmapAgain));*/
 
-                        //fishData.sitioImage = json_data.getString("sit_img");
+                                //fishData.sitioImage = json_data.getString("sit_img");
 
 
-                            Log.e("ERROR", String.valueOf(sitios.length()));
+                                Log.e("ERROR", String.valueOf(sitios.length()));
 
-                            for (int j = 0; j < sitios.length(); j++){
+                                for (int j = 0; j < sitios.length(); j++) {
 
-                                DataRecorridoSitio sitioData = new DataRecorridoSitio();
-                                JSONObject json_sit = sitios.getJSONObject(j);
-                                Log.e("JSON OBJECT", String.valueOf(json_sit));
-                                sitioData.sitioId = json_sit.getString("sitint_sit_id");
-                                sitioData.sitioName = json_sit.getString("sit_titulo");
-                                Log.e("UN SITIO", sitioData.sitioName);
-                                sitioData.sitioRecoId = json_sit.getString("sitint_iti_id");
-                                sitioData.sitioLat = json_sit.getString("sit_lat");
-                                sitioData.sitioLon = json_sit.getString("sit_lon");
-                                sitioData.sitioPos = j;
-                                sitioData.sitioPID = json_sit.getString("sit_place_id");
-                                if (j == 0) {
-                                    sitioData.sitioCC = "cabeza";
-                                } else if (j == sitios.length()-1){
-                                    sitioData.sitioCC = "cola";
-                                } else {sitioData.sitioCC = "cuerpo";}
+                                    DataRecorridoSitio sitioData = new DataRecorridoSitio();
+                                    JSONObject json_sit = sitios.getJSONObject(j);
+                                    Log.e("JSON OBJECT", String.valueOf(json_sit));
+                                    sitioData.sitioId = json_sit.getString("sitint_sit_id");
+                                    sitioData.sitioName = json_sit.getString("sit_titulo");
+                                    Log.e("UN SITIO", sitioData.sitioName);
+                                    sitioData.sitioRecoId = json_sit.getString("sitint_iti_id");
+                                    sitioData.sitioLat = json_sit.getString("sit_lat");
+                                    sitioData.sitioLon = json_sit.getString("sit_lon");
+                                    sitioData.sitioPos = j;
+                                    sitioData.sitioPID = json_sit.getString("sit_place_id");
+                                    if (j == 0) {
+                                        sitioData.sitioCC = "cabeza";
+                                    } else if (j == sitios.length() - 1) {
+                                        sitioData.sitioCC = "cola";
+                                    } else {
+                                        sitioData.sitioCC = "cuerpo";
+                                    }
 
 
-                                datasitio.add(sitioData);
-                                Log.e("DATA SITIO POSICION", String.valueOf(datasitio.get(j).getCC()));
+                                    datasitio.add(sitioData);
+                                    Log.e("DATA SITIO POSICION", String.valueOf(datasitio.get(j).getCC()));
 
+
+                                }
 
                             }
 
+
+                            for (int x = 0; x < datasitio.size(); x++) {
+                                Log.e("FOR JSON", datasitio.get(x).getName());
+                            }
+
+                            fishData.itiId = json_data.getString("iti_id");
+                            fishData.itiName = json_data.getString("iti_nombre");
+
+
+                            //fishData.catName = json_data.getString("sit_lat");
+                            //fishData.sizeName = json_data.getString("sit_lon");
+                            //fishData.price = json_data.getInt("sit_direccion");
+                            data.add(fishData);
                         }
 
 
-                        for (int x = 0; x < datasitio.size(); x++){
-                            Log.e("FOR JSON", datasitio.get(x).getName());
-                        }
+                        // Setup and Handover data to recyclerview
+                        mRVFishPrice = (RecyclerView) findViewById(R.id.fishPriceList);
+                        mAdapter = new AdapterRecorrido(MisRecorridosActivity.this, data);
+                        mRVFishPrice.setAdapter(mAdapter);
+                        mRVFishPrice.setLayoutManager(new LinearLayoutManager(MisRecorridosActivity.this));
+                    } else {
+                        Log.e("asdasdasdasd","asdasdasdasdas");
 
-                        fishData.itiId = json_data.getString("iti_id");
-                        fishData.itiName= json_data.getString("iti_nombre");
-
-
-                        //fishData.catName = json_data.getString("sit_lat");
-                        //fishData.sizeName = json_data.getString("sit_lon");
-                        //fishData.price = json_data.getInt("sit_direccion");
-                        data.add(fishData);
+                        l1.setVisibility(View.VISIBLE);
+                        mRVFishPrice.setVisibility(View.GONE);
+                        /*imagen.setVisibility(View.VISIBLE);
+                        texto.setVisibility(View.VISIBLE);
+                        addReco.setVisibility(View.VISIBLE);*/
+                        //new AgRecoDialog().show(getSupportFragmentManager(), "SimpleDialog");
                     }
-
-                    // Setup and Handover data to recyclerview
-                    mRVFishPrice = (RecyclerView) findViewById(R.id.fishPriceList);
-                    mAdapter = new AdapterRecorrido(MisRecorridosActivity.this, data);
-                    mRVFishPrice.setAdapter(mAdapter);
-                    mRVFishPrice.setLayoutManager(new LinearLayoutManager(MisRecorridosActivity.this));
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -368,9 +402,21 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
 
     }
 
+    //Dialogo SimpleDialog
     @Override
     public void onPossitiveButtonClick() {
 
     }
 
+
+    //Dialogo AgRecoDialog
+    @Override
+    public void onPossitiveButtonClick(String s) {
+        Log.e("asdasdasdasd",s);
+    }
+
+    @Override
+    public void onNegativeButtonClick() {
+
+    }
 }

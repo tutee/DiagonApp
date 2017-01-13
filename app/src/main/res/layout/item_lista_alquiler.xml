@@ -13,12 +13,27 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Media -->
-        <ImageView
-            android:id="@+id/foto"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/altura_imagen_item"
-            android:scaleType="fitXY"/>
+            android:layout_height="match_parent">
+
+
+            <ProgressBar
+                android:id="@+id/progress"
+                android:visibility="visible"
+                android:layout_centerInParent="true"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+            <!-- Media -->
+            <ImageView
+                android:id="@+id/foto"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/altura_imagen_item"
+                android:scaleType="fitXY"/>
+
+        </RelativeLayout>
+
 
         <!-- Cuerpo -->
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

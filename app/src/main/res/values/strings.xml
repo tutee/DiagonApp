@@ -85,6 +85,8 @@
     <!-- ************************************************************ -->
 
 
+    <string name="noreco">Usted no posee ningun recorrido.</string>
+
 
     <string name="info_text">Necesitas tener creada una cuenta para iniciar la aplicación</string>
     <string name="crear_boton">CREAR CUENTA</string>

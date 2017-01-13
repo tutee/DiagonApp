@@ -6,10 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.rightdecisions.diagonapp.R;
 
 import java.util.ArrayList;
@@ -59,6 +63,21 @@ public class AdapterSitio extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         Glide.with(context).load(current.sitioImage)
                 //.placeholder(R.drawable.ic_img_error)
                 //.error(R.drawable.ic_img_error)
+
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        myHolder.progressBar.setVisibility(View.GONE);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        myHolder.progressBar.setVisibility(View.GONE);
+                        return false;
+                    }
+                })
+
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(myHolder.ivFish);
 
@@ -110,12 +129,14 @@ public class AdapterSitio extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         TextView textSize;
         TextView textType;
         TextView textPrice;
+        ProgressBar progressBar;
 
         // create constructor to get widget reference
         public MyHolder(View itemView) {
             super(itemView);
             textFishName= (TextView) itemView.findViewById(R.id.nombre);
             ivFish= (ImageView) itemView.findViewById(R.id.foto);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.progress);
             //textSize = (TextView) itemView.findViewById(R.id.descripcion);
             //textType = (TextView) itemView.findViewById(R.id.textType);
             //textPrice = (TextView) itemView.findViewById(R.id.button);
