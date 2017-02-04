@@ -126,6 +126,8 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
 
                         Globales.SENombre = data.get(position).getName();
                         Globales.SEImagen = data.get(position).getImage();
+                        Globales.SEDescripcion = data.get(position).getDescripcion();
+                        Globales.SETel = data.get(position).getTelefono();
                         Log.e("IMAGEN", Globales.SEImagen);
 
                         Intent intent = new Intent(SitiosActivity.this,
@@ -279,6 +281,8 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
 
                         fishData.sitioImage = json_data.getString("sit_img");
                         fishData.sitioName= json_data.getString("sit_titulo");
+                        fishData.sitioDescripcion = json_data.getString("sit_detalle");
+                        fishData.sitioTelefono = json_data.getString("sit_telefono");
                         //fishData.catName = json_data.getString("sit_lat");
                         //fishData.sizeName = json_data.getString("sit_lon");
                         //fishData.price = json_data.getInt("sit_direccion");

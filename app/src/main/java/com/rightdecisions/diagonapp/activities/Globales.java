@@ -21,6 +21,8 @@ public class Globales {
 
     public static String SENombre;
     public static String SEImagen;
+    public static String SEDescripcion;
+    public static String SETel;
 
 
     public static String Globalidrecoexp;

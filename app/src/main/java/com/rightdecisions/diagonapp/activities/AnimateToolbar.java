@@ -1,7 +1,9 @@
 package com.rightdecisions.diagonapp.activities;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -11,13 +13,17 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.BitmapEncoder;
 import com.rightdecisions.diagonapp.R;
 
 import com.rightdecisions.diagonapp.model.VersionModel;
+import com.uncopt.android.widget.text.justify.JustifiedTextView;
 
 
 import java.io.IOException;
@@ -29,9 +35,9 @@ import java.util.List;
 
 public class AnimateToolbar extends AppCompatActivity {
     CollapsingToolbarLayout collapsingToolbar;
-    RecyclerView recyclerView;
+    //RecyclerView recyclerView;
     int mutedColor = R.attr.colorPrimary;
-    SimpleRecyclerAdapter simpleRecyclerAdapter;
+    //SimpleRecyclerAdapter simpleRecyclerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,12 @@ public class AnimateToolbar extends AppCompatActivity {
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(Globales.SENombre);
 
+        JustifiedTextView desc = (JustifiedTextView) findViewById(R.id.descripcion);
+        desc.setText(Globales.SEDescripcion);
+
+        TextView tel = (TextView)findViewById(R.id.telefono);
+        tel.setText(Globales.SETel);
+
         ImageView header = (ImageView) findViewById(R.id.header);
 
         Glide.with(this).load(Globales.SEImagen).into(header);
@@ -57,6 +69,18 @@ public class AnimateToolbar extends AppCompatActivity {
                 R.drawable.header);
 
         collapsingToolbar.setStatusBarScrimColor(getResources().getColor(R.color.blue_grey_500));
+
+        Button llamar = (Button)findViewById(R.id.llamada);
+        llamar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:"+Globales.SETel));
+                startActivity(callIntent);
+            }
+        });
+
+
 
         //Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
 
@@ -71,7 +95,7 @@ public class AnimateToolbar extends AppCompatActivity {
             }
         });*/
 
-        recyclerView = (RecyclerView) findViewById(R.id.scrollableview);
+       /*recyclerView = (RecyclerView) findViewById(R.id.scrollableview);
 
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -90,7 +114,7 @@ public class AnimateToolbar extends AppCompatActivity {
         if (simpleRecyclerAdapter == null) {
             simpleRecyclerAdapter = new SimpleRecyclerAdapter(listData);
             recyclerView.setAdapter(simpleRecyclerAdapter);
-        }
+        }*/
 
     }
 
