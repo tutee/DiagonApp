@@ -34,6 +34,7 @@ import com.google.android.gms.common.api.Status;
 import com.rightdecisions.diagonapp.R;
 import com.rightdecisions.diagonapp.dialogs.AgRecoDialog;
 import com.rightdecisions.diagonapp.dialogs.NoSitiosDialog;
+import com.rightdecisions.diagonapp.dialogs.SimpleDialogAgReco;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,7 +49,7 @@ import java.util.Map;
  * Created by Tute on 02/01/2017.
  */
 
-public class MisRecorridosActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,AgRecoDialog.OnSimpleDialogListener ,NoSitiosDialog.OnSimpleDialogListener, GoogleApiClient.OnConnectionFailedListener {
+public class MisRecorridosActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,SimpleDialogAgReco.OnSimpleDialogListener ,NoSitiosDialog.OnSimpleDialogListener, GoogleApiClient.OnConnectionFailedListener {
 
     ActionBarDrawerToggle toggle;
     private SharedPreferences preferenceSettingsUnique;
@@ -106,9 +107,7 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
 
         mRVFishPrice = (RecyclerView)findViewById(R.id.fishPriceList);
 
-        String id = "10";
-
-        cargarRecorridos(id);
+        cargarRecorridos((preferenceSettingsUnique.getString("ID","")));
 
         //mRVFishPrice.setOnClickListener();
         mRVFishPrice.addOnItemTouchListener(
@@ -156,6 +155,14 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
                     }
                 })
         );
+
+        addReco.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("ERROR", "Esta tocando el boton mas");
+                new SimpleDialogAgReco().show(getSupportFragmentManager(), "SimpleDialog");
+            }
+        });
 
     }
 
@@ -221,6 +228,8 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
         //showDialog();
         Log.e("ERROR", "ERROR6");
 
+        Log.e("ERROR", String.valueOf((preferenceSettingsUnique.getString("ID",""))));
+
 
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
@@ -231,6 +240,7 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
                 //hideDialog();
                 //Log.e("ERROR envPass", response);
                 try {
+
 
                     Log.e("ERROR", response);
 
