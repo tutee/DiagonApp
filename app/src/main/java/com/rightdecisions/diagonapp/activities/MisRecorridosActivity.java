@@ -62,7 +62,7 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
     private AdapterRecorrido mAdapter;
     private ImageView imagen;
     private TextView texto;
-    private FloatingActionButton addReco;
+    private FloatingActionButton addReco,addReco2;
     private LinearLayout l1;
     private Button btnDelReco;
 
@@ -75,9 +75,11 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
         imagen = (ImageView) findViewById(R.id.imagen1);
         texto = (TextView) findViewById(R.id.txt);
         addReco = (FloatingActionButton)findViewById(R.id.agrecoButton);
+        addReco2 = (FloatingActionButton)findViewById(R.id.agrecoButton2);
         l1 = (LinearLayout)findViewById(R.id.linear);
 
         l1.setVisibility(View.GONE);
+        addReco2.setVisibility(View.GONE);
         /*imagen.setVisibility(View.GONE);
         texto.setVisibility(View.GONE);
         addReco.setVisibility(View.GONE);*/
@@ -164,9 +166,16 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
                 })
         );
 
+        //Boton debajo de la Recycler recorridos
+        addReco2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("ERROR", "Esta tocando el boton mas");
+                new SimpleDialogAgReco().show(getSupportFragmentManager(), "SimpleDialog");
+            }
+        });
 
-
-
+        //Boton debajo del mensaje "no hay recorridos"
         addReco.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -261,7 +270,7 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
                     if (!obj.getBoolean("error")) {
 
                         JSONArray arrayP = obj.getJSONArray("itinerarios");
-
+                        data.clear();
 
                         // Extract data from json and store into ArrayList as class objects
                         for (int i = 0; i < arrayP.length(); i++) {
@@ -340,12 +349,14 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
                         mRVFishPrice.setLayoutManager(new LinearLayoutManager(MisRecorridosActivity.this));
                         l1.setVisibility(View.GONE);
                         mRVFishPrice.setVisibility(View.VISIBLE);
+                        addReco2.setVisibility(View.VISIBLE);
 
                     } else {
                         Log.e("asdasdasdasd","asdasdasdasdas");
 
                         l1.setVisibility(View.VISIBLE);
                         mRVFishPrice.setVisibility(View.GONE);
+                        addReco2.setVisibility(View.GONE);
                         /*imagen.setVisibility(View.VISIBLE);
                         texto.setVisibility(View.VISIBLE);
                         addReco.setVisibility(View.VISIBLE);*/
