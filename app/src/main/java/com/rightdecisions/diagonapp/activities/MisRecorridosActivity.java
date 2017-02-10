@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -63,6 +64,7 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
     private TextView texto;
     private FloatingActionButton addReco;
     private LinearLayout l1;
+    private Button btnDelReco;
 
 
     @Override
@@ -107,12 +109,18 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
 
         mRVFishPrice = (RecyclerView)findViewById(R.id.fishPriceList);
 
+        //btnDelReco = (Button)findViewById(R.id.eliminarreco);
+
         cargarRecorridos((preferenceSettingsUnique.getString("ID","")));
+
+
+
 
         //mRVFishPrice.setOnClickListener();
         mRVFishPrice.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, mRVFishPrice ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
+
 
                         //Globales.Globalidrecoexp = data.get(position).getItiId();
                         Globales.Globalsitiosrecoexp = new ArrayList<>();
@@ -155,6 +163,9 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
                     }
                 })
         );
+
+
+
 
         addReco.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -327,6 +338,9 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
                         mAdapter = new AdapterRecorrido(MisRecorridosActivity.this, data);
                         mRVFishPrice.setAdapter(mAdapter);
                         mRVFishPrice.setLayoutManager(new LinearLayoutManager(MisRecorridosActivity.this));
+                        l1.setVisibility(View.GONE);
+                        mRVFishPrice.setVisibility(View.VISIBLE);
+
                     } else {
                         Log.e("asdasdasdasd","asdasdasdasdas");
 
@@ -358,6 +372,63 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("tag", "Itinerarios_sitios");
                 params.put("iti_usu_id", usuemailo);
+                return params;
+            }
+
+        };
+
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+
+    public void enviarNuevoRecorrido (final String namereco ) {
+        // Tag used to cancel the request
+        String tag_string_req = "req_register";
+
+        Log.e("ERROR", "ERROR6");
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                Globales.URL, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                //hideDialog();
+                //Log.e("ERROR envPass", response);
+                try {
+
+
+                    Log.e("ERROR", response);
+                    JSONObject obj = new JSONObject(response);
+
+
+                    if (!obj.getBoolean("error")) {
+
+                        Log.e("ERROR", "FUNCIONA");
+
+                    } else {
+                        Log.e("ERROR", "NO FUNCIONA");
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+                //hideDialog();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to register url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("tag", "nuevoItinerario");
+                params.put("iti_usu_id", (preferenceSettingsUnique.getString("ID","")));
+                params.put("iti_nombre", namereco);
                 return params;
             }
 
@@ -423,6 +494,8 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
     @Override
     public void onPossitiveButtonClick(String s) {
         Log.e("asdasdasdasd",s);
+        enviarNuevoRecorrido(s);
+        cargarRecorridos(preferenceSettingsUnique.getString("ID",""));
     }
 
     @Override
