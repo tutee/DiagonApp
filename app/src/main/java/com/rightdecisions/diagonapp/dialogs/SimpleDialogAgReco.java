@@ -46,7 +46,7 @@ public class SimpleDialogAgReco extends DialogFragment {
 
         builder.setTitle("Nuevo recorrido:")
 
-                .setMessage("Ingrese el nombre del nuevo recorrido")
+                .setMessage("Ingrese el nombre del nuevo recorrido:")
                 .setView(t)
 
 

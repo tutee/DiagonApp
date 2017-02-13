@@ -505,8 +505,13 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
     @Override
     public void onPossitiveButtonClick(String s) {
         Log.e("asdasdasdasd",s);
-        enviarNuevoRecorrido(s);
-        cargarRecorridos(preferenceSettingsUnique.getString("ID",""));
+        if (s.equals("")) {
+            Toast.makeText(getApplicationContext(),
+                    "No ingreso el nombre del nuevo recorrido", Toast.LENGTH_LONG).show();
+        } else {
+            enviarNuevoRecorrido(s);
+            cargarRecorridos(preferenceSettingsUnique.getString("ID", ""));
+        }
     }
 
     @Override
