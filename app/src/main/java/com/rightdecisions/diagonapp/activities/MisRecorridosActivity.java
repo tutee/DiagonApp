@@ -412,11 +412,14 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
 
 
                     if (!obj.getBoolean("error")) {
-
                         Log.e("ERROR", "FUNCIONA");
+                        Toast.makeText(getApplicationContext(),
+                                "El recorrido "+namereco +" fue cargado con exito", Toast.LENGTH_LONG).show();
 
                     } else {
                         Log.e("ERROR", "NO FUNCIONA");
+                        Toast.makeText(getApplicationContext(),
+                                "El nombre "+namereco+" ya existe", Toast.LENGTH_LONG).show();
                     }
 
                 } catch (JSONException e) {
