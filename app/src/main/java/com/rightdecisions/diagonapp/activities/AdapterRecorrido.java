@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -109,7 +110,8 @@ public class AdapterRecorrido extends RecyclerView.Adapter<RecyclerView.ViewHold
     class MyHolder extends RecyclerView.ViewHolder{
 
         TextView textFishName;
-        ImageView ivFish;
+        Button ivFish;
+
         TextView textSize;
         TextView textType;
         TextView textPrice;
@@ -118,7 +120,7 @@ public class AdapterRecorrido extends RecyclerView.Adapter<RecyclerView.ViewHold
         public MyHolder(View itemView) {
             super(itemView);
             textFishName= (TextView) itemView.findViewById(R.id.nombre);
-            ivFish= (ImageView) itemView.findViewById(R.id.foto);
+            ivFish= (Button) itemView.findViewById(R.id.btnrecodelete);
             //textSize = (TextView) itemView.findViewById(R.id.descripcion);
             //textType = (TextView) itemView.findViewById(R.id.textType);
             //textPrice = (TextView) itemView.findViewById(R.id.button);

@@ -1,7 +1,10 @@
 package com.rightdecisions.diagonapp.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -24,8 +27,28 @@ import com.rightdecisions.diagonapp.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapsRecoActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener, DirectionCallback {
-    private Button btnRequestDirection;
+public class MapsRecoActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_maps_reco);
+        Intent intent = null;
+
+        intent = new Intent (android.content.Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("https://maps.google.com/maps?daddr=-34.92012300,-57.95319200+to:-34.92282880,-57.95625550"));
+        //intent.setData(Uri.parse("https://maps.google.com/maps?daddr=Cordoba,Argentina+to:Tortuguitas"));
+        startActivity(intent);
+    }
+
+
+    //String mapUrl = "https://maps.google.com/maps?saddr=San+Francisco,+CA&daddr=Los+Angeles,+CA+to:Phoenix,+AZ+to:Houston,+TX+to:Jacksonville,+FL+to:New+York,+NY+to:Buffalo,+NY+to:Chicago,+IL+to:Seattle,+WA+to:San+Jose,+CA";
+    //Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(mapUrl));
+
+    //startActivity(i);
+
+}
+   /* private Button btnRequestDirection;
     private GoogleMap googleMap;
     private String serverKey = "AIzaSyBdDzM01Fqp8UYpHSlpYAkpfN0-tuNfScw";
     private LatLng camera = new LatLng(-34.930723,-57.940932);
@@ -116,5 +139,14 @@ public class MapsRecoActivity extends AppCompatActivity implements OnMapReadyCal
     @Override
     public void onDirectionFailure(Throwable t) {
         Snackbar.make(btnRequestDirection, t.getMessage(), Snackbar.LENGTH_SHORT).show();
-    }
-}
+    }*/
+
+
+    /*String mapUrl = "https://maps.google.com/maps?saddr=San+Francisco,+CA&daddr=Los+Angeles,+CA+to:Phoenix,+AZ+to:Houston,+TX+to:Jacksonville,+FL+to:New+York,+NY+to:Buffalo,+NY+to:Chicago,+IL+to:Seattle,+WA+to:San+Jose,+CA";
+    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(mapUrl));
+    i.setPackage("com.google.android.apps.maps")
+    startActivity(i);
+
+
+
+}*/

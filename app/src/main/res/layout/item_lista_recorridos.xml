@@ -24,6 +24,12 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                     android:layout_weight="2"/>
 
+                <Button
+                    android:id="@+id/btnrecodelete"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@mipmap/ic_delete"/>
+
 
 
             </LinearLayout>

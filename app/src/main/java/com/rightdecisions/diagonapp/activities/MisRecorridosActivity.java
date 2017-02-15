@@ -111,7 +111,7 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
 
         mRVFishPrice = (RecyclerView)findViewById(R.id.fishPriceList);
 
-        //btnDelReco = (Button)findViewById(R.id.eliminarreco);
+        //btnDelReco = (Button)findViewById(R.id.btnrecodelete);
 
         cargarRecorridos((preferenceSettingsUnique.getString("ID","")));
 

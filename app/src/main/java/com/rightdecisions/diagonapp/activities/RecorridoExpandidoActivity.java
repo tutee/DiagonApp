@@ -314,11 +314,15 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Goo
                 .transportMode(TransportMode.DRIVING)
                 .optimizeWaypoints(true)
                 .execute(this);
+
     }
 
     @Override
     public void onDirectionSuccess(Direction direction, String rawBody) {
         //Snackbar.make(btnRequestDirection, "Success with status : " + direction.getStatus(), Snackbar.LENGTH_SHORT).show();
+
+        Log.e("ERROR", String.valueOf(direction));
+
         if (direction.isOK()) {
             googleMap.addMarker(new MarkerOptions().position(origin)
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
