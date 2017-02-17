@@ -43,7 +43,8 @@
             android:paddingBottom="8dp"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="24dp">
+            android:paddingTop="24dp"
+            android:gravity="center">
 
 
             <LinearLayout
@@ -78,6 +79,16 @@
                     android:layout_alignParentTop="false"
                     android:theme="@style/RatingBar"
                     />
+
+                <Button
+                    android:id="@+id/buttonagite"
+                    style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Agregar a recorrido" />
+
+                </LinearLayout>
 
 
                 <!--
@@ -115,35 +126,13 @@
 
                 </RelativeLayout> -->
 
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/buttonite"
-                        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-
-                        android:text="Agregar a recorrido" />
-
-                    <Button
-                        android:id="@+id/buttonvermas"
-                        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-
-                        android:text="Mas informacion" />
-
-                </RelativeLayout>
 
 
 
 
 
-            </LinearLayout>
+
+
 
             <!--
 

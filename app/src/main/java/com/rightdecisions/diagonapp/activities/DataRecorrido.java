@@ -1,5 +1,7 @@
 package com.rightdecisions.diagonapp.activities;
 
+import android.widget.ImageButton;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -11,6 +13,7 @@ public class DataRecorrido {
 
     public String itiName;
     public String itiId;
+    public ImageButton itiImg;
     public ArrayList<String> arraySitInt;
 
 

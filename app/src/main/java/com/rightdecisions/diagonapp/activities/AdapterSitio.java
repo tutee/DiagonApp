@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ public class AdapterSitio extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     private Context context;
     private LayoutInflater inflater;
+    private OnItemClickListenerAdapterSitios onItemClickListenerAdapterSitios;
     List<DataSitio> data= Collections.emptyList();
     DataSitio current;
     int currentPos=0;
@@ -115,6 +117,10 @@ public class AdapterSitio extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return data.size();
     }
 
+    public void setOnItemClickListenerAdapterSitios (OnItemClickListenerAdapterSitios onItemClickListenerAdapterSitios){
+        this.onItemClickListenerAdapterSitios = onItemClickListenerAdapterSitios;
+    }
+
     public void setFilter(List<DataSitio> countryModels) {
         data = new ArrayList<>();
         data.addAll(countryModels);
@@ -122,10 +128,11 @@ public class AdapterSitio extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
 
-    class MyHolder extends RecyclerView.ViewHolder{
+    class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView textFishName;
         ImageView ivFish;
+        Button button;
         TextView textSize;
         TextView textType;
         TextView textPrice;
@@ -137,10 +144,47 @@ public class AdapterSitio extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             textFishName= (TextView) itemView.findViewById(R.id.nombre);
             ivFish= (ImageView) itemView.findViewById(R.id.foto);
             progressBar = (ProgressBar) itemView.findViewById(R.id.progress);
+            button = (Button)itemView.findViewById(R.id.buttonagite);
             //textSize = (TextView) itemView.findViewById(R.id.descripcion);
             //textType = (TextView) itemView.findViewById(R.id.textType);
             //textPrice = (TextView) itemView.findViewById(R.id.button);
+
+
+            button.setOnClickListener(this);
+            itemView.setOnClickListener(this);
+
         }
+
+
+        @Override
+        public void onClick(View view) {
+            if (view.getId() == button.getId()){
+
+                if (onItemClickListenerAdapterSitios != null){
+
+                    onItemClickListenerAdapterSitios.agSitBoton(view,getAdapterPosition());
+
+                }
+
+            } else if(view.getId() == itemView.getId()){
+
+                if (onItemClickListenerAdapterSitios != null){
+
+                    onItemClickListenerAdapterSitios.itemClicked(view,getAdapterPosition());
+
+                }
+
+            }
+        }
+
+
+    }
+
+    public interface OnItemClickListenerAdapterSitios {
+
+        public void itemClicked(View view, int position);
+
+        public void agSitBoton(View view, int position);
 
     }
 

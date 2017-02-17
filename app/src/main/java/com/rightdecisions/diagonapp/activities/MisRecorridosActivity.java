@@ -11,12 +11,14 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -36,6 +38,7 @@ import com.rightdecisions.diagonapp.R;
 import com.rightdecisions.diagonapp.dialogs.AgRecoDialog;
 import com.rightdecisions.diagonapp.dialogs.NoSitiosDialog;
 import com.rightdecisions.diagonapp.dialogs.SimpleDialogAgReco;
+import com.rightdecisions.diagonapp.dialogs.SimpleDialogDelReco;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,7 +53,7 @@ import java.util.Map;
  * Created by Tute on 02/01/2017.
  */
 
-public class MisRecorridosActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,SimpleDialogAgReco.OnSimpleDialogListener ,NoSitiosDialog.OnSimpleDialogListener, GoogleApiClient.OnConnectionFailedListener {
+public class MisRecorridosActivity extends AppCompatActivity implements SimpleDialogDelReco.OnSimpleDialogListener, AdapterRecorrido.OnItemClickListenerAdapter, NavigationView.OnNavigationItemSelectedListener,SimpleDialogAgReco.OnSimpleDialogListener ,NoSitiosDialog.OnSimpleDialogListener, GoogleApiClient.OnConnectionFailedListener {
 
     ActionBarDrawerToggle toggle;
     private SharedPreferences preferenceSettingsUnique;
@@ -64,7 +67,8 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
     private TextView texto;
     private FloatingActionButton addReco,addReco2;
     private LinearLayout l1;
-    private Button btnDelReco;
+    private ImageButton btnDelReco;
+    private int pos;
 
 
     @Override
@@ -111,7 +115,10 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
 
         mRVFishPrice = (RecyclerView)findViewById(R.id.fishPriceList);
 
-        //btnDelReco = (Button)findViewById(R.id.btnrecodelete);
+        btnDelReco = (ImageButton) mRVFishPrice.findViewById(R.id.btnrecodelete);
+
+
+
 
         cargarRecorridos((preferenceSettingsUnique.getString("ID","")));
 
@@ -119,9 +126,12 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
 
 
         //mRVFishPrice.setOnClickListener();
-        mRVFishPrice.addOnItemTouchListener(
+        /*mRVFishPrice.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, mRVFishPrice ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
+
+
+                        Log.e("ESTOY TOCANDO ESTE ID: ", String.valueOf(view.getId()));
 
 
                         //Globales.Globalidrecoexp = data.get(position).getItiId();
@@ -164,7 +174,7 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
                         // do whatever
                     }
                 })
-        );
+        );*/
 
         //Boton debajo de la Recycler recorridos
         addReco2.setOnClickListener(new View.OnClickListener() {
@@ -202,6 +212,14 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
 
             case R.id.menu_navu_2:
 
+                break;
+
+            case R.id.menu_navu_3:
+                intent = new Intent(
+                        MisRecorridosActivity.this,
+                        MapsRecoActivity.class);
+                startActivity(intent);
+                finish();
                 break;
 
             case R.id.menu_navu_5:
@@ -345,6 +363,7 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
                         // Setup and Handover data to recyclerview
                         mRVFishPrice = (RecyclerView) findViewById(R.id.fishPriceList);
                         mAdapter = new AdapterRecorrido(MisRecorridosActivity.this, data);
+                        mAdapter.setOnItemClickListenerAdapter(MisRecorridosActivity.this);
                         mRVFishPrice.setAdapter(mAdapter);
                         mRVFishPrice.setLayoutManager(new LinearLayoutManager(MisRecorridosActivity.this));
                         l1.setVisibility(View.GONE);
@@ -451,6 +470,66 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 
+    public void eliminarRecorrido (final String recoid ) {
+        // Tag used to cancel the request
+        String tag_string_req = "req_register";
+
+        Log.e("ERROR", "ERROR6");
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                Globales.URL, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                //hideDialog();
+                //Log.e("ERROR envPass", response);
+                try {
+
+
+                    Log.e("ERROR", response);
+                    JSONObject obj = new JSONObject(response);
+
+
+                    if (!obj.getBoolean("error")) {
+                        Log.e("ERROR", "FUNCIONA");
+                        Toast.makeText(getApplicationContext(),
+                                "El recorrido fue eliminado con exito", Toast.LENGTH_LONG).show();
+
+                    } else {
+                        Log.e("ERROR", "NO FUNCIONA");
+                        /*Toast.makeText(getApplicationContext(),
+                                "El nombre "+namereco+" ya existe", Toast.LENGTH_LONG).show();*/
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+                //hideDialog();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to register url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("tag", "borrarItinerario");
+                params.put("iti_usu_id", (preferenceSettingsUnique.getString("ID","")));
+                params.put("iti_id", recoid);
+                return params;
+            }
+
+        };
+
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+
     public  void logout(){
         preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
         preferenceSettingsUnique.edit().clear().apply();
@@ -519,6 +598,71 @@ public class MisRecorridosActivity extends AppCompatActivity implements Navigati
 
     @Override
     public void onNegativeButtonClick() {
+
+    }
+
+
+
+
+
+
+    @Override
+    public void itemClicked(View view, int position) {
+
+        //Globales.Globalidrecoexp = data.get(position).getItiId();
+        Globales.Globalsitiosrecoexp = new ArrayList<>();
+        Globales.Globalnombrecoexp = data.get(position).getName();
+
+        Log.e("ERROR", String.valueOf(datasitio.size()));
+
+        for (int i = 0; i < datasitio.size(); i++) {
+
+            Log.e("ERROR", data.get(position).getItiId());
+            Log.e("ERROR", datasitio.get(i).sitioRecoId);
+
+            if(data.get(position).getItiId().equals(datasitio.get(i).sitioRecoId) ) {
+
+                Log.e("ERROR", String.valueOf(datasitio.get(i)));
+                Log.e("ERROR", String.valueOf(datasitio.get(i).getName()));
+                Globales.Globalsitiosrecoexp.add(datasitio.get(i));
+
+            }
+        }
+
+
+
+        if (Globales.Globalsitiosrecoexp.size() != 0){
+
+            Intent intent = new Intent(MisRecorridosActivity.this,
+                    RecorridoExpandidoActivity.class);
+            startActivity(intent);
+
+        } else {
+            new NoSitiosDialog().show(getSupportFragmentManager(), "SimpleDialog");
+        }
+
+    }
+
+    @Override
+    public void deleteItemClick(View view, int position) {
+
+        new SimpleDialogDelReco().show(getSupportFragmentManager(), "SimpleDialog");
+        pos = position;
+
+    }
+
+
+
+    @Override
+    public void onPossitiveButtonClickDel() {
+
+        eliminarRecorrido(data.get(pos).getItiId());
+        cargarRecorridos(preferenceSettingsUnique.getString("ID", ""));
+
+    }
+
+    @Override
+    public void onNegativeButtonClickDel() {
 
     }
 }

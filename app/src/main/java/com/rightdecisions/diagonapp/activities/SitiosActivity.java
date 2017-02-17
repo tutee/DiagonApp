@@ -34,6 +34,7 @@ import com.rightdecisions.diagonapp.R;
 
 import android.content.SharedPreferences;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,7 +53,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by Tute on 9/11/2016.
  */
 
-public class SitiosActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener, SearchView.OnQueryTextListener {
+public class SitiosActivity extends AppCompatActivity implements AdapterSitio.OnItemClickListenerAdapterSitios, NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener, SearchView.OnQueryTextListener {
 
     private static final String TAG = "SignInActivity";
     ActionBarDrawerToggle toggle;
@@ -115,11 +116,13 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
 
         mRVFishPrice = (RecyclerView)findViewById(R.id.fishPriceList);
 
+
+
         String id = "10";
 
         cargarSitios(id);
 
-        mRVFishPrice.addOnItemTouchListener(
+        /*mRVFishPrice.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, mRVFishPrice ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
 
@@ -140,7 +143,7 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
                         // do whatever
                     }
                 })
-        );
+        );*/
 
 
 
@@ -292,6 +295,7 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
                     // Setup and Handover data to recyclerview
                     mRVFishPrice = (RecyclerView) findViewById(R.id.fishPriceList);
                     mAdapter = new AdapterSitio(SitiosActivity.this, data);
+                    mAdapter.setOnItemClickListenerAdapterSitios(SitiosActivity.this);
                     mRVFishPrice.setAdapter(mAdapter);
                     mRVFishPrice.setLayoutManager(new LinearLayoutManager(SitiosActivity.this));
 
@@ -357,6 +361,7 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
                     public boolean onMenuItemActionCollapse(MenuItem item) {
                         // Do something when collapsed
                         mAdapter.setFilter(data);
+
                         return true; // Return true to collapse action view
                     }
 
@@ -421,9 +426,88 @@ public class SitiosActivity extends AppCompatActivity implements NavigationView.
     }
 
 
+    public void agSitioIti (final String recoid, final String sitioid) {
+        // Tag used to cancel the request
+        String tag_string_req = "req_register";
+
+        Log.e("ERROR", "ERROR6");
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                Globales.URL, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                //hideDialog();
+                //Log.e("ERROR envPass", response);
+                try {
+
+
+                    Log.e("ERROR", response);
+                    JSONObject obj = new JSONObject(response);
+
+
+                    if (!obj.getBoolean("error")) {
+                        Log.e("ERROR", "FUNCIONA");
+                        Toast.makeText(getApplicationContext(),
+                                "El sitio fue agregado con exito", Toast.LENGTH_LONG).show();
+
+                    } else {
+                        Log.e("ERROR", "NO FUNCIONA");
+                        /*Toast.makeText(getApplicationContext(),
+                                "El nombre "+namereco+" ya existe", Toast.LENGTH_LONG).show();*/
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+                //hideDialog();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to register url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("tag", "agregarSitioIti");
+                params.put("iti_usu_id", (preferenceSettingsUnique.getString("ID","")));
+                params.put("iti_id", recoid);
+                params.put("sit_id", sitioid);
+                return params;
+            }
+
+        };
+
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+
+    @Override
+    public void itemClicked(View view, int position) {
+
+        Globales.SENombre = data.get(position).getName();
+        Globales.SEImagen = data.get(position).getImage();
+        Globales.SEDescripcion = data.get(position).getDescripcion();
+        Globales.SETel = data.get(position).getTelefono();
+        Log.e("IMAGEN", Globales.SEImagen);
+
+        Intent intent = new Intent(SitiosActivity.this,
+                AnimateToolbar.class);
+        startActivity(intent);
+
+    }
+
+    @Override
+    public void agSitBoton(View view, int position) {
+
+        //FALTA EL DIALOGO ANTES DEL AGREGAR SITIO
 
 
 
-
-
+    }
 }

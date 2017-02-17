@@ -1,11 +1,14 @@
 package com.rightdecisions.diagonapp.activities;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +24,7 @@ public class AdapterRecorrido extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private Context context;
     private LayoutInflater inflater;
+    private OnItemClickListenerAdapter onItemClickListenerAdapter;
     List<DataRecorrido> data= Collections.emptyList();
     DataRecorrido current;
     int currentPos=0;
@@ -49,6 +53,10 @@ public class AdapterRecorrido extends RecyclerView.Adapter<RecyclerView.ViewHold
         final MyHolder myHolder= (MyHolder) holder;
         DataRecorrido current = data.get(position);
         myHolder.textFishName.setText(current.itiName);
+
+
+
+
 
 
         //myHolder.textSize.setText("Size: " + current.sizeName);
@@ -100,6 +108,15 @@ public class AdapterRecorrido extends RecyclerView.Adapter<RecyclerView.ViewHold
         return data.size();
     }
 
+    public void setOnItemClickListenerAdapter (OnItemClickListenerAdapter onItemClickListenerAdapter) {
+        this.onItemClickListenerAdapter = onItemClickListenerAdapter;
+    }
+
+    public void delete (){
+    }
+
+
+
     public void setFilter(List<DataRecorrido> countryModels) {
         data = new ArrayList<>();
         data.addAll(countryModels);
@@ -107,10 +124,13 @@ public class AdapterRecorrido extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
 
-    class MyHolder extends RecyclerView.ViewHolder{
+
+
+    class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView textFishName;
-        Button ivFish;
+        ImageButton ivFish;
+
 
         TextView textSize;
         TextView textType;
@@ -119,14 +139,51 @@ public class AdapterRecorrido extends RecyclerView.Adapter<RecyclerView.ViewHold
         // create constructor to get widget reference
         public MyHolder(View itemView) {
             super(itemView);
+
             textFishName= (TextView) itemView.findViewById(R.id.nombre);
-            ivFish= (Button) itemView.findViewById(R.id.btnrecodelete);
+            ivFish= (ImageButton) itemView.findViewById(R.id.btnrecodelete);
+
+            ivFish.setOnClickListener(this);
+            itemView.setOnClickListener(this);
+
+
             //textSize = (TextView) itemView.findViewById(R.id.descripcion);
             //textType = (TextView) itemView.findViewById(R.id.textType);
             //textPrice = (TextView) itemView.findViewById(R.id.button);
         }
 
+        @Override
+        public void onClick(View view) {
+            if (view.getId() == ivFish.getId()){
+                Log.e("ERROR", "ESTAS TOCANDO EL TARRITO!!!");
 
+                if (onItemClickListenerAdapter!=null) {
+
+                    onItemClickListenerAdapter.deleteItemClick(view, getAdapterPosition());
+
+                }
+
+
+
+            } else if (view.getId() == itemView.getId()){
+                Log.e("ERROR", "ESTAS TOCANDO LA ROW!!!!!");
+
+                if (onItemClickListenerAdapter!=null) {
+
+                    onItemClickListenerAdapter.itemClicked(view, getAdapterPosition());
+
+                }
+
+            }
+        }
+
+    }
+
+    public interface OnItemClickListenerAdapter {
+
+        public void itemClicked(View view, int position);
+
+        public void deleteItemClick (View view, int position);
 
     }
 

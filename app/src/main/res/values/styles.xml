@@ -22,7 +22,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowBackground">@drawable/splash</item>
+        <item name="android:windowBackground">@drawable/logo_utn_da_1</item>
     </style>
 
     <style name="RatingBar" parent="Theme.AppCompat">
