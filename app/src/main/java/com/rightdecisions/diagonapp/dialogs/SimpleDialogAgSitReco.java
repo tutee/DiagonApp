@@ -10,6 +10,8 @@ import android.support.v7.app.AlertDialog;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.rightdecisions.diagonapp.activities.Globales;
+
 import java.util.ArrayList;
 
 /**
@@ -46,15 +48,21 @@ public class SimpleDialogAgSitReco extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final EditText t = new EditText(getContext());
 
-        final ArrayList itemsSeleccionados = new ArrayList();
+        final ArrayList<Integer> itemsSeleccionados = new ArrayList<Integer>();
 
-        final CharSequence[] items = new CharSequence[3];
+        final CharSequence[] items = new CharSequence[Globales.Globalrecoagsit.size()];
 
-        items[0] = "Soltero/a";
-        items[1] = "Casado/a";
-        items[2] = "Divorciado/a";
 
-        builder.setTitle("Nuevo recorrido:")
+        for (int i = 0; i<Globales.Globalrecoagsit.size(); i++){
+            items[i] = Globales.Globalrecoagsit.get(i).getName();
+            //Log.e("Member name: ", Globales.Globalrecoagsit.get(i).);
+        }
+
+        //items[0] = "Soltero/a";
+        //items[1] = "Casado/a";
+        //items[2] = "Divorciado/a";
+
+        builder.setTitle("El sitio se incluira en su recorrido :")
 
                 .setMultiChoiceItems(items, null, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
@@ -79,7 +87,7 @@ public class SimpleDialogAgSitReco extends DialogFragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-                                listener.onPossitiveButtonClick(String.valueOf(String.valueOf(itemsSeleccionados)));
+                                listener.onPossitiveButtonClick(itemsSeleccionados);
                                 dismiss();
 
                             }
@@ -97,7 +105,7 @@ public class SimpleDialogAgSitReco extends DialogFragment {
     }
 
     public interface OnSimpleDialogListener {
-        void onPossitiveButtonClick(String s);// Eventos Botón Positivo
+        void onPossitiveButtonClick(ArrayList<Integer> s);// Eventos Botón Positivo
         void onNegativeButtonClick();// Eventos Botón Negativo
     }
 

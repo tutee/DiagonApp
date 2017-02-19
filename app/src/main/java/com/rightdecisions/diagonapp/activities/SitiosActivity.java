@@ -31,6 +31,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.rightdecisions.diagonapp.R;
+import com.rightdecisions.diagonapp.dialogs.SimpleDialogAgSitReco;
 
 import android.content.SharedPreferences;
 import android.view.View;
@@ -53,8 +54,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by Tute on 9/11/2016.
  */
 
-public class SitiosActivity extends AppCompatActivity implements AdapterSitio.OnItemClickListenerAdapterSitios, NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener, SearchView.OnQueryTextListener {
+public class SitiosActivity extends AppCompatActivity implements SimpleDialogAgSitReco.OnSimpleDialogListener, AdapterSitio.OnItemClickListenerAdapterSitios, NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener, SearchView.OnQueryTextListener {
 
+    int p;
+    List<DataRecoAgSitios> datar = new ArrayList<>();
     private static final String TAG = "SignInActivity";
     ActionBarDrawerToggle toggle;
     private static final int PREFERENCE_MODE_PRIVATE = 0;
@@ -121,6 +124,9 @@ public class SitiosActivity extends AppCompatActivity implements AdapterSitio.On
         String id = "10";
 
         cargarSitios(id);
+        cargarRecorridos(preferenceSettingsUnique.getString("ID",""));
+        Globales.Globalrecoagsit = datar;
+
 
         /*mRVFishPrice.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, mRVFishPrice ,new RecyclerItemClickListener.OnItemClickListener() {
@@ -281,7 +287,7 @@ public class SitiosActivity extends AppCompatActivity implements AdapterSitio.On
                         //rearmo la imagen decodeandolo
                         Bitmap myBitmapAgain = decodeBase64(img);
                         Log.e("ERROR", String.valueOf(myBitmapAgain));*/
-
+                        fishData.sitioId = json_data.getString("sit_id");
                         fishData.sitioImage = json_data.getString("sit_img");
                         fishData.sitioName= json_data.getString("sit_titulo");
                         fishData.sitioDescripcion = json_data.getString("sit_detalle");
@@ -425,6 +431,92 @@ public class SitiosActivity extends AppCompatActivity implements AdapterSitio.On
         return filteredModelList;
     }
 
+    public void cargarRecorridos(final String usuemailo ) {
+        // Tag used to cancel the request
+        String tag_string_req = "req_register";
+
+        //pDialog.setMessage("Registrando cuenta...");
+        Log.e("ERROR", "ERROR1");
+        //showDialog();
+        Log.e("ERROR", "ERROR6");
+
+        Log.e("ERROR", String.valueOf((preferenceSettingsUnique.getString("ID",""))));
+
+
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                Globales.URL, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                //hideDialog();
+                //Log.e("ERROR envPass", response);
+                try {
+
+
+                    Log.e("ERROR", response);
+
+                    JSONObject obj = new JSONObject(response);
+
+
+                    if (!obj.getBoolean("error")) {
+
+                        JSONArray arrayP = obj.getJSONArray("itinerarios");
+                        datar.clear();
+
+                        // Extract data from json and store into ArrayList as class objects
+                        for (int i = 0; i < arrayP.length(); i++) {
+                            JSONObject json_data = arrayP.getJSONObject(i);
+                            DataRecoAgSitios fishData = new DataRecoAgSitios();
+
+
+                            fishData.arraySitInt = new ArrayList<String>();
+
+                            fishData.itiId = json_data.getString("iti_id");
+                            fishData.itiName = json_data.getString("iti_nombre");
+
+
+                            //fishData.catName = json_data.getString("sit_lat");
+                            //fishData.sizeName = json_data.getString("sit_lon");
+                            //fishData.price = json_data.getInt("sit_direccion");
+                            datar.add(fishData);
+                        }
+
+
+
+
+                    } else {
+                        Log.e("asdasdasdasd","asdasdasdasdas");
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+                //hideDialog();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to register url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("tag", "Itinerarios_sitios");
+                params.put("iti_usu_id", usuemailo);
+                return params;
+            }
+
+        };
+
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
 
     public void agSitioIti (final String recoid, final String sitioid) {
         // Tag used to cancel the request
@@ -507,7 +599,50 @@ public class SitiosActivity extends AppCompatActivity implements AdapterSitio.On
 
         //FALTA EL DIALOGO ANTES DEL AGREGAR SITIO
 
+        p = position;
 
+        new SimpleDialogAgSitReco().show(getSupportFragmentManager(), "SimpleDialog");
+
+
+
+
+
+    }
+
+    @Override
+    public void onPossitiveButtonClick(ArrayList<Integer> s) {
+
+        Log.e("IMAGEN", String.valueOf(s));
+
+
+
+            for (int j = 0; j<s.size();j++) {
+
+                Log.e("LOS ITEMS SON :", String.valueOf(s));
+
+                Log.e("LOS NOMBRES SON :", Globales.Globalrecoagsit.get(s.get(j)).getName());
+
+                agSitioIti(Globales.Globalrecoagsit.get(s.get(j)).getItiId(), data.get(p).getId());
+
+
+                /*for (int i = 0; i<Globales.Globalrecoagsit.size(); i++) {
+
+
+
+                        Log.e("LOS NOMBRES SON :", Globales.Globalrecoagsit.get(i).getName());
+
+                    }*/
+                }
+            }
+
+            //items[i] = Globales.Globalrecoagsit.get(i).getName();
+            //Log.e("Member name: ", Globales.Globalrecoagsit.get(i).);
+
+
+
+
+    @Override
+    public void onNegativeButtonClick() {
 
     }
 }

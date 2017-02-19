@@ -2,6 +2,7 @@ package com.rightdecisions.diagonapp.activities;
 
 public class DataSitio {
 
+    public String sitioId;
     public String sitioImage;
     public String sitioName;
     public String sitioDescripcion;
@@ -10,6 +11,10 @@ public class DataSitio {
     public String sizeName;
     public int price;
 
+
+    public String getId() {
+        return sitioId;
+    }
 
     public String getName() {
         return sitioName;
