@@ -124,8 +124,11 @@ public class SitiosActivity extends AppCompatActivity implements SimpleDialogAgS
         String id = "10";
 
         cargarSitios(id);
-        cargarRecorridos(preferenceSettingsUnique.getString("ID",""));
-        Globales.Globalrecoagsit = datar;
+
+
+
+
+
 
 
         /*mRVFishPrice.addOnItemTouchListener(
@@ -304,6 +307,9 @@ public class SitiosActivity extends AppCompatActivity implements SimpleDialogAgS
                     mAdapter.setOnItemClickListenerAdapterSitios(SitiosActivity.this);
                     mRVFishPrice.setAdapter(mAdapter);
                     mRVFishPrice.setLayoutManager(new LinearLayoutManager(SitiosActivity.this));
+
+                    cargarRecorridos(preferenceSettingsUnique.getString("ID",""));
+                    Globales.Globalrecoagsit = datar;
 
 
                 } catch (JSONException e) {
@@ -485,6 +491,7 @@ public class SitiosActivity extends AppCompatActivity implements SimpleDialogAgS
 
 
 
+
                     } else {
                         Log.e("asdasdasdasd","asdasdasdasdas");
 
@@ -602,6 +609,8 @@ public class SitiosActivity extends AppCompatActivity implements SimpleDialogAgS
         p = position;
 
         new SimpleDialogAgSitReco().show(getSupportFragmentManager(), "SimpleDialog");
+
+
 
 
 
