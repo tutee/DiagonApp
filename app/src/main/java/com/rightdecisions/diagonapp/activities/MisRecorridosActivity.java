@@ -327,6 +327,7 @@ public class MisRecorridosActivity extends AppCompatActivity implements SimpleDi
                                     sitioData.sitioLon = json_sit.getString("sit_lon");
                                     sitioData.sitioPos = j;
                                     sitioData.sitioPID = json_sit.getString("sit_place_id");
+                                    sitioData.sitioTipo = json_sit.getString("sitint_tipo");
                                     if (j == 0) {
                                         sitioData.sitioCC = "cabeza";
                                     } else if (j == sitios.length() - 1) {
@@ -338,7 +339,7 @@ public class MisRecorridosActivity extends AppCompatActivity implements SimpleDi
 
                                     datasitio.add(sitioData);
                                     Log.e("DATA SITIO POSICION", String.valueOf(datasitio.get(j).getCC()));
-
+                                    Log.e("DATA SITIO TIPO!!!!", String.valueOf(datasitio.get(j).getTipo()));
 
                                 }
 

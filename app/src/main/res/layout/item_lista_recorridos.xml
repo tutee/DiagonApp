@@ -25,10 +25,21 @@
                     android:layout_weight="2"/>
 
                 <ImageButton
+                    android:id="@+id/btnchgname"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@mipmap/ic_modify"/>
+
+                <ImageButton
                     android:id="@+id/btnrecodelete"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:background="@mipmap/ic_delete"/>
+
+
 
 
 
