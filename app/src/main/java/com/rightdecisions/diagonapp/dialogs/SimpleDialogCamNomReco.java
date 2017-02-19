@@ -2,7 +2,6 @@ package com.rightdecisions.diagonapp.dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,7 +12,7 @@ import android.widget.EditText;
 /**
  * Created by Tute on 22/9/2016.
  */
-public class SimpleDialogAgReco extends DialogFragment {
+public class SimpleDialogCamNomReco extends DialogFragment {
 
     OnSimpleDialogListener listener;
 
@@ -44,9 +43,9 @@ public class SimpleDialogAgReco extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final EditText t = new EditText(getContext());
 
-        builder.setTitle("Nuevo recorrido:")
+        builder.setTitle("Cambio de nombre:")
 
-                .setMessage("Ingrese el nombre del nuevo recorrido:")
+                .setMessage("Ingrese el nuevo nombre del recorrido:")
                 .setView(t)
 
 
@@ -55,7 +54,7 @@ public class SimpleDialogAgReco extends DialogFragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-                                listener.onPossitiveButtonClickCNR(String.valueOf(t.getText()));
+                                listener.onPossitiveButtonClick(String.valueOf(t.getText()));
                                 dismiss();
 
                             }
@@ -64,7 +63,7 @@ public class SimpleDialogAgReco extends DialogFragment {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                listener.onNegativeButtonClickCNR();
+                                listener.onNegativeButtonClick();
                                 dismiss();
                             }
                         });
@@ -73,8 +72,8 @@ public class SimpleDialogAgReco extends DialogFragment {
     }
 
     public interface OnSimpleDialogListener {
-        void onPossitiveButtonClickCNR(String s);// Eventos Botón Positivo
-        void onNegativeButtonClickCNR();// Eventos Botón Negativo
+        void onPossitiveButtonClick(String s);// Eventos Botón Positivo
+        void onNegativeButtonClick();// Eventos Botón Negativo
     }
 
 

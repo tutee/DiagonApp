@@ -129,7 +129,7 @@ public class AdapterRecorrido extends RecyclerView.Adapter<RecyclerView.ViewHold
     class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView textFishName;
-        ImageButton ivFish;
+        ImageButton ivFish, ivFish2;
 
 
         TextView textSize;
@@ -142,8 +142,10 @@ public class AdapterRecorrido extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             textFishName= (TextView) itemView.findViewById(R.id.nombre);
             ivFish= (ImageButton) itemView.findViewById(R.id.btnrecodelete);
+            ivFish2= (ImageButton) itemView.findViewById(R.id.btnchgname);
 
             ivFish.setOnClickListener(this);
+            ivFish2.setOnClickListener(this);
             itemView.setOnClickListener(this);
 
 
@@ -174,7 +176,16 @@ public class AdapterRecorrido extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 }
 
+            } else if (view.getId() == ivFish2.getId()) {
+
+                if (onItemClickListenerAdapter!=null) {
+
+                    onItemClickListenerAdapter.modificarNombre(view, getAdapterPosition());
+
+                }
+
             }
+
         }
 
     }
@@ -184,6 +195,8 @@ public class AdapterRecorrido extends RecyclerView.Adapter<RecyclerView.ViewHold
         public void itemClicked(View view, int position);
 
         public void deleteItemClick (View view, int position);
+
+        public void modificarNombre (View view, int position);
 
     }
 

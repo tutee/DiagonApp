@@ -38,6 +38,7 @@ import com.rightdecisions.diagonapp.R;
 import com.rightdecisions.diagonapp.dialogs.AgRecoDialog;
 import com.rightdecisions.diagonapp.dialogs.NoSitiosDialog;
 import com.rightdecisions.diagonapp.dialogs.SimpleDialogAgReco;
+import com.rightdecisions.diagonapp.dialogs.SimpleDialogCamNomReco;
 import com.rightdecisions.diagonapp.dialogs.SimpleDialogDelReco;
 
 import org.json.JSONArray;
@@ -53,7 +54,7 @@ import java.util.Map;
  * Created by Tute on 02/01/2017.
  */
 
-public class MisRecorridosActivity extends AppCompatActivity implements SimpleDialogDelReco.OnSimpleDialogListener, AdapterRecorrido.OnItemClickListenerAdapter, NavigationView.OnNavigationItemSelectedListener,SimpleDialogAgReco.OnSimpleDialogListener ,NoSitiosDialog.OnSimpleDialogListener, GoogleApiClient.OnConnectionFailedListener {
+public class MisRecorridosActivity extends AppCompatActivity implements SimpleDialogCamNomReco.OnSimpleDialogListener, SimpleDialogDelReco.OnSimpleDialogListener, AdapterRecorrido.OnItemClickListenerAdapter, NavigationView.OnNavigationItemSelectedListener,SimpleDialogAgReco.OnSimpleDialogListener ,NoSitiosDialog.OnSimpleDialogListener, GoogleApiClient.OnConnectionFailedListener {
 
     ActionBarDrawerToggle toggle;
     private SharedPreferences preferenceSettingsUnique;
@@ -532,6 +533,67 @@ public class MisRecorridosActivity extends AppCompatActivity implements SimpleDi
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 
+    public void modinombre (final String recoid, final String reconame ) {
+        // Tag used to cancel the request
+        String tag_string_req = "req_register";
+
+        Log.e("ERROR", "ERROR6");
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                Globales.URL, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                //hideDialog();
+                //Log.e("ERROR envPass", response);
+                try {
+
+
+                    Log.e("ERROR", response);
+                    JSONObject obj = new JSONObject(response);
+
+
+                    if (!obj.getBoolean("error")) {
+                        Log.e("ERROR", "FUNCIONA");
+                        Toast.makeText(getApplicationContext(),
+                                "El nombre fue cambiado con exito", Toast.LENGTH_LONG).show();
+
+                    } else {
+                        Log.e("ERROR", "NO FUNCIONA");
+                        /*Toast.makeText(getApplicationContext(),
+                                "El nombre "+namereco+" ya existe", Toast.LENGTH_LONG).show();*/
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+                //hideDialog();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to register url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("tag", "nuevoNombreItinerario");
+                params.put("iti_usu_id", (preferenceSettingsUnique.getString("ID","")));
+                params.put("iti_id", recoid);
+                params.put("iti_nombre", reconame);
+                return params;
+            }
+
+        };
+
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+
     public  void logout(){
         preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
         preferenceSettingsUnique.edit().clear().apply();
@@ -591,7 +653,7 @@ public class MisRecorridosActivity extends AppCompatActivity implements SimpleDi
         Log.e("asdasdasdasd",s);
         if (s.equals("")) {
             Toast.makeText(getApplicationContext(),
-                    "No ingreso el nombre del nuevo recorrido", Toast.LENGTH_LONG).show();
+                    "No ingreso el nombre de su nuevo recorrido", Toast.LENGTH_LONG).show();
         } else {
             enviarNuevoRecorrido(s);
             cargarRecorridos(preferenceSettingsUnique.getString("ID", ""));
@@ -653,6 +715,13 @@ public class MisRecorridosActivity extends AppCompatActivity implements SimpleDi
 
     }
 
+    @Override
+    public void modificarNombre(View view, int position) {
+
+        new SimpleDialogCamNomReco().show(getSupportFragmentManager(), "SimpleDialog");
+        pos = position;
+
+    }
 
 
     @Override
@@ -665,6 +734,19 @@ public class MisRecorridosActivity extends AppCompatActivity implements SimpleDi
 
     @Override
     public void onNegativeButtonClickDel() {
+
+    }
+
+    @Override
+    public void onPossitiveButtonClickCNR(String s) {
+
+        modinombre(data.get(pos).getItiId(), s);
+        cargarRecorridos(preferenceSettingsUnique.getString("ID", ""));
+
+    }
+
+    @Override
+    public void onNegativeButtonClickCNR() {
 
     }
 }
