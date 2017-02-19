@@ -355,6 +355,7 @@ public class MisRecorridosActivity extends AppCompatActivity implements SimpleDi
 
                             //fishData.catName = json_data.getString("sit_lat");
                             //fishData.sizeName = json_data.getString("sit_lon");
+                            //asdasd
                             //fishData.price = json_data.getInt("sit_direccion");
                             data.add(fishData);
                         }
