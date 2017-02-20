@@ -14,6 +14,7 @@ public class DataRecorrido {
     public String itiName;
     public String itiId;
     public ImageButton itiImg;
+    public int itiCantSitios;
     public ArrayList<String> arraySitInt;
 
 

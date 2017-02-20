@@ -41,5 +41,9 @@ public class DataRecorridoSitio {
     public String getTipo() {
         return sitioTipo;
     }
+
+    public String getId() { return sitioId; }
+
+    public String getRecoId(){return sitioRecoId;}
 }
 

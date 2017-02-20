@@ -154,6 +154,7 @@ public class AdapterRecorridoExpandido extends RecyclerView.Adapter<RecyclerView
             //textType = (TextView) itemView.findViewById(R.id.textType);
             //textPrice = (TextView) itemView.findViewById(R.id.button);
 
+            itemView.setOnClickListener(this);
             ivFish1.setOnClickListener(this);
             ivFish2.setOnClickListener(this);
         }
@@ -178,11 +179,24 @@ public class AdapterRecorridoExpandido extends RecyclerView.Adapter<RecyclerView
 
                 }
 
+            } else if (view.getId() == itemView.getId()) {
+
+                if (onItemClickListenerAdapterRecorridoExpandido!=null) {
+
+                    onItemClickListenerAdapterRecorridoExpandido.itemListClick(view, getAdapterPosition());
+
+                }
+
             }
+
+
+
         }
     }
 
     public interface OnItemClickListenerAdapterRecorridoExpandido {
+
+        public void itemListClick (View view, int position);
 
         public void checkItemClick (View view, int position);
 

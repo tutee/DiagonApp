@@ -374,13 +374,95 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
         Snackbar.make(btnRequestDirection, t.getMessage(), Snackbar.LENGTH_SHORT).show();
     }
 
+    public void eliminarSitioReco (final String sitioid, final String itiid ) {
+        // Tag used to cancel the request
+        String tag_string_req = "req_register";
+
+        Log.e("ERROR", "ERROR6");
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                Globales.URL, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                //hideDialog();
+                //Log.e("ERROR envPass", response);
+                try {
+
+
+                    Log.e("ERROR", response);
+                    JSONObject obj = new JSONObject(response);
+
+
+                    if (!obj.getBoolean("error")) {
+                        Log.e("ERROR", "FUNCIONA");
+                        Toast.makeText(getApplicationContext(),
+                                "El sitio fue borrado con exito", Toast.LENGTH_LONG).show();
+
+                    } else {
+                        Log.e("ERROR", "NO FUNCIONA");
+                        /*Toast.makeText(getApplicationContext(),
+                                "El nombre "+namereco+" ya existe", Toast.LENGTH_LONG).show();*/
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+                //hideDialog();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to register url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("tag", "borrarSitioInt");
+                params.put("iti_usu_id", (preferenceSettingsUnique.getString("ID","")));
+                params.put("sitint_id", sitioid);
+                params.put("iti_id", itiid);
+                return params;
+            }
+
+        };
+
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+
+    @Override
+    public void itemListClick(View view, int position) {
+
+        Globales.SENombre = Globales.Globalsitiosrecoexp.get(position).getName();
+        //Globales.SEImagen = Globales.Globalsitiosrecoexp.get(position).getImage();
+        //Log.e("IMAGEN", Globales.SEImagen);
+
+        Intent intent = new Intent(RecorridoExpandidoActivity.this,
+                AnimateToolbar.class);
+        startActivity(intent);
+
+    }
+
     @Override
     public void checkItemClick(View view, int position) {
-        Log.e("IMAGEN", "ESTA TOCANDO EL CHECK!!!!!!");
+        Log.e("ESTA TOCANDO", Globales.Globalsitiosrecoexp.get(position).getId());
     }
 
     @Override
     public void deleteItemClick(View view, int position) {
-        Log.e("IMAGEN", "ESTA TOCANDO EL TARRITO!!!!!!");
+        Log.e("IMAGEN", Globales.Globalsitiosrecoexp.get(position).getRecoId());
+
+        eliminarSitioReco(Globales.Globalsitiosrecoexp.get(position).getId(),Globales.Globalsitiosrecoexp.get(position).getRecoId());
+
+        //NOSE SI ESTOS VAN, CUANDO CAMBIEMOS LO DE TIPO VAMOS A TENER QUE SACARLOS
+        //ordenarWaypoints();
+        //cargarAdapter();
+
+
     }
 }

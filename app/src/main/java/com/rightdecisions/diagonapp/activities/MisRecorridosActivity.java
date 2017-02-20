@@ -69,7 +69,7 @@ public class MisRecorridosActivity extends AppCompatActivity implements SimpleDi
     private FloatingActionButton addReco,addReco2;
     private LinearLayout l1;
     private ImageButton btnDelReco;
-    private int pos;
+    private int pos,cant;
 
 
     @Override
@@ -346,13 +346,18 @@ public class MisRecorridosActivity extends AppCompatActivity implements SimpleDi
 
                             }
 
+                            cant = 0;
 
-                            for (int x = 0; x < datasitio.size(); x++) {
-                                Log.e("FOR JSON", datasitio.get(x).getName());
-                            }
 
                             fishData.itiId = json_data.getString("iti_id");
                             fishData.itiName = json_data.getString("iti_nombre");
+
+                            for (int x = 0; x < datasitio.size(); x++) {
+                                if (datasitio.get(x).getRecoId().equals(fishData.itiId)){
+                                    cant = cant + 1;
+                                }
+                            }
+                            fishData.itiCantSitios = cant;
 
 
                             //fishData.catName = json_data.getString("sit_lat");

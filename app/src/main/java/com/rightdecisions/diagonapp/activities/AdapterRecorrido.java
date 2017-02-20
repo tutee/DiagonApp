@@ -53,6 +53,7 @@ public class AdapterRecorrido extends RecyclerView.Adapter<RecyclerView.ViewHold
         final MyHolder myHolder= (MyHolder) holder;
         DataRecorrido current = data.get(position);
         myHolder.textFishName.setText(current.itiName);
+        myHolder.textFishName1.setText("Cantidad de sitios: "+String.valueOf(current.itiCantSitios));
 
 
 
@@ -128,7 +129,7 @@ public class AdapterRecorrido extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView textFishName;
+        TextView textFishName, textFishName1;
         ImageButton ivFish, ivFish2;
 
 
@@ -141,6 +142,7 @@ public class AdapterRecorrido extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(itemView);
 
             textFishName= (TextView) itemView.findViewById(R.id.nombre);
+            textFishName1=(TextView) itemView.findViewById(R.id.cantsitios);
             ivFish= (ImageButton) itemView.findViewById(R.id.btnrecodelete);
             ivFish2= (ImageButton) itemView.findViewById(R.id.btnchgname);
 
