@@ -710,16 +710,18 @@ public class MisRecorridosActivity extends AppCompatActivity implements SimpleDi
     @Override
     public void deleteItemClick(View view, int position) {
 
-        new SimpleDialogDelReco().show(getSupportFragmentManager(), "SimpleDialog");
         pos = position;
+        new SimpleDialogDelReco().show(getSupportFragmentManager(), "SimpleDialog");
+
 
     }
 
     @Override
     public void modificarNombre(View view, int position) {
 
-        new SimpleDialogCamNomReco().show(getSupportFragmentManager(), "SimpleDialog");
         pos = position;
+        new SimpleDialogCamNomReco().show(getSupportFragmentManager(), "SimpleDialog");
+
 
     }
 

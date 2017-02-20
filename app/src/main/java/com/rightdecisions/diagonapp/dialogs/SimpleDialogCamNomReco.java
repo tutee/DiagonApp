@@ -43,9 +43,9 @@ public class SimpleDialogCamNomReco extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final EditText t = new EditText(getContext());
 
-        builder.setTitle("Cambio de nombre:")
+        builder.setTitle("Cambio de nombre")
 
-                .setMessage("Ingrese el nuevo nombre del recorrido:")
+                .setMessage("Ingrese el nuevo nombre de su recorrido:")
                 .setView(t)
 
 
@@ -54,7 +54,7 @@ public class SimpleDialogCamNomReco extends DialogFragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-                                listener.onPossitiveButtonClick(String.valueOf(t.getText()));
+                                listener.onPossitiveButtonClickCNR(String.valueOf(t.getText()));
                                 dismiss();
 
                             }
@@ -63,7 +63,7 @@ public class SimpleDialogCamNomReco extends DialogFragment {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                listener.onNegativeButtonClick();
+                                listener.onNegativeButtonClickCNR();
                                 dismiss();
                             }
                         });
@@ -72,8 +72,8 @@ public class SimpleDialogCamNomReco extends DialogFragment {
     }
 
     public interface OnSimpleDialogListener {
-        void onPossitiveButtonClick(String s);// Eventos Botón Positivo
-        void onNegativeButtonClick();// Eventos Botón Negativo
+        void onPossitiveButtonClickCNR(String s);// Eventos Botón Positivo
+        void onNegativeButtonClickCNR();// Eventos Botón Negativo
     }
 
 

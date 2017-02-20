@@ -2,6 +2,7 @@ package com.rightdecisions.diagonapp.activities;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.provider.ContactsContract;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,6 +25,7 @@ public class AdapterRecorridoExpandido extends RecyclerView.Adapter<RecyclerView
 
     private Context context;
     private LayoutInflater inflater;
+    private OnItemClickListenerAdapterRecorridoExpandido onItemClickListenerAdapterRecorridoExpandido;
     List<DataRecorridoSitio> data= Collections.emptyList();
     DataRecorridoSitio current;
     int currentPos=0;
@@ -119,6 +122,10 @@ public class AdapterRecorridoExpandido extends RecyclerView.Adapter<RecyclerView
         return data.size();
     }
 
+    public void setOnItemClickListenerAdapterRecorridoExpandido (OnItemClickListenerAdapterRecorridoExpandido onItemClickListenerAdapterRecorridoExpandido){
+        this.onItemClickListenerAdapterRecorridoExpandido = onItemClickListenerAdapterRecorridoExpandido;
+    }
+
    /* public void setFilter(List<DataRecorrido> countryModels) {
         data = new ArrayList<>();
         data.addAll(countryModels);
@@ -126,10 +133,11 @@ public class AdapterRecorridoExpandido extends RecyclerView.Adapter<RecyclerView
     }*/
 
 
-    class MyHolder extends RecyclerView.ViewHolder{
+    class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView textFishName;
         ImageView ivFish;
+        ImageButton ivFish1, ivFish2;
 
         TextView textSize;
         TextView textType;
@@ -139,14 +147,46 @@ public class AdapterRecorridoExpandido extends RecyclerView.Adapter<RecyclerView
         public MyHolder(View itemView) {
             super(itemView);
             textFishName= (TextView) itemView.findViewById(R.id.nombre);
-
             ivFish= (ImageView) itemView.findViewById(R.id.img);
+            ivFish1 = (ImageButton) itemView.findViewById(R.id.btncheck);
+            ivFish2 = (ImageButton) itemView.findViewById(R.id.btnrecodelete);
             //textSize = (TextView) itemView.findViewById(R.id.descripcion);
             //textType = (TextView) itemView.findViewById(R.id.textType);
             //textPrice = (TextView) itemView.findViewById(R.id.button);
+
+            ivFish1.setOnClickListener(this);
+            ivFish2.setOnClickListener(this);
         }
 
 
+        @Override
+        public void onClick(View view) {
+
+            if (view.getId() == ivFish1.getId()) {
+
+                if (onItemClickListenerAdapterRecorridoExpandido!=null) {
+
+                    onItemClickListenerAdapterRecorridoExpandido.checkItemClick(view, getAdapterPosition());
+
+                }
+
+            } else if (view.getId() == ivFish2.getId()) {
+
+                if (onItemClickListenerAdapterRecorridoExpandido!=null) {
+
+                    onItemClickListenerAdapterRecorridoExpandido.deleteItemClick(view, getAdapterPosition());
+
+                }
+
+            }
+        }
+    }
+
+    public interface OnItemClickListenerAdapterRecorridoExpandido {
+
+        public void checkItemClick (View view, int position);
+
+        public void deleteItemClick (View view, int position);
 
     }
 

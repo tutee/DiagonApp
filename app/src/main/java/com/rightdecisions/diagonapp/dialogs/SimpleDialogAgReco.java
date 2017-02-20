@@ -55,7 +55,7 @@ public class SimpleDialogAgReco extends DialogFragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-                                listener.onPossitiveButtonClickCNR(String.valueOf(t.getText()));
+                                listener.onPossitiveButtonClick(String.valueOf(t.getText()));
                                 dismiss();
 
                             }
@@ -64,7 +64,7 @@ public class SimpleDialogAgReco extends DialogFragment {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                listener.onNegativeButtonClickCNR();
+                                listener.onNegativeButtonClick();
                                 dismiss();
                             }
                         });
@@ -73,8 +73,8 @@ public class SimpleDialogAgReco extends DialogFragment {
     }
 
     public interface OnSimpleDialogListener {
-        void onPossitiveButtonClickCNR(String s);// Eventos Botón Positivo
-        void onNegativeButtonClickCNR();// Eventos Botón Negativo
+        void onPossitiveButtonClick(String s);// Eventos Botón Positivo
+        void onNegativeButtonClick();// Eventos Botón Negativo
     }
 
 

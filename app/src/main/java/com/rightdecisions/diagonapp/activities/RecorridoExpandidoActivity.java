@@ -60,7 +60,7 @@ import java.util.Map;
  * Created by Tute on 02/01/2017.
  */
 
-public class RecorridoExpandidoActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, SimpleDialog.OnSimpleDialogListener, View.OnClickListener, OnMapReadyCallback, DirectionCallback {
+public class RecorridoExpandidoActivity extends AppCompatActivity implements AdapterRecorridoExpandido.OnItemClickListenerAdapterRecorridoExpandido,GoogleApiClient.OnConnectionFailedListener, SimpleDialog.OnSimpleDialogListener, View.OnClickListener, OnMapReadyCallback, DirectionCallback {
 
     ActionBarDrawerToggle toggle;
     private SharedPreferences preferenceSettingsUnique;
@@ -161,6 +161,7 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Goo
 
         mRVFishPrice = (RecyclerView) findViewById(R.id.fishPriceList);
         mAdapter = new AdapterRecorridoExpandido(RecorridoExpandidoActivity.this, Globales.Globalsitiosrecoexp);
+        mAdapter.setOnItemClickListenerAdapterRecorridoExpandido(RecorridoExpandidoActivity.this);
         mRVFishPrice.setAdapter(mAdapter);
         mRVFishPrice.setLayoutManager(new LinearLayoutManager(RecorridoExpandidoActivity.this));
     }
@@ -371,5 +372,15 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Goo
     @Override
     public void onDirectionFailure(Throwable t) {
         Snackbar.make(btnRequestDirection, t.getMessage(), Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void checkItemClick(View view, int position) {
+        Log.e("IMAGEN", "ESTA TOCANDO EL CHECK!!!!!!");
+    }
+
+    @Override
+    public void deleteItemClick(View view, int position) {
+        Log.e("IMAGEN", "ESTA TOCANDO EL TARRITO!!!!!!");
     }
 }
