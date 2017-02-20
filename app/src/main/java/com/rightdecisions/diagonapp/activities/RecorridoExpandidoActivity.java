@@ -115,7 +115,7 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
         //cargarAdapter();
 
 
-        mRVFishPrice.addOnItemTouchListener(
+        /*mRVFishPrice.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, mRVFishPrice ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
 
@@ -128,7 +128,7 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
                                 AnimateToolbar.class);
                         startActivity(intent);*/
 
-                    }
+                   /* }
 
                     @Override public void onLongItemClick(View view, int position) {
 
@@ -139,7 +139,7 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
 
                     }
                 })
-        );
+        );*/
 
         cargarPuntos(asd);
 
