@@ -182,7 +182,7 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
                 double lat = Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLat());
                 double lon = Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLon());
                 origin = new LatLng(lat,lon);
-            } else  {
+            } else if (Globales.Globalsitiosrecoexp.get(i).getTipo().equals("Destino")) {
                 double lat = Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLat());
                 double lon = Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLon());
                 destination = new LatLng(lat,lon);
@@ -360,7 +360,7 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
 
             //Log.e("WAYPOINTS!", String.valueOf(googleMap.);
 
-            ordenarWaypoints();
+            //ordenarWaypoints();
 
             cargarAdapter();
 
