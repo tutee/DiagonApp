@@ -173,12 +173,12 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
 
 
         for (int i = 0; i < Globales.Globalsitiosrecoexp.size(); i++) {
-            if (Globales.Globalsitiosrecoexp.get(i).getCC().equals("cuerpo")) {
+            if (Globales.Globalsitiosrecoexp.get(i).getTipo().equals("Parada")) {
                 double lat = Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLat());
                 double lon = Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLon());
                 LatLng u = new LatLng(lat, lon);
                 l.add(u);
-            } else if (Globales.Globalsitiosrecoexp.get(i).getCC().equals("cabeza")) {
+            } else if (Globales.Globalsitiosrecoexp.get(i).getTipo().equals("Origen")) {
                 double lat = Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLat());
                 double lon = Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLon());
                 origin = new LatLng(lat,lon);
@@ -195,7 +195,7 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
 
         for (int i = 0; i < Globales.Globalsitiosrecoexp.size(); i++) {
 
-            if (Globales.Globalsitiosrecoexp.get(i).getCC().equals("cuerpo")) {
+            if (Globales.Globalsitiosrecoexp.get(i).getTipo().equals("Parada")) {
 
                 for (int j = 0; j < Globales.Globalsitioplaceid.size(); j++) {
 
@@ -235,25 +235,25 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
 
         for (int i = 0; i < Globales.Globalsitiosrecoexp.size(); i++) {
 
-            switch (Globales.Globalsitiosrecoexp.get(posicion).getCC()) {
-                case "cuerpo":
+            switch (Globales.Globalsitiosrecoexp.get(posicion).getTipo()) {
+                case "Parada":
 
-                    if (estado.equals(Globales.Globalsitiosrecoexp.get(i).getCC())) {
-                        Globales.Globalsitiosrecoexp.get(i).sitioCC = "cuerpo";
+                    if (estado.equals(Globales.Globalsitiosrecoexp.get(i).getTipo())) {
+                        Globales.Globalsitiosrecoexp.get(i).sitioTipo = "Parada";
                         Globales.Globalsitiosrecoexp.get(i).sitioPos = Globales.Globalsitiosrecoexp.get(posicion).getPos();
                     }
                     break;
-                case "cabeza":
+                case "Origen":
 
-                    if (estado.equals(Globales.Globalsitiosrecoexp.get(i).getCC())) {
-                        Globales.Globalsitiosrecoexp.get(i).sitioCC = "cabeza";
+                    if (estado.equals(Globales.Globalsitiosrecoexp.get(i).getTipo())) {
+                        Globales.Globalsitiosrecoexp.get(i).sitioTipo = "Origen";
                         Globales.Globalsitiosrecoexp.get(i).sitioPos = Globales.Globalsitiosrecoexp.get(posicion).getPos();
                     }
                     break;
-                case "cola":
+                case "Destino":
 
-                    if (estado.equals(Globales.Globalsitiosrecoexp.get(i).getCC())) {
-                        Globales.Globalsitiosrecoexp.get(i).sitioCC = "cola";
+                    if (estado.equals(Globales.Globalsitiosrecoexp.get(i).getTipo())) {
+                        Globales.Globalsitiosrecoexp.get(i).sitioTipo= "Destino";
                         Globales.Globalsitiosrecoexp.get(i).sitioPos = Globales.Globalsitiosrecoexp.get(posicion).getPos();
                     }
                     break;
@@ -261,8 +261,8 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
             }
         }
 
-        Globales.Globalsitiosrecoexp.get(posicion).sitioCC = estado;
-        if (estado.equals("cabeza")){
+        Globales.Globalsitiosrecoexp.get(posicion).sitioTipo = estado;
+        if (estado.equals("Origen")){
             Globales.Globalsitiosrecoexp.get(posicion).sitioPos = 0;
         } else {
             Globales.Globalsitiosrecoexp.get(posicion).sitioPos = Globales.Globalsitiosrecoexp.size()-1;
@@ -433,6 +433,14 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
         };
 
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+
+    @Override
+    public void itemListLongClick(View view, int position) {
+
+        posicion = position;
+        new SimpleDialog().show(getSupportFragmentManager(), "SimpleDialog");
+
     }
 
     @Override

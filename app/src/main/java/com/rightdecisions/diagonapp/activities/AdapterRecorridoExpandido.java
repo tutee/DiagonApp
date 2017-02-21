@@ -133,7 +133,7 @@ public class AdapterRecorridoExpandido extends RecyclerView.Adapter<RecyclerView
     }*/
 
 
-    class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         TextView textFishName;
         ImageView ivFish;
@@ -155,6 +155,7 @@ public class AdapterRecorridoExpandido extends RecyclerView.Adapter<RecyclerView
             //textPrice = (TextView) itemView.findViewById(R.id.button);
 
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
             ivFish1.setOnClickListener(this);
             ivFish2.setOnClickListener(this);
         }
@@ -192,9 +193,25 @@ public class AdapterRecorridoExpandido extends RecyclerView.Adapter<RecyclerView
 
 
         }
+
+        @Override
+        public boolean onLongClick(View view) {
+            if (view.getId() == itemView.getId()){
+
+                if (onItemClickListenerAdapterRecorridoExpandido!=null) {
+
+                    onItemClickListenerAdapterRecorridoExpandido.itemListLongClick(view, getAdapterPosition());
+
+                }
+
+            }
+            return true;
+        }
     }
 
     public interface OnItemClickListenerAdapterRecorridoExpandido {
+
+        public void itemListLongClick (View view, int position);
 
         public void itemListClick (View view, int position);
 
