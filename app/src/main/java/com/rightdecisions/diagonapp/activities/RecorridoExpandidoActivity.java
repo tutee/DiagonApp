@@ -173,6 +173,7 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
                     intent = new Intent (android.content.Intent.ACTION_VIEW);
                     for (int i = 0; i < Globales.Globalsitiosrecoexp.size(); i++) {
 
+                        //NOSE COMO HACER ESTO
                         intent.setData(Uri.parse("https://maps.google.com/maps?daddr="+Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLat())+","+Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLon())));
 
 
