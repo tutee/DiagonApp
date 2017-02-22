@@ -159,6 +159,7 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
             @Override
             public void onClick(View view) {
 
+                //Intent a Google Maps
                 String request;
 
                 if (Globales.Globalsitiosrecoexp.size() == 1) {
