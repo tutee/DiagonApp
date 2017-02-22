@@ -4,9 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -71,6 +73,7 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
     private AdapterRecorridoExpandido mAdapter;
     private SimpleDialog pDialog;
     int posicion;
+    private FloatingActionButton addReco;
     String estado;
 
 
@@ -93,6 +96,8 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
         setContentView(R.layout.activity_recorridoexpand);
 
         Globales.Globalsitioplaceid = new ArrayList<>();
+
+        addReco = (FloatingActionButton)findViewById(R.id.agrecoButton);
 
         preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
 
@@ -150,7 +155,34 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
         requestDirection();
 
 
+        addReco.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+
+                if (Globales.Globalsitiosrecoexp.size() == 1) {
+                Intent intent;
+                intent = new Intent (android.content.Intent.ACTION_VIEW);
+                //intent.setData(Uri.parse("https://maps.google.com/maps?daddr=-34.92012300,-57.95319200+to:-34.92282880,-57.95625550"));
+                //intent.setData(Uri.parse("https://maps.google.com/maps?daddr=Cordoba,Argentina+to:Tortuguitas"));
+                    intent.setData(Uri.parse("https://maps.google.com/maps?daddr="+Double.parseDouble(Globales.Globalsitiosrecoexp.get(0).getLat())+","+Double.parseDouble(Globales.Globalsitiosrecoexp.get(0).getLon())));
+                startActivity(intent);
+                } else if (Globales.Globalsitiosrecoexp.size() > 1) {
+
+                    Intent intent;
+                    intent = new Intent (android.content.Intent.ACTION_VIEW);
+                    for (int i = 0; i < Globales.Globalsitiosrecoexp.size(); i++) {
+
+                        intent.setData(Uri.parse("https://maps.google.com/maps?daddr="+Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLat())+","+Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLon())));
+
+
+                    }
+
+
+
+                }
+            }
+        });
 
 
 
