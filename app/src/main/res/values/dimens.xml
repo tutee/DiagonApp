@@ -10,6 +10,7 @@
     <dimen name="g_top_margin">100dp</dimen>
 
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_play_margin">3dp</dimen>
 
     <dimen name="margen_superior_lista">8dp</dimen>
     <dimen name="altura_imagen_item">192dp</dimen>

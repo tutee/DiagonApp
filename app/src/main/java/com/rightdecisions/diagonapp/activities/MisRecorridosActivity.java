@@ -705,47 +705,60 @@ public class MisRecorridosActivity extends AppCompatActivity implements SimpleDi
 
         }
 
-        while (!Globales.lista.isEmpty()) {
+        if (Globales.lista.size() != 1) {
 
-            for (int j = 0; j < Globales.lista.size(); j++) {
+            while (!Globales.lista.isEmpty()) {
 
-                if(Globales.lista.get(j).getTipo().equals("Origen")) {
+                for (int j = 0; j < Globales.lista.size(); j++) {
 
-                    Globales.lista.get(j).sitioPos = 0;
-                    Globales.Globalsitiosrecoexp.add(Globales.lista.get(j));
+                    if (Globales.lista.get(j).getTipo().equals("Origen")) {
 
-                    Globales.lista.remove(Globales.lista.get(j));
-                    Log.e("ORIGEN LISTA GSRE", String.valueOf(Globales.Globalsitiosrecoexp));
+                        Globales.lista.get(j).sitioPos = 0;
+                        Globales.Globalsitiosrecoexp.add(Globales.lista.get(j));
+
+                        Globales.lista.remove(Globales.lista.get(j));
+                        Log.e("ORIGEN LISTA GSRE", String.valueOf(Globales.Globalsitiosrecoexp));
+
+                    }
 
                 }
 
+                for (int j = 0; j < Globales.lista.size(); j++) {
+
+                    if (Globales.lista.get(j).getTipo().equals("Parada")) {
+
+                        Globales.lista.get(j).sitioPos = posmanual;
+                        Globales.Globalsitiosrecoexp.add(Globales.lista.get(j));
+                        Globales.lista.remove(Globales.lista.get(j));
+                        Log.e("PARADA LISTA GSRE", String.valueOf(Globales.Globalsitiosrecoexp));
+                        posmanual = posmanual + 1;
+                    }
+
+                }
+
+                for (int j = 0; j < Globales.lista.size(); j++) {
+
+                    if (Globales.lista.get(j).getTipo().equals("Destino")) {
+
+                        Globales.lista.get(j).sitioPos = Globales.Globalsitiosrecoexp.size() + 1;
+                        Globales.Globalsitiosrecoexp.add(Globales.lista.get(j));
+                        Globales.lista.remove(Globales.lista.get(j));
+                        Log.e("DESTINO LISTA GSRE", String.valueOf(Globales.Globalsitiosrecoexp));
+                    }
+
+                }
             }
+        } else if (Globales.lista.size() == 1) {
+            Globales.Globalsitiosrecoexp.add(Globales.lista.get(0));
+            Globales.lista.remove(Globales.lista.get(0));
+            Log.e("ORIGEN LISTA GSRE", "ENTRE POR UNICO!!!!");
+            for (int j = 0; j < Globales.Globalsitiosrecoexp.size(); j++) {
 
-            for (int j = 0; j < Globales.lista.size(); j++) {
-
-                if(Globales.lista.get(j).getTipo().equals("Parada")) {
-
-                    Globales.lista.get(j).sitioPos = posmanual;
-                    Globales.Globalsitiosrecoexp.add(Globales.lista.get(j));
-                    Globales.lista.remove(Globales.lista.get(j));
-                    Log.e("PARADA LISTA GSRE", String.valueOf(Globales.Globalsitiosrecoexp));
-                    posmanual = posmanual + 1;
-                }
-
-            }
-
-            for (int j = 0; j < Globales.lista.size(); j++) {
-
-                if(Globales.lista.get(j).getTipo().equals("Destino")) {
-
-                    Globales.lista.get(j).sitioPos = Globales.Globalsitiosrecoexp.size() + 1;
-                    Globales.Globalsitiosrecoexp.add(Globales.lista.get(j));
-                    Globales.lista.remove(Globales.lista.get(j));
-                    Log.e("DESTINO LISTA GSRE", String.valueOf(Globales.Globalsitiosrecoexp));
-                }
+                Log.e("EL UNICO ES", String.valueOf(Globales.Globalsitiosrecoexp.get(j)));
 
             }
         }
+
 
 
         Log.e("ORIGEN LISTA GSRE", String.valueOf(Globales.Globalsitiosrecoexp));

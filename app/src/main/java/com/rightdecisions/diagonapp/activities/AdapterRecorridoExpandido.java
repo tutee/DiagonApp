@@ -68,8 +68,14 @@ public class AdapterRecorridoExpandido extends RecyclerView.Adapter<RecyclerView
         } else if (current.getTipo().equals("Destino")){
             myHolder.ivFish.setBackgroundResource(R.mipmap.ic_places_red);
         }
-        else {Log.e("ERROR", current.getName());
-            myHolder.ivFish.setBackgroundResource(R.mipmap.ic_places);}
+        else if (current.getTipo().equals("Parada")){
+            Log.e("ERROR", current.getName());
+            myHolder.ivFish.setBackgroundResource(R.mipmap.ic_places);
+        }
+        else if (current.getTipo().equals("Unico")){
+            Log.e("ERROR", current.getName());
+            myHolder.ivFish.setBackgroundResource(R.mipmap.ic_places);
+        }
         /*for (int j = 0; j < current.arraySitInt.size(); j++){
             String obj = String.valueOf(current.arraySitInt);
             myHolder.textFishName.setText(obj);

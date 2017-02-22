@@ -195,6 +195,11 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
                 double lat = Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLat());
                 double lon = Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLon());
                 destination = new LatLng(lat,lon);
+            } else if (Globales.Globalsitiosrecoexp.get(i).getTipo().equals("Unico")) {
+                double lat = Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLat());
+                double lon = Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLon());
+                origin = new LatLng(lat, lon);
+                destination = new LatLng(lat, lon);
             }
         }
 
@@ -230,12 +235,17 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
             Log.e("ORDEN: ", String.valueOf(Globales.Globalsitiosrecoexp));
         }
 
-        Collections.sort(Globales.Globalsitiosrecoexp, new Comparator<DataRecorridoSitio>() {
-            @Override
-            public int compare(DataRecorridoSitio s1, DataRecorridoSitio s2) {
-                return ((Integer)s1.getPos()).compareTo(s2.getPos());
-            }
-        });
+        if (Globales.Globalsitiosrecoexp.size() > 1 ) {
+
+            Collections.sort(Globales.Globalsitiosrecoexp, new Comparator<DataRecorridoSitio>() {
+                @Override
+                public int compare(DataRecorridoSitio s1, DataRecorridoSitio s2) {
+                    return ((Integer)s1.getPos()).compareTo(s2.getPos());
+                }
+            });
+
+        }
+
 
         Log.e("ORDEN SIIIII: ", String.valueOf(Globales.Globalsitiosrecoexp));
     }
