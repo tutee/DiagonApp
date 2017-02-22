@@ -58,9 +58,9 @@ public class AdapterRecorridoExpandido extends RecyclerView.Adapter<RecyclerView
 
         Log.e("ERROR", String.valueOf(data.indexOf(current)));
         myHolder.textFishName.setText(current.getName());
-        if (current.getCC().equals("cabeza")){
+        if (current.getTipo().equals("Origen")){
             myHolder.ivFish.setBackgroundResource(R.mipmap.ic_places_green);
-        } else if (current.getCC().equals("cola")){
+        } else if (current.getTipo().equals("Destino")){
             myHolder.ivFish.setBackgroundResource(R.mipmap.ic_places_red);
         }
         else {Log.e("ERROR", current.getName());

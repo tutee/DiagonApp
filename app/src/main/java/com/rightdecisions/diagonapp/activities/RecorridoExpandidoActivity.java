@@ -193,6 +193,17 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
 
     public void ordenarWaypoints(){
 
+        Log.e("LISTA PLACES ID!", String.valueOf(Globales.Globalsitioplaceid));
+
+        for (int h = 0; h < Globales.Globalsitiosrecoexp.size(); h++) {
+
+            Log.e("LISTA SITIOS RECO EXP!", String.valueOf(Globales.Globalsitiosrecoexp.get(h).getName()));
+            Log.e("LISTA SITIOS RECO EXP!", String.valueOf(Globales.Globalsitiosrecoexp.get(h).getSPID()));
+
+        }
+
+
+
         for (int i = 0; i < Globales.Globalsitiosrecoexp.size(); i++) {
 
             if (Globales.Globalsitiosrecoexp.get(i).getTipo().equals("Parada")) {
@@ -360,7 +371,7 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
 
             //Log.e("WAYPOINTS!", String.valueOf(googleMap.);
 
-            //ordenarWaypoints();
+            ordenarWaypoints();
 
             cargarAdapter();
 
@@ -463,6 +474,7 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
 
     @Override
     public void deleteItemClick(View view, int position) {
+        Log.e("IMAGEN", Globales.Globalsitiosrecoexp.get(position).getId());
         Log.e("IMAGEN", Globales.Globalsitiosrecoexp.get(position).getRecoId());
 
         eliminarSitioReco(Globales.Globalsitiosrecoexp.get(position).getId(),Globales.Globalsitiosrecoexp.get(position).getRecoId());
