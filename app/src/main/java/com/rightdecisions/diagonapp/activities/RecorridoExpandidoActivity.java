@@ -159,6 +159,7 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
             @Override
             public void onClick(View view) {
 
+                String request;
 
                 if (Globales.Globalsitiosrecoexp.size() == 1) {
                 Intent intent;
@@ -171,14 +172,19 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
 
                     Intent intent;
                     intent = new Intent (android.content.Intent.ACTION_VIEW);
+                    request = "https://maps.google.com/maps?daddr=";
                     for (int i = 0; i < Globales.Globalsitiosrecoexp.size(); i++) {
 
-                        //NOSE COMO HACER ESTO!!
-                        intent.setData(Uri.parse("https://maps.google.com/maps?daddr="+Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLat())+","+Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLon())));
+                        if(i==0){
+                            request = request + Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLat())+","+Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLon());
+                        } else {
+                            request = request + "+to:" +Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLat())+","+Double.parseDouble(Globales.Globalsitiosrecoexp.get(i).getLon());
+                        }
 
 
                     }
-
+                    intent.setData(Uri.parse(request));
+                    startActivity(intent);
 
 
                 }
