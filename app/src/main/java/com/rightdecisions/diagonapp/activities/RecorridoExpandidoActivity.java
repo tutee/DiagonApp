@@ -159,6 +159,15 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
 
     public void cargarAdapter () {
 
+
+        for (int i = 0; i < Globales.Globalsitiosrecoexp.size(); i++) {
+
+            Log.e("NOMBRE DEL SITIO", Globales.Globalsitiosrecoexp.get(i).getName());
+            Log.e("POSICION DEL SITIO", String.valueOf(Globales.Globalsitiosrecoexp.get(i).getPos()));
+
+        }
+
+
         mRVFishPrice = (RecyclerView) findViewById(R.id.fishPriceList);
         mAdapter = new AdapterRecorridoExpandido(RecorridoExpandidoActivity.this, Globales.Globalsitiosrecoexp);
         mAdapter.setOnItemClickListenerAdapterRecorridoExpandido(RecorridoExpandidoActivity.this);
@@ -191,6 +200,7 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
 
     }
 
+    //Ordena las PARADAS segun el orden optimo que de el Map
     public void ordenarWaypoints(){
 
         Log.e("LISTA PLACES ID!", String.valueOf(Globales.Globalsitioplaceid));
@@ -231,7 +241,6 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
     }
 
 
-
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
@@ -240,6 +249,8 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
     @Override
     public void onPossitiveButtonClick(String c) {
 
+        //NO ESTA EN FUNCIONAMIENTO, HAY QUE REALIZAR LAS TAGS EN EL INDEX
+        /*
         Log.e("TIPO", String.valueOf(c));
         estado = c;
 
@@ -293,7 +304,7 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
         googleMap.clear();
         cargarPuntos(asd);
         requestDirection();
-
+        */
     }
 
     @Override

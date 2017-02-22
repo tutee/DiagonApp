@@ -56,7 +56,12 @@ public class AdapterRecorridoExpandido extends RecyclerView.Adapter<RecyclerView
 
 
 
-        Log.e("ERROR", String.valueOf(data.indexOf(current)));
+        Log.e("REPETICION NUMERO", String.valueOf(data.indexOf(current)));
+        Log.e("POSICION", String.valueOf(current.getSitioPos()));
+        //current.sitioPos = data.indexOf(current);
+
+        //Log.e("SITIO", String.valueOf(data.indexOf(current)));
+       //Log.e("POSICION", String.valueOf(data.indexOf(current)));
         myHolder.textFishName.setText(current.getName());
         if (current.getTipo().equals("Origen")){
             myHolder.ivFish.setBackgroundResource(R.mipmap.ic_places_green);

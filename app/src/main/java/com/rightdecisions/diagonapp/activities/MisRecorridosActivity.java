@@ -69,7 +69,7 @@ public class MisRecorridosActivity extends AppCompatActivity implements SimpleDi
     private FloatingActionButton addReco,addReco2;
     private LinearLayout l1;
     private ImageButton btnDelReco;
-    private int pos,cant;
+    private int pos,cant,posmanual;
 
 
     @Override
@@ -327,8 +327,10 @@ public class MisRecorridosActivity extends AppCompatActivity implements SimpleDi
                                     sitioData.sitioLat = json_sit.getString("sit_lat");
                                     sitioData.sitioLon = json_sit.getString("sit_lon");
                                     sitioData.sitioPos = j;
+                                    Log.e("POSICION DEL SITIO", String.valueOf(sitioData.sitioPos));
                                     sitioData.sitioPID = json_sit.getString("sit_place_id");
                                     sitioData.sitioTipo = json_sit.getString("sitint_tipo");
+                                    Log.e("TIPO DE SITIO", String.valueOf(sitioData.sitioTipo));
                                     if (j == 0) {
                                         sitioData.sitioCC = "cabeza";
                                     } else if (j == sitios.length() - 1) {
@@ -339,8 +341,6 @@ public class MisRecorridosActivity extends AppCompatActivity implements SimpleDi
 
 
                                     datasitio.add(sitioData);
-                                    Log.e("DATA SITIO POSICION", String.valueOf(datasitio.get(j).getCC()));
-                                    Log.e("DATA SITIO TIPO!!!!", String.valueOf(datasitio.get(j).getTipo()));
 
                                 }
 
@@ -680,7 +680,9 @@ public class MisRecorridosActivity extends AppCompatActivity implements SimpleDi
 
         //Globales.Globalidrecoexp = data.get(position).getItiId();
         Globales.Globalsitiosrecoexp = new ArrayList<>();
+        Globales.lista = new ArrayList<>();
         Globales.Globalnombrecoexp = data.get(position).getName();
+        posmanual = 1;
 
         Log.e("ERROR", String.valueOf(datasitio.size()));
 
@@ -691,13 +693,62 @@ public class MisRecorridosActivity extends AppCompatActivity implements SimpleDi
 
             if(data.get(position).getItiId().equals(datasitio.get(i).sitioRecoId) ) {
 
-                Log.e("ERROR", String.valueOf(datasitio.get(i)));
-                Log.e("ERROR", String.valueOf(datasitio.get(i).getName()));
-                Globales.Globalsitiosrecoexp.add(datasitio.get(i));
+                Log.e("ITEM A AGREGAR", String.valueOf(datasitio.get(i)));
+                Log.e("NOMBRE DEL SITIO", String.valueOf(datasitio.get(i).getName()));
+                Log.e("POSICION DEL SITIO", String.valueOf(datasitio.get(i).getPos()));
+
+                //datasitio.get(i).sitioPos = posmanual;
+                Globales.lista.add(datasitio.get(i));
+
+
+            }
+
+        }
+
+        while (!Globales.lista.isEmpty()) {
+
+            for (int j = 0; j < Globales.lista.size(); j++) {
+
+                if(Globales.lista.get(j).getTipo().equals("Origen")) {
+
+                    Globales.lista.get(j).sitioPos = 0;
+                    Globales.Globalsitiosrecoexp.add(Globales.lista.get(j));
+
+                    Globales.lista.remove(Globales.lista.get(j));
+                    Log.e("ORIGEN LISTA GSRE", String.valueOf(Globales.Globalsitiosrecoexp));
+
+                }
+
+            }
+
+            for (int j = 0; j < Globales.lista.size(); j++) {
+
+                if(Globales.lista.get(j).getTipo().equals("Parada")) {
+
+                    Globales.lista.get(j).sitioPos = posmanual;
+                    Globales.Globalsitiosrecoexp.add(Globales.lista.get(j));
+                    Globales.lista.remove(Globales.lista.get(j));
+                    Log.e("PARADA LISTA GSRE", String.valueOf(Globales.Globalsitiosrecoexp));
+                    posmanual = posmanual + 1;
+                }
+
+            }
+
+            for (int j = 0; j < Globales.lista.size(); j++) {
+
+                if(Globales.lista.get(j).getTipo().equals("Destino")) {
+
+                    Globales.lista.get(j).sitioPos = Globales.Globalsitiosrecoexp.size() + 1;
+                    Globales.Globalsitiosrecoexp.add(Globales.lista.get(j));
+                    Globales.lista.remove(Globales.lista.get(j));
+                    Log.e("DESTINO LISTA GSRE", String.valueOf(Globales.Globalsitiosrecoexp));
+                }
 
             }
         }
 
+
+        Log.e("ORIGEN LISTA GSRE", String.valueOf(Globales.Globalsitiosrecoexp));
 
 
         if (Globales.Globalsitiosrecoexp.size() != 0){
