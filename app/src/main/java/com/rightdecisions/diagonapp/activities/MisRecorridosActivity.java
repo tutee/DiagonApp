@@ -28,6 +28,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -49,6 +50,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Tute on 02/01/2017.
@@ -96,10 +99,21 @@ public class MisRecorridosActivity extends AppCompatActivity implements SimpleDi
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
+        preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav);
         navigationView.setNavigationItemSelectedListener(this);
+        View headerView = navigationView.getHeaderView(0);
+        TextView emailText = (TextView) headerView.findViewById(R.id.email);
+        emailText.setText(preferenceSettingsUnique.getString("email",""));
+        TextView nombreText = (TextView) headerView.findViewById(R.id.username);
+        nombreText.setText((preferenceSettingsUnique.getString("apellido","")+" "+(preferenceSettingsUnique.getString("nombre",""))));
+        CircleImageView circleImageView = (CircleImageView) headerView.findViewById(R.id.profile_image);
 
-        preferenceSettingsUnique = getSharedPreferences(MY_UNIQUE_PREFERENCE_FILE, PREFERENCE_MODE_PRIVATE);
+
+        Glide.with(this).load(preferenceSettingsUnique.getString("imagen","")).into(circleImageView);
+
+
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()

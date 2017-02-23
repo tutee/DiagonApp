@@ -44,6 +44,7 @@ import com.rightdecisions.diagonapp.DirectionCallback;
 import com.rightdecisions.diagonapp.GoogleDirection;
 import com.rightdecisions.diagonapp.R;
 import com.rightdecisions.diagonapp.dialogs.SimpleDialog;
+import com.rightdecisions.diagonapp.dialogs.SimpleDialogDelSitioReco;
 import com.rightdecisions.diagonapp.model.Direction;
 import com.rightdecisions.diagonapp.util.DirectionConverter;
 
@@ -62,7 +63,7 @@ import java.util.Map;
  * Created by Tute on 02/01/2017.
  */
 
-public class RecorridoExpandidoActivity extends AppCompatActivity implements AdapterRecorridoExpandido.OnItemClickListenerAdapterRecorridoExpandido,GoogleApiClient.OnConnectionFailedListener, SimpleDialog.OnSimpleDialogListener, View.OnClickListener, OnMapReadyCallback, DirectionCallback {
+public class RecorridoExpandidoActivity extends AppCompatActivity implements SimpleDialogDelSitioReco.OnSimpleDialogListener,AdapterRecorridoExpandido.OnItemClickListenerAdapterRecorridoExpandido,GoogleApiClient.OnConnectionFailedListener, SimpleDialog.OnSimpleDialogListener, View.OnClickListener, OnMapReadyCallback, DirectionCallback {
 
     ActionBarDrawerToggle toggle;
     private SharedPreferences preferenceSettingsUnique;
@@ -72,7 +73,7 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
     private RecyclerView mRVFishPrice;
     private AdapterRecorridoExpandido mAdapter;
     private SimpleDialog pDialog;
-    int posicion;
+    int posicion, pos;
     private FloatingActionButton addReco;
     String estado;
 
@@ -245,6 +246,7 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
 
     }
 
+
     //Ordena las PARADAS segun el orden optimo que de el Map
     public void ordenarWaypoints(){
 
@@ -291,6 +293,69 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
     }
 
 
+    public void cambiarTipo (final String sitid, final String recoid, final String sittipo ) {
+        // Tag used to cancel the request
+        String tag_string_req = "req_register";
+
+        Log.e("ERROR", "ERROR6");
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                Globales.URL, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                //hideDialog();
+                //Log.e("ERROR envPass", response);
+                try {
+
+
+                    Log.e("ERROR", response);
+                    JSONObject obj = new JSONObject(response);
+
+
+                    if (!obj.getBoolean("error")) {
+                        Log.e("ERROR", "FUNCIONA");
+                        Toast.makeText(getApplicationContext(),
+                                "El cambio fue realizado con exito", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        Log.e("ERROR", "NO FUNCIONA");
+                        /*Toast.makeText(getApplicationContext(),
+                                "El nombre "+namereco+" ya existe", Toast.LENGTH_LONG).show();*/
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+                //hideDialog();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to register url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("tag", "sitioCambioTipo");
+                params.put("iti_usu_id", (preferenceSettingsUnique.getString("ID","")));
+                params.put("sitint_sit_id", sitid);
+                params.put("iti_id", recoid);
+                params.put("sinint_tipo", sittipo);
+                return params;
+            }
+
+        };
+
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+
+
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
@@ -298,6 +363,13 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
 
     @Override
     public void onPossitiveButtonClick(String c) {
+
+        Log.e("SITIO ID", String.valueOf(Globales.Globalsitiosrecoexp.get(posicion).getId()));
+        Log.e("SITIO RECO ID", String.valueOf(Globales.Globalsitiosrecoexp.get(posicion).getRecoId()));
+        Log.e("SITIO TIPO", String.valueOf(Globales.Globalsitiosrecoexp.get(posicion).getTipo()));
+
+
+        cambiarTipo(Globales.Globalsitiosrecoexp.get(posicion).getId(), Globales.Globalsitiosrecoexp.get(posicion).getRecoId(), Globales.Globalsitiosrecoexp.get(posicion).getTipo());
 
         //NO ESTA EN FUNCIONAMIENTO, HAY QUE REALIZAR LAS TAGS EN EL INDEX
         /*
@@ -469,7 +541,7 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
                     if (!obj.getBoolean("error")) {
                         Log.e("ERROR", "FUNCIONA");
                         Toast.makeText(getApplicationContext(),
-                                "El sitio fue borrado con exito", Toast.LENGTH_LONG).show();
+                                "El sitio fue borrado con exito", Toast.LENGTH_SHORT).show();
 
                     } else {
                         Log.e("ERROR", "NO FUNCIONA");
@@ -538,12 +610,30 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Ada
         Log.e("IMAGEN", Globales.Globalsitiosrecoexp.get(position).getId());
         Log.e("IMAGEN", Globales.Globalsitiosrecoexp.get(position).getRecoId());
 
-        eliminarSitioReco(Globales.Globalsitiosrecoexp.get(position).getId(),Globales.Globalsitiosrecoexp.get(position).getRecoId());
 
+        pos = position;
+        new SimpleDialogDelSitioReco().show(getSupportFragmentManager(),"SimpleDialog");
         //NOSE SI ESTOS VAN, CUANDO CAMBIEMOS LO DE TIPO VAMOS A TENER QUE SACARLOS
         //ordenarWaypoints();
         //cargarAdapter();
 
+
+    }
+
+    @Override
+    public void onPossitiveButtonClickDelSitReco() {
+        eliminarSitioReco(Globales.Globalsitiosrecoexp.get(pos).getId(),Globales.Globalsitiosrecoexp.get(pos).getRecoId());
+        Globales.Globalsitiosrecoexp.remove(pos);
+        asd = new ArrayList<>();
+        googleMap.clear();
+        cargarPuntos(asd);
+        requestDirection();
+        ordenarWaypoints();
+        cargarAdapter();
+    }
+
+    @Override
+    public void onNegativeButtonClickDelSitReco() {
 
     }
 }
