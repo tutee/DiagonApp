@@ -693,6 +693,7 @@ public class MisRecorridosActivity extends AppCompatActivity implements SimpleDi
     public void itemClicked(View view, int position) {
 
         //Globales.Globalidrecoexp = data.get(position).getItiId();
+        Globales.Globalidrecoexp = data.get(position).getItiId();
         Globales.Globalsitiosrecoexp = new ArrayList<>();
         Globales.lista = new ArrayList<>();
         Globales.Globalnombrecoexp = data.get(position).getName();

@@ -17,7 +17,7 @@ import android.widget.Toast;
 public class SimpleDialog extends DialogFragment {
 
     OnSimpleDialogListener listener;
-    String estado = "cabeza";
+    String estado = "Origen";
 
 
     @Override
@@ -64,10 +64,10 @@ public class SimpleDialog extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
 
                         if (items[which].equals("Origen") || items[which].equals("null")){
-                            estado = "cabeza";
+                            estado = "Origen";
                         }
                         else {
-                            estado = "cola";
+                            estado = "Destino";
                         }
                     }
                 })

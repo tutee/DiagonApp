@@ -79,6 +79,7 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Sim
 
 
 
+
     private Button btnRequestDirection;
     private GoogleMap googleMap;
     private String serverKey = "AIzaSyBdDzM01Fqp8UYpHSlpYAkpfN0-tuNfScw";
@@ -292,6 +293,125 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Sim
         Log.e("ORDEN SIIIII: ", String.valueOf(Globales.Globalsitiosrecoexp));
     }
 
+    public void cargarRecorridos(final String usuid ) {
+        // Tag used to cancel the request
+        String tag_string_req = "req_register";
+
+        //pDialog.setMessage("Registrando cuenta...");
+        Log.e("ERROR", "ERROR1");
+        //showDialog();
+        Log.e("ERROR", "ERROR6");
+
+        Log.e("ERROR", String.valueOf((preferenceSettingsUnique.getString("ID",""))));
+
+
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                Globales.URL, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                //hideDialog();
+                //Log.e("ERROR envPass", response);
+                try {
+
+
+                    Log.e("ERROR", response);
+
+                    JSONObject obj = new JSONObject(response);
+
+
+                    if (!obj.getBoolean("error")) {
+
+                        JSONArray arrayP = obj.getJSONArray("itinerarios");
+                        data.clear();
+
+                        // Extract data from json and store into ArrayList as class objects
+                        for (int i = 0; i < arrayP.length(); i++) {
+                            JSONObject json_data = arrayP.getJSONObject(i);
+
+                            if (json_data.getString("iti_id").equals(Globales.Globalidrecoexp)){
+
+                                JSONArray sitios = json_data.optJSONArray("sitios_interes");
+                                Log.e("ERROR", String.valueOf(sitios));
+
+                                if (sitios != null) {
+
+
+
+                                    Log.e("ERROR", String.valueOf(sitios.length()));
+
+                                    for (int j = 0; j < sitios.length(); j++) {
+
+                                        DataRecorridoSitio sitioData = new DataRecorridoSitio();
+                                        JSONObject json_sit = sitios.getJSONObject(j);
+                                        Log.e("JSON OBJECT", String.valueOf(json_sit));
+                                        sitioData.sitioId = json_sit.getString("sitint_sit_id");
+                                        sitioData.sitioName = json_sit.getString("sit_titulo");
+                                        Log.e("UN SITIO", sitioData.sitioName);
+                                        sitioData.sitioRecoId = json_sit.getString("sitint_iti_id");
+                                        sitioData.sitioLat = json_sit.getString("sit_lat");
+                                        sitioData.sitioLon = json_sit.getString("sit_lon");
+                                        sitioData.sitioPos = j;
+                                        Log.e("POSICION DEL SITIO", String.valueOf(sitioData.sitioPos));
+                                        sitioData.sitioPID = json_sit.getString("sit_place_id");
+                                        sitioData.sitioTipo = json_sit.getString("sitint_tipo");
+                                        Log.e("TIPO DE SITIO", String.valueOf(sitioData.sitioTipo));
+                                        if (j == 0) {
+                                            sitioData.sitioCC = "cabeza";
+                                        } else if (j == sitios.length() - 1) {
+                                            sitioData.sitioCC = "cola";
+                                        } else {
+                                            sitioData.sitioCC = "cuerpo";
+                                        }
+
+
+                                        Globales.Globalsitiosrecoexp.add(sitioData);
+
+                                    }
+
+                                }
+
+                            }
+
+                        }
+
+                        Log.e("SITIOS DESPUES", String.valueOf(Globales.Globalsitiosrecoexp));
+
+                        cargarPuntos(asd);
+                        requestDirection();
+                        ordenarWaypoints();
+                        cargarAdapter();
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+                //hideDialog();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to register url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("tag", "Itinerarios_sitios");
+                params.put("iti_usu_id", usuid);
+                return params;
+            }
+
+        };
+
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
 
     public void cambiarTipo (final String sitid, final String recoid, final String sittipo ) {
         // Tag used to cancel the request
@@ -346,7 +466,7 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Sim
                 params.put("iti_usu_id", (preferenceSettingsUnique.getString("ID","")));
                 params.put("sitint_sit_id", sitid);
                 params.put("iti_id", recoid);
-                params.put("sinint_tipo", sittipo);
+                params.put("sitint_tipo", sittipo);
                 return params;
             }
 
@@ -364,12 +484,34 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Sim
     @Override
     public void onPossitiveButtonClick(String c) {
 
+        int i = 0;
         Log.e("SITIO ID", String.valueOf(Globales.Globalsitiosrecoexp.get(posicion).getId()));
         Log.e("SITIO RECO ID", String.valueOf(Globales.Globalsitiosrecoexp.get(posicion).getRecoId()));
-        Log.e("SITIO TIPO", String.valueOf(Globales.Globalsitiosrecoexp.get(posicion).getTipo()));
+        Log.e("SITIO TIPO nuevo", String.valueOf(c));
 
 
-        cambiarTipo(Globales.Globalsitiosrecoexp.get(posicion).getId(), Globales.Globalsitiosrecoexp.get(posicion).getRecoId(), Globales.Globalsitiosrecoexp.get(posicion).getTipo());
+        cambiarTipo(Globales.Globalsitiosrecoexp.get(posicion).getId(), Globales.Globalsitiosrecoexp.get(posicion).getRecoId(), String.valueOf(c));
+        Globales.Globalsitiosrecoexp.get(posicion).sitioTipo = String.valueOf(c);
+
+        Log.e("SITIO TIPO nuevo", Globales.Globalsitiosrecoexp.get(posicion).getTipo());
+
+        asd = new ArrayList<>();
+        googleMap.clear();
+        Globales.Globalsitiosrecoexp = new ArrayList<>();
+        Log.e("SITIOS ANTES", String.valueOf(Globales.Globalsitiosrecoexp));
+        Log.e("SITIOS ANTES", String.valueOf(Globales.Globalsitiosrecoexp.size()));
+
+
+        cargarRecorridos(preferenceSettingsUnique.getString("ID", ""));
+
+
+
+
+
+
+
+
+
 
         //NO ESTA EN FUNCIONAMIENTO, HAY QUE REALIZAR LAS TAGS EN EL INDEX
         /*
@@ -590,9 +732,20 @@ public class RecorridoExpandidoActivity extends AppCompatActivity implements Sim
     @Override
     public void itemListClick(View view, int position) {
 
-        Globales.SENombre = Globales.Globalsitiosrecoexp.get(position).getName();
-        //Globales.SEImagen = Globales.Globalsitiosrecoexp.get(position).getImage();
-        //Log.e("IMAGEN", Globales.SEImagen);
+        String id = Globales.Globalsitiosrecoexp.get(position).getId();
+
+        for (int i = 0; i < Globales.Globalsitios.size(); i++) {
+
+            if (id.equals(Globales.Globalsitios.get(i).getId())){
+
+                Globales.SENombre = Globales.Globalsitios.get(i).getName();
+                Globales.SEImagen = Globales.Globalsitios.get(i).getImage();
+                Globales.SEDescripcion = Globales.Globalsitios.get(i).getDescripcion();
+                Globales.SETel = Globales.Globalsitios.get(i).getTelefono();
+
+            }
+        }
+
 
         Intent intent = new Intent(RecorridoExpandidoActivity.this,
                 AnimateToolbar.class);

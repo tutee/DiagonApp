@@ -28,6 +28,7 @@ public class Globales {
     public static String Globalidrecoexp;
     public static List<DataRecorridoSitio> Globalsitiosrecoexp, lista;
     public static List<DataRecoAgSitios> Globalrecoagsit;
+    public static List<DataSitio> Globalsitios;
     public static List<String> Globalsitioplaceid;
     public static String Globalnombrecoexp;
 

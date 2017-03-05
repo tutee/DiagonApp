@@ -309,6 +309,7 @@ public class SitiosActivity extends AppCompatActivity implements SimpleDialogAgS
                     mRVFishPrice.setLayoutManager(new LinearLayoutManager(SitiosActivity.this));
 
                     //carga los recorridos para el dialog agregar sitios a recorrido
+                    Globales.Globalsitios = data;
                     cargarRecorridos(preferenceSettingsUnique.getString("ID",""));
                     Globales.Globalrecoagsit = datar;
 
